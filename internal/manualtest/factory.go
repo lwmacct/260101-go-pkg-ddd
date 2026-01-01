@@ -3,8 +3,8 @@ package manualtest
 import (
 	"fmt"
 	"testing"
-	"time"
 
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/role"
@@ -17,7 +17,7 @@ import (
 func CreateTestUser(t *testing.T, c *Client, prefix string) *user.UserWithRolesDTO {
 	t.Helper()
 
-	username := fmt.Sprintf("%s_%d", prefix, time.Now().UnixNano())
+	username := fmt.Sprintf("%s_%s", prefix, uuid.New().String()[:8])
 	req := user.CreateDTO{
 		Username:  username,
 		Email:     username + "@test.local",
@@ -46,7 +46,7 @@ func CreateTestUser(t *testing.T, c *Client, prefix string) *user.UserWithRolesD
 func CreateTestRole(t *testing.T, c *Client, prefix string) *role.CreateResultDTO {
 	t.Helper()
 
-	roleName := fmt.Sprintf("%s_%d", prefix, time.Now().UnixNano())
+	roleName := fmt.Sprintf("%s_%s", prefix, uuid.New().String()[:8])
 	req := role.CreateDTO{
 		Name:        roleName,
 		DisplayName: "测试角色",
@@ -71,7 +71,7 @@ func CreateTestRole(t *testing.T, c *Client, prefix string) *role.CreateResultDT
 func CreateTestUserWithCleanupControl(t *testing.T, c *Client, prefix string) (*user.UserWithRolesDTO, func()) {
 	t.Helper()
 
-	username := fmt.Sprintf("%s_%d", prefix, time.Now().UnixNano())
+	username := fmt.Sprintf("%s_%s", prefix, uuid.New().String()[:8])
 	req := user.CreateDTO{
 		Username:  username,
 		Email:     username + "@test.local",
@@ -102,7 +102,7 @@ func CreateTestUserWithCleanupControl(t *testing.T, c *Client, prefix string) (*
 func CreateTestRoleWithCleanupControl(t *testing.T, c *Client, prefix string) (*role.CreateResultDTO, func()) {
 	t.Helper()
 
-	roleName := fmt.Sprintf("%s_%d", prefix, time.Now().UnixNano())
+	roleName := fmt.Sprintf("%s_%s", prefix, uuid.New().String()[:8])
 	req := role.CreateDTO{
 		Name:        roleName,
 		DisplayName: "测试角色",
@@ -129,7 +129,7 @@ func CreateTestRoleWithCleanupControl(t *testing.T, c *Client, prefix string) (*
 func CreateTestSetting(t *testing.T, c *Client, prefix string) *setting.SettingDTO {
 	t.Helper()
 
-	key := fmt.Sprintf("%s_%d", prefix, time.Now().UnixNano())
+	key := fmt.Sprintf("%s_%s", prefix, uuid.New().String()[:8])
 	createReq := map[string]any{
 		"key":           key,
 		"default_value": "测试值",
@@ -154,7 +154,7 @@ func CreateTestSetting(t *testing.T, c *Client, prefix string) *setting.SettingD
 func CreateTestSettingWithCleanupControl(t *testing.T, c *Client, prefix string) (*setting.SettingDTO, func()) {
 	t.Helper()
 
-	key := fmt.Sprintf("%s_%d", prefix, time.Now().UnixNano())
+	key := fmt.Sprintf("%s_%s", prefix, uuid.New().String()[:8])
 	createReq := map[string]any{
 		"key":           key,
 		"default_value": "测试值",

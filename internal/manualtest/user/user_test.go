@@ -2,6 +2,7 @@ package user_test
 
 import (
 	"fmt"
+	"os"
 	"testing"
 	"time"
 
@@ -11,6 +12,42 @@ import (
 	"github.com/lwmacct/260101-go-pkg-ddd/internal/manualtest"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/user"
 )
+
+// TestMain 在所有测试完成后清理测试数据。
+func TestMain(m *testing.M) {
+	code := m.Run()
+
+	if os.Getenv("MANUAL") == "1" {
+		cleanupTestUsers()
+	}
+
+	os.Exit(code)
+}
+
+// cleanupTestUsers 清理测试创建的用户。
+func cleanupTestUsers() {
+	c := manualtest.NewClient()
+	if _, err := c.Login("admin", "admin123"); err != nil {
+		return
+	}
+
+	// 测试用户名前缀列表（factory.go 创建的用户）
+	userPrefixes := []string{"teammember_", "nonorgmember_", "orgmember_", "roletest_", "testuser_"}
+
+	users, _, _ := manualtest.GetList[user.UserDTO](c, "/api/admin/users", map[string]string{"limit": "1000"})
+	for _, u := range users {
+		// 跳过系统用户
+		if u.ID <= 2 {
+			continue
+		}
+		for _, prefix := range userPrefixes {
+			if len(u.Username) >= len(prefix) && u.Username[:len(prefix)] == prefix {
+				_ = c.Delete(fmt.Sprintf("/api/admin/users/%d", u.ID))
+				break
+			}
+		}
+	}
+}
 
 // TestAdminUsersFlow 用户管理完整流程测试。
 //

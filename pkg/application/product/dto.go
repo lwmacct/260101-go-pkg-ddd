@@ -8,7 +8,7 @@ import "time"
 
 // CreateProductDTO 创建产品请求 DTO
 type CreateProductDTO struct {
-	Code        string  `json:"code" binding:"required,min=2,max=50,alphanum"`
+	Code        string  `json:"code" binding:"required,min=2,max=50,loweralphanumhyphen"`
 	Name        string  `json:"name" binding:"required,min=2,max=100"`
 	Type        string  `json:"type" binding:"required,oneof=personal team"`
 	Description string  `json:"description" binding:"max=500"`
@@ -21,7 +21,7 @@ type CreateProductDTO struct {
 
 // UpdateProductDTO 更新产品请求 DTO
 type UpdateProductDTO struct {
-	Code        *string  `json:"code" binding:"omitempty,min=2,max=50,alphanum"`
+	Code        *string  `json:"code" binding:"omitempty,min=2,max=50,loweralphanumhyphen"`
 	Name        *string  `json:"name" binding:"omitempty,min=2,max=100"`
 	Type        *string  `json:"type" binding:"omitempty,oneof=personal team"`
 	Description *string  `json:"description" binding:"omitempty,max=500"`

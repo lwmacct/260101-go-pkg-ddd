@@ -3,8 +3,8 @@ package org_test
 import (
 	"fmt"
 	"testing"
-	"time"
 
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
@@ -46,7 +46,7 @@ func TestTeamCRUD(t *testing.T) {
 	// 测试 1: 创建团队
 	t.Log("\n测试 1: 创建团队")
 	createReq := org.CreateTeamDTO{
-		Name:        fmt.Sprintf("testteam%d", time.Now().UnixNano()),
+		Name:        "testteam_" + uuid.New().String()[:8],
 		DisplayName: "测试团队",
 		Description: "这是一个测试团队",
 	}
@@ -127,7 +127,7 @@ func TestTeamListByOrg(t *testing.T) {
 
 	// 步骤 1: 创建两个团队
 	t.Log("\n步骤 1: 创建测试团队")
-	team1Name := fmt.Sprintf("team1_%d", time.Now().UnixNano())
+	team1Name := "team1_" + uuid.New().String()[:8]
 	team1Req := org.CreateTeamDTO{
 		Name:        team1Name,
 		DisplayName: "团队 1",
@@ -141,7 +141,7 @@ func TestTeamListByOrg(t *testing.T) {
 		}
 	})
 
-	team2Name := fmt.Sprintf("team2_%d", time.Now().UnixNano()+1)
+	team2Name := "team2_" + uuid.New().String()[:8]
 	team2Req := org.CreateTeamDTO{
 		Name:        team2Name,
 		DisplayName: "团队 2",
@@ -189,7 +189,7 @@ func TestTeamOrgIsolation(t *testing.T) {
 	// 步骤 1: 在 testOrgID 创建团队
 	t.Log("\n步骤 1: 创建测试团队")
 	createReq := org.CreateTeamDTO{
-		Name:        fmt.Sprintf("isolated_%d", time.Now().UnixNano()),
+		Name:        "isolated_" + uuid.New().String()[:8],
 		DisplayName: "隔离测试团队",
 	}
 	createdTeam, err := manualtest.Post[org.TeamDTO](c, teamBasePath(testOrgID), createReq)
@@ -233,7 +233,7 @@ func TestTeamMemberCRUD(t *testing.T) {
 	// 步骤 1: 创建测试团队
 	t.Log("\n步骤 1: 创建测试团队")
 	createTeamReq := org.CreateTeamDTO{
-		Name:        fmt.Sprintf("teammember_%d", time.Now().UnixNano()),
+		Name:        "teammember_" + uuid.New().String()[:8],
 		DisplayName: "团队成员测试",
 	}
 	createdTeam, err := manualtest.Post[org.TeamDTO](c, teamBasePath(testOrgID), createTeamReq)
@@ -326,7 +326,7 @@ func TestTeamMemberRequiresOrgMembership(t *testing.T) {
 	// 步骤 1: 创建测试团队
 	t.Log("\n步骤 1: 创建测试团队")
 	createTeamReq := org.CreateTeamDTO{
-		Name:        fmt.Sprintf("orgcheck_%d", time.Now().UnixNano()),
+		Name:        "orgcheck_" + uuid.New().String()[:8],
 		DisplayName: "组织成员检查测试",
 	}
 	createdTeam, err := manualtest.Post[org.TeamDTO](c, teamBasePath(testOrgID), createTeamReq)
@@ -390,7 +390,7 @@ func TestTeamWithInvalidOrgID(t *testing.T) {
 	invalidOrgID := uint(99999)
 
 	createReq := org.CreateTeamDTO{
-		Name:        fmt.Sprintf("invalidorg_%d", time.Now().UnixNano()),
+		Name:        "invalidorg_" + uuid.New().String()[:8],
 		DisplayName: "无效组织测试",
 	}
 	_, err := manualtest.Post[org.TeamDTO](c, teamBasePath(invalidOrgID), createReq)

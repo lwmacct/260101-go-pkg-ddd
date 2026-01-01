@@ -2,6 +2,7 @@ package role_test
 
 import (
 	"fmt"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -10,6 +11,42 @@ import (
 	"github.com/lwmacct/260101-go-pkg-ddd/internal/manualtest"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/role"
 )
+
+// TestMain 在所有测试完成后清理测试数据。
+func TestMain(m *testing.M) {
+	code := m.Run()
+
+	if os.Getenv("MANUAL") == "1" {
+		cleanupTestRoles()
+	}
+
+	os.Exit(code)
+}
+
+// cleanupTestRoles 清理测试创建的角色。
+func cleanupTestRoles() {
+	c := manualtest.NewClient()
+	if _, err := c.Login("admin", "admin123"); err != nil {
+		return
+	}
+
+	// 测试角色名前缀列表
+	rolePrefixes := []string{"testrole_"}
+
+	roles, _, _ := manualtest.GetList[role.RoleDTO](c, "/api/admin/roles", map[string]string{"limit": "1000"})
+	for _, r := range roles {
+		// 跳过系统角色（admin, user 通常是 ID 1, 2）
+		if r.ID <= 2 {
+			continue
+		}
+		for _, prefix := range rolePrefixes {
+			if len(r.Name) >= len(prefix) && r.Name[:len(prefix)] == prefix {
+				_ = c.Delete(fmt.Sprintf("/api/admin/roles/%d", r.ID))
+				break
+			}
+		}
+	}
+}
 
 // TestRolesFlow 角色管理完整流程测试。
 //

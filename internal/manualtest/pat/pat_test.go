@@ -2,9 +2,11 @@ package pat_test
 
 import (
 	"fmt"
+	"os"
 	"testing"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
@@ -13,6 +15,61 @@ import (
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/role"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/user"
 )
+
+// TestMain 在所有测试完成后清理测试数据。
+func TestMain(m *testing.M) {
+	code := m.Run()
+
+	if os.Getenv("MANUAL") == "1" {
+		cleanupTestData()
+	}
+
+	os.Exit(code)
+}
+
+// cleanupTestData 清理测试创建的 PAT、角色和用户。
+func cleanupTestData() {
+	c := manualtest.NewClient()
+	if _, err := c.Login("admin", "admin123"); err != nil {
+		return
+	}
+
+	// 清理测试 PAT tokens
+	patPrefixes := []string{"test_pat_", "limited_pat_", "scope_test_pat_", "full_scope_pat_", "self_scope_pat_"}
+	tokens, _, _ := manualtest.GetList[pat.TokenDTO](c, "/api/user/tokens", map[string]string{"limit": "1000"})
+	for _, token := range tokens {
+		for _, prefix := range patPrefixes {
+			if len(token.Name) >= len(prefix) && token.Name[:len(prefix)] == prefix {
+				_ = c.Delete(fmt.Sprintf("/api/user/tokens/%d", token.ID))
+				break
+			}
+		}
+	}
+
+	// 清理测试角色
+	rolePrefixes := []string{"pat_scope_test_role_"}
+	roles, _, _ := manualtest.GetList[role.RoleDTO](c, "/api/admin/roles", map[string]string{"limit": "1000"})
+	for _, r := range roles {
+		for _, prefix := range rolePrefixes {
+			if len(r.Name) >= len(prefix) && r.Name[:len(prefix)] == prefix {
+				_ = c.Delete(fmt.Sprintf("/api/admin/roles/%d", r.ID))
+				break
+			}
+		}
+	}
+
+	// 清理测试用户
+	userPrefixes := []string{"pat_scope_user_"}
+	users, _, _ := manualtest.GetList[user.UserDTO](c, "/api/admin/users", map[string]string{"limit": "1000"})
+	for _, u := range users {
+		for _, prefix := range userPrefixes {
+			if len(u.Username) >= len(prefix) && u.Username[:len(prefix)] == prefix {
+				_ = c.Delete(fmt.Sprintf("/api/admin/users/%d", u.ID))
+				break
+			}
+		}
+	}
+}
 
 // TestPATFlow PAT 令牌完整流程测试。
 //
@@ -352,8 +409,7 @@ func TestPATScopeWithRegularUser(t *testing.T) {
 
 	// 步骤 1: 创建测试角色（包含 self 和 sys 域权限）
 	t.Log("\n步骤 1: 创建测试角色（包含 self + sys 域权限）")
-	timestamp := time.Now().UnixNano()
-	roleName := fmt.Sprintf("pat_scope_test_role_%d", timestamp)
+	roleName := "pat_scope_test_role_" + uuid.New().String()[:8]
 	createRoleReq := role.CreateDTO{
 		Name:        roleName,
 		DisplayName: "PAT Scope 测试角色",
@@ -391,7 +447,7 @@ func TestPATScopeWithRegularUser(t *testing.T) {
 
 	// 步骤 3: 创建测试用户并分配角色
 	t.Log("\n步骤 3: 创建测试用户并分配角色")
-	username := fmt.Sprintf("pat_scope_user_%d", timestamp)
+	username := "pat_scope_user_" + uuid.New().String()[:8]
 	password := "testpass123"
 	createUserReq := user.CreateDTO{
 		Username: username,
@@ -420,7 +476,7 @@ func TestPATScopeWithRegularUser(t *testing.T) {
 
 	// 步骤 5: 创建仅 self scope 的 PAT
 	t.Log("\n步骤 5: 创建仅 self scope 的 PAT")
-	patName := fmt.Sprintf("self_scope_pat_%d", timestamp)
+	patName := "self_scope_pat_" + uuid.New().String()[:8]
 	createPATReq := pat.CreateDTO{
 		Name:        patName,
 		Scopes:      []string{"self"}, // 仅 self 域
@@ -458,7 +514,7 @@ func TestPATScopeWithRegularUser(t *testing.T) {
 
 	// 步骤 7: 创建 full scope PAT 验证用户完整权限
 	t.Log("\n步骤 7: 创建 full scope PAT 验证用户完整权限")
-	fullPatName := fmt.Sprintf("full_scope_pat_%d", timestamp)
+	fullPatName := "full_scope_pat_" + uuid.New().String()[:8]
 	createFullPATReq := pat.CreateDTO{
 		Name:        fullPatName,
 		Scopes:      []string{"full"}, // 完整权限

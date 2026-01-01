@@ -2,15 +2,53 @@ package product_test
 
 import (
 	"fmt"
+	"os"
 	"testing"
-	"time"
 
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
 	"github.com/lwmacct/260101-go-pkg-ddd/internal/manualtest"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/product"
 )
+
+// TestMain 在所有测试完成后清理测试数据。
+func TestMain(m *testing.M) {
+	code := m.Run()
+
+	// 测试结束后，尝试清理残留的测试产品
+	if os.Getenv("MANUAL") == "1" {
+		cleanupTestProducts()
+	}
+
+	os.Exit(code)
+}
+
+// cleanupTestProducts 清理测试创建的产品。
+// 通过产品代码前缀识别测试数据。
+func cleanupTestProducts() {
+	c := manualtest.NewClient()
+	if _, err := c.Login("admin", "admin123"); err != nil {
+		return // 登录失败则跳过清理
+	}
+
+	// 测试产品代码前缀列表
+	testPrefixes := []string{"testprod", "testproduct", "dupcode", "statusprod", "statusproduct",
+		"priceprod", "priceproduct", "invalidstatus", "act", "inact"}
+
+	// 获取所有产品，删除匹配的测试产品
+	products, _, _ := manualtest.GetList[product.ProductDTO](c, productBasePath(), map[string]string{"limit": "1000"})
+	for _, p := range products {
+		for _, prefix := range testPrefixes {
+			if len(p.Code) >= len(prefix) && p.Code[:len(prefix)] == prefix {
+				// 匹配到测试产品，删除
+				_ = c.Delete(productPath(p.ID))
+				break
+			}
+		}
+	}
+}
 
 // productBasePath 返回产品 API 基础路径
 func productBasePath() string {
@@ -33,9 +71,9 @@ func TestProductCRUD(t *testing.T) {
 	// 测试 1: 创建产品
 	t.Log("\n测试 1: 创建产品")
 	createReq := product.CreateProductDTO{
-		Code:        fmt.Sprintf("testprod%d", time.Now().UnixNano()),
+		Code:        "testprod_" + uuid.New().String()[:8],
 		Type:        "personal",
-		Name:        fmt.Sprintf("testproduct_%d", time.Now().UnixNano()),
+		Name:        "testproduct_" + uuid.New().String()[:8],
 		Description: "这是一个测试产品",
 		Price:       99.99,
 		Status:      "active",
@@ -165,7 +203,7 @@ func TestProductDuplicateCode(t *testing.T) {
 
 	// 步骤 1: 创建第一个产品
 	t.Log("\n步骤 1: 创建第一个产品")
-	productCode := fmt.Sprintf("dupcode%d", time.Now().UnixNano())
+	productCode := "dupcode_" + uuid.New().String()[:8]
 	createReq := product.CreateProductDTO{
 		Code:        productCode,
 		Type:        "personal",
@@ -210,9 +248,9 @@ func TestProductStatusToggle(t *testing.T) {
 	// 创建测试产品
 	t.Log("\n步骤 1: 创建测试产品")
 	createReq := product.CreateProductDTO{
-		Code:        fmt.Sprintf("statusprod%d", time.Now().UnixNano()),
+		Code:        "statusprod_" + uuid.New().String()[:8],
 		Type:        "personal",
-		Name:        fmt.Sprintf("statusproduct_%d", time.Now().UnixNano()),
+		Name:        "statusproduct_" + uuid.New().String()[:8],
 		Description: "状态测试产品",
 		Price:       50.0,
 		Status:      "active",
@@ -262,9 +300,9 @@ func TestProductPriceUpdate(t *testing.T) {
 	// 创建测试产品
 	t.Log("\n步骤 1: 创建测试产品")
 	createReq := product.CreateProductDTO{
-		Code:        fmt.Sprintf("priceprod%d", time.Now().UnixNano()),
+		Code:        "priceprod_" + uuid.New().String()[:8],
 		Type:        "personal",
-		Name:        fmt.Sprintf("priceproduct_%d", time.Now().UnixNano()),
+		Name:        "priceproduct_" + uuid.New().String()[:8],
 		Description: "价格测试产品",
 		Price:       100.0,
 	}
@@ -336,7 +374,7 @@ func TestProductWithInvalidData(t *testing.T) {
 	}
 	// 先创建一个正常产品
 	createReq := product.CreateProductDTO{
-		Code:        fmt.Sprintf("invalidstatus%d", time.Now().UnixNano()),
+		Code:        "invalidstatus_" + uuid.New().String()[:8],
 		Type:        "personal",
 		Name:        "无效状态测试",
 		Description: "测试",
@@ -369,9 +407,9 @@ func TestProductFilterByStatus(t *testing.T) {
 	// 创建 active 产品
 	t.Log("\n步骤 1: 创建 active 产品")
 	activeReq := product.CreateProductDTO{
-		Code:        fmt.Sprintf("act%d", time.Now().UnixNano()),
+		Code:        "act_" + uuid.New().String()[:8],
 		Type:        "personal",
-		Name:        fmt.Sprintf("active%d", time.Now().UnixNano()),
+		Name:        "active_" + uuid.New().String()[:8],
 		Description: "active产品",
 		Price:       100.0,
 		Status:      "active",
@@ -388,9 +426,9 @@ func TestProductFilterByStatus(t *testing.T) {
 	// 创建 inactive 产品
 	t.Log("\n步骤 2: 创建 inactive 产品")
 	inactiveReq := product.CreateProductDTO{
-		Code:        fmt.Sprintf("inact%d", time.Now().UnixNano()),
+		Code:        "inact_" + uuid.New().String()[:8],
 		Type:        "team",
-		Name:        fmt.Sprintf("inactive%d", time.Now().UnixNano()),
+		Name:        "inactive_" + uuid.New().String()[:8],
 		Description: "inactive产品",
 		Price:       50.0,
 		Status:      "inactive",

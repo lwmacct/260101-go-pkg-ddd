@@ -2,15 +2,48 @@ package org_test
 
 import (
 	"fmt"
+	"os"
 	"testing"
-	"time"
 
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
 	"github.com/lwmacct/260101-go-pkg-ddd/internal/manualtest"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/org"
 )
+
+// TestMain 在所有测试完成后清理测试数据。
+func TestMain(m *testing.M) {
+	code := m.Run()
+
+	if os.Getenv("MANUAL") == "1" {
+		cleanupTestOrgs()
+	}
+
+	os.Exit(code)
+}
+
+// cleanupTestOrgs 清理测试创建的组织。
+func cleanupTestOrgs() {
+	c := manualtest.NewClient()
+	if _, err := c.Login("admin", "admin123"); err != nil {
+		return
+	}
+
+	// 测试组织名称前缀列表
+	testPrefixes := []string{"testorg_", "membertest_", "ownerorg_", "duplicate_", "statusorg_"}
+
+	orgs, _, _ := manualtest.GetList[org.OrgDTO](c, "/api/admin/orgs", map[string]string{"limit": "1000"})
+	for _, o := range orgs {
+		for _, prefix := range testPrefixes {
+			if len(o.Name) >= len(prefix) && o.Name[:len(prefix)] == prefix {
+				_ = c.Delete(fmt.Sprintf("/api/admin/orgs/%d", o.ID))
+				break
+			}
+		}
+	}
+}
 
 // TestOrgCRUD 测试组织完整 CRUD 流程。
 //
@@ -23,7 +56,7 @@ func TestOrgCRUD(t *testing.T) {
 	// 测试 1: 创建组织
 	t.Log("\n测试 1: 创建组织")
 	createReq := org.CreateOrgDTO{
-		Name:        fmt.Sprintf("testorg%d", time.Now().UnixNano()),
+		Name:        "testorg_" + uuid.New().String()[:8],
 		DisplayName: "测试组织",
 		Description: "这是一个测试组织",
 	}
@@ -163,7 +196,7 @@ func TestOrgStatusUpdate(t *testing.T) {
 	// 创建测试组织
 	t.Log("\n步骤 1: 创建测试组织")
 	createReq := org.CreateOrgDTO{
-		Name:        fmt.Sprintf("statusorg_%d", time.Now().UnixNano()),
+		Name:        "statusorg_" + uuid.New().String()[:8],
 		DisplayName: "状态测试组织",
 	}
 	createdOrg, err := manualtest.Post[org.OrgDTO](c, "/api/admin/orgs", createReq)
@@ -211,7 +244,7 @@ func TestOrgMemberCRUD(t *testing.T) {
 	// 步骤 1: 创建组织
 	t.Log("\n步骤 1: 创建组织")
 	createOrgReq := org.CreateOrgDTO{
-		Name:        fmt.Sprintf("membertest_%d", time.Now().UnixNano()),
+		Name:        "membertest_" + uuid.New().String()[:8],
 		DisplayName: "成员测试组织",
 	}
 	createdOrg, err := manualtest.Post[org.OrgDTO](c, "/api/admin/orgs", createOrgReq)
@@ -326,7 +359,7 @@ func TestOrgMemberLastOwnerProtection(t *testing.T) {
 	// 步骤 1: 创建组织
 	t.Log("\n步骤 1: 创建组织")
 	createOrgReq := org.CreateOrgDTO{
-		Name:        fmt.Sprintf("ownerorg_%d", time.Now().UnixNano()),
+		Name:        "ownerorg_" + uuid.New().String()[:8],
 		DisplayName: "Owner 保护测试组织",
 	}
 	createdOrg, err := manualtest.Post[org.OrgDTO](c, "/api/admin/orgs", createOrgReq)
@@ -405,7 +438,7 @@ func TestOrgWithInvalidData(t *testing.T) {
 
 	// 测试 1: 重复名称应失败
 	t.Log("\n测试 1: 重复名称应失败")
-	orgName := fmt.Sprintf("duplicate_%d", time.Now().UnixNano())
+	orgName := "duplicate_" + uuid.New().String()[:8]
 	createReq := org.CreateOrgDTO{
 		Name:        orgName,
 		DisplayName: "第一个组织",

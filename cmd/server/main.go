@@ -207,6 +207,9 @@ func buildFxOptions(cfg *config.Config) []fx.Option {
 func migrateDatabase(ctx context.Context, cmd *cli.Command) error {
 	cfg := loadConfig(cmd)
 
+	appCtx, cancel := context.WithTimeout(ctx, 10*time.Second)
+	defer cancel()
+
 	fxApp := fx.New(
 		fx.Supply(cfg),
 		fx.StartTimeout(5*time.Minute),
@@ -220,13 +223,19 @@ func migrateDatabase(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("create fx app: %w", err)
 	}
 
-	fxApp.Run()
-	return nil
+	// CLI 命令执行完成后立即退出，不等待信号
+	if err := fxApp.Start(appCtx); err != nil {
+		return err
+	}
+	return fxApp.Stop(appCtx)
 }
 
 // resetDatabase 重置数据库。
 func resetDatabase(ctx context.Context, cmd *cli.Command) error {
 	cfg := loadConfig(cmd)
+
+	appCtx, cancel := context.WithTimeout(ctx, 10*time.Second)
+	defer cancel()
 
 	fxApp := fx.New(
 		fx.Supply(cfg),
@@ -241,13 +250,19 @@ func resetDatabase(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("create fx app: %w", err)
 	}
 
-	fxApp.Run()
-	return nil
+	// CLI 命令执行完成后立即退出，不等待信号
+	if err := fxApp.Start(appCtx); err != nil {
+		return err
+	}
+	return fxApp.Stop(appCtx)
 }
 
 // seedDatabase 执行种子数据。
 func seedDatabase(ctx context.Context, cmd *cli.Command) error {
 	cfg := loadConfig(cmd)
+
+	appCtx, cancel := context.WithTimeout(ctx, 10*time.Second)
+	defer cancel()
 
 	fxApp := fx.New(
 		fx.Supply(cfg),
@@ -262,8 +277,11 @@ func seedDatabase(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("create fx app: %w", err)
 	}
 
-	fxApp.Run()
-	return nil
+	// CLI 命令执行完成后立即退出，不等待信号
+	if err := fxApp.Start(appCtx); err != nil {
+		return err
+	}
+	return fxApp.Stop(appCtx)
 }
 
 // nopLogger 空日志记录器，不输出任何 Fx 框架日志。

@@ -2,6 +2,7 @@ package setting_test
 
 import (
 	"fmt"
+	"os"
 	"testing"
 	"time"
 
@@ -11,6 +12,38 @@ import (
 	"github.com/lwmacct/260101-go-pkg-ddd/internal/manualtest"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/setting"
 )
+
+// TestMain 在所有测试完成后清理测试数据。
+func TestMain(m *testing.M) {
+	code := m.Run()
+
+	if os.Getenv("MANUAL") == "1" {
+		cleanupTestSettings()
+	}
+
+	os.Exit(code)
+}
+
+// cleanupTestSettings 清理测试创建的配置。
+func cleanupTestSettings() {
+	c := manualtest.NewClient()
+	if _, err := c.Login("admin", "admin123"); err != nil {
+		return
+	}
+
+	// 测试配置键前缀列表
+	settingPrefixes := []string{"test_setting_"}
+
+	settings, _, _ := manualtest.GetList[setting.SettingDTO](c, "/api/admin/settings", map[string]string{"limit": "1000"})
+	for _, s := range settings {
+		for _, prefix := range settingPrefixes {
+			if len(s.Key) >= len(prefix) && s.Key[:len(prefix)] == prefix {
+				_ = c.Delete("/api/admin/settings/" + s.Key)
+				break
+			}
+		}
+	}
+}
 
 // 测试配置前缀，用于隔离测试数据
 const settingTestPrefix = "test_setting_"
