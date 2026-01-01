@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/auth"
 	authDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/auth"
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/response"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
 // AuthHandler 认证处理器（新架构）

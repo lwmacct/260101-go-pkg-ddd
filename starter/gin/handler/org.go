@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/org"
 	orgDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/org"
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/response"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
 // ListOrgsQuery 组织列表查询参数

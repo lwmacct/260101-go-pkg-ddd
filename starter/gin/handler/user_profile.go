@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/user"
 	userDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/user"
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/response"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
 // UserProfileHandler handles user profile operations

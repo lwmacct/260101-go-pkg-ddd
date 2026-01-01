@@ -13,7 +13,7 @@ import (
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/auth"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/twofa"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/user"
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/response"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
 // TestGetTwoFAStatus 测试获取 2FA 状态。

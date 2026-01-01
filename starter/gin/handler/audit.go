@@ -8,8 +8,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/audit"
 	auditDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/audit"
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/response"
 	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/routes"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
 // ListAuditQuery 审计日志列表查询参数

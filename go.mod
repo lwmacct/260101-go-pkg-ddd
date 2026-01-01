@@ -1,6 +1,6 @@
 module github.com/lwmacct/260101-go-pkg-ddd
 
-go 1.25.0
+go 1.25.4
 
 require (
 	github.com/diegoholiveira/jsonlogic/v3 v3.9.0
@@ -11,6 +11,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/lwmacct/251207-go-pkg-cfgm v0.2.4
 	github.com/lwmacct/251219-go-pkg-logm v0.1.8
+	github.com/lwmacct/260101-go-pkg-gin v0.0.3
 	github.com/mojocn/base64Captcha v1.3.8
 	github.com/pquerna/otp v1.5.0
 	github.com/redis/go-redis/extra/redisotel/v9 v9.17.2

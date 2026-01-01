@@ -9,7 +9,7 @@ import (
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/pat"
 	authDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/auth"
 	patDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/pat"
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/response"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
 // PATHandler handles Personal Access Token operations (DDD+CQRS Use Case Pattern)

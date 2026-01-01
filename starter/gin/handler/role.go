@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/role"
 	roleDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/role"
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/response"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
 // ListRolesQuery 角色列表查询参数

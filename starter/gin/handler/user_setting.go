@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/setting"
 	settingDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/setting"
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/response"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
 // UserSettingHandler handles user setting operations (DDD+CQRS Use Case Pattern)

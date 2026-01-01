@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/permission"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/role"
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/response"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
 // RequireOperation 检查用户是否有执行指定 Operation 的权限。

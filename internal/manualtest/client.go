@@ -8,7 +8,7 @@ import (
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/auth"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/captcha"
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/response"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
 // Client HTTP 测试客户端。

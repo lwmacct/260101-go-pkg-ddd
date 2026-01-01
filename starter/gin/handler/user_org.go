@@ -7,7 +7,7 @@ import (
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/org"
 	authDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/auth"
 	orgDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/org"
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/response"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
 // UserOrgHandler 用户视角的组织/团队 Handler

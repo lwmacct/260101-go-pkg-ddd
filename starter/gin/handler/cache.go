@@ -7,7 +7,7 @@ import (
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/cache"
 	cacheDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/cache"
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/response"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
 // CacheHandler 缓存管理 HTTP 处理器（Redis 风格 API）

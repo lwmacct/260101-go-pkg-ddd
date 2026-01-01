@@ -5,7 +5,7 @@ import (
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/twofa"
 	authDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/auth"
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/response"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
 // TwoFAHandler 2FA 处理器
