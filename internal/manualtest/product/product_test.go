@@ -33,6 +33,8 @@ func TestProductCRUD(t *testing.T) {
 	// 测试 1: 创建产品
 	t.Log("\n测试 1: 创建产品")
 	createReq := product.CreateProductDTO{
+		Code:        fmt.Sprintf("testprod%d", time.Now().UnixNano()),
+		Type:        "personal",
 		Name:        fmt.Sprintf("testproduct_%d", time.Now().UnixNano()),
 		Description: "这是一个测试产品",
 		Price:       99.99,
@@ -153,19 +155,21 @@ func TestProductListPagination(t *testing.T) {
 	t.Log("\n分页测试完成!")
 }
 
-// TestProductDuplicateName 测试重复名称处理。
+// TestProductDuplicateCode 测试重复代码处理。
 //
 // 手动运行:
 //
-//	MANUAL=1 go test -v -run TestProductDuplicateName ./internal/integration/product/
-func TestProductDuplicateName(t *testing.T) {
+//	MANUAL=1 go test -v -run TestProductDuplicateCode ./internal/integration/product/
+func TestProductDuplicateCode(t *testing.T) {
 	c := manualtest.LoginAsAdmin(t)
 
 	// 步骤 1: 创建第一个产品
 	t.Log("\n步骤 1: 创建第一个产品")
-	productName := fmt.Sprintf("duplicate_%d", time.Now().UnixNano())
+	productCode := fmt.Sprintf("dupcode%d", time.Now().UnixNano())
 	createReq := product.CreateProductDTO{
-		Name:        productName,
+		Code:        productCode,
+		Type:        "personal",
+		Name:        "第一个产品",
 		Description: "第一个产品",
 		Price:       10.0,
 	}
@@ -179,18 +183,20 @@ func TestProductDuplicateName(t *testing.T) {
 	})
 	t.Logf("  第一个产品创建成功! ID: %d", productID)
 
-	// 步骤 2: 尝试创建同名产品（应失败）
-	t.Log("\n步骤 2: 尝试创建同名产品（应失败）")
+	// 步骤 2: 尝试创建同代码产品（应失败）
+	t.Log("\n步骤 2: 尝试创建同代码产品（应失败）")
 	duplicateReq := product.CreateProductDTO{
-		Name:        productName, // 相同名称
+		Code:        productCode, // 相同代码
+		Type:        "team",
+		Name:        "第二个产品",
 		Description: "第二个产品",
 		Price:       20.0,
 	}
 	_, err = manualtest.Post[product.ProductDTO](c, productBasePath(), duplicateReq)
-	require.Error(t, err, "创建同名产品应该失败")
+	require.Error(t, err, "创建同代码产品应该失败")
 	t.Logf("  预期失败: %v", err)
 
-	t.Log("\n重复名称处理测试完成!")
+	t.Log("\n重复代码处理测试完成!")
 }
 
 // TestProductStatusToggle 测试状态切换。
@@ -204,9 +210,12 @@ func TestProductStatusToggle(t *testing.T) {
 	// 创建测试产品
 	t.Log("\n步骤 1: 创建测试产品")
 	createReq := product.CreateProductDTO{
-		Name:   fmt.Sprintf("statusproduct_%d", time.Now().UnixNano()),
-		Price:  50.0,
-		Status: "active",
+		Code:        fmt.Sprintf("statusprod%d", time.Now().UnixNano()),
+		Type:        "personal",
+		Name:        fmt.Sprintf("statusproduct_%d", time.Now().UnixNano()),
+		Description: "状态测试产品",
+		Price:       50.0,
+		Status:      "active",
 	}
 	createdProduct, err := manualtest.Post[product.ProductDTO](c, productBasePath(), createReq)
 	require.NoError(t, err, "创建产品失败")
@@ -253,8 +262,11 @@ func TestProductPriceUpdate(t *testing.T) {
 	// 创建测试产品
 	t.Log("\n步骤 1: 创建测试产品")
 	createReq := product.CreateProductDTO{
-		Name:  fmt.Sprintf("priceproduct_%d", time.Now().UnixNano()),
-		Price: 100.0,
+		Code:        fmt.Sprintf("priceprod%d", time.Now().UnixNano()),
+		Type:        "personal",
+		Name:        fmt.Sprintf("priceproduct_%d", time.Now().UnixNano()),
+		Description: "价格测试产品",
+		Price:       100.0,
 	}
 	createdProduct, err := manualtest.Post[product.ProductDTO](c, productBasePath(), createReq)
 	require.NoError(t, err, "创建产品失败")
@@ -294,6 +306,8 @@ func TestProductWithInvalidData(t *testing.T) {
 	// 测试 1: 名称太短
 	t.Log("\n测试 1: 名称太短应失败")
 	invalidReq := product.CreateProductDTO{
+		Code:  "x",
+		Type:  "personal",
 		Name:  "x", // 太短
 		Price: 10.0,
 	}
@@ -305,6 +319,8 @@ func TestProductWithInvalidData(t *testing.T) {
 	t.Log("\n测试 2: 负价格应失败")
 	negativePrice := -10.0
 	invalidReq2 := product.CreateProductDTO{
+		Code:  "validcode",
+		Type:  "personal",
 		Name:  "valid_name",
 		Price: negativePrice,
 	}
@@ -320,8 +336,11 @@ func TestProductWithInvalidData(t *testing.T) {
 	}
 	// 先创建一个正常产品
 	createReq := product.CreateProductDTO{
-		Name:  fmt.Sprintf("invalidstatus_%d", time.Now().UnixNano()),
-		Price: 10.0,
+		Code:        fmt.Sprintf("invalidstatus%d", time.Now().UnixNano()),
+		Type:        "personal",
+		Name:        "无效状态测试",
+		Description: "测试",
+		Price:       10.0,
 	}
 	createdProduct, err := manualtest.Post[product.ProductDTO](c, productBasePath(), createReq)
 	require.NoError(t, err)
@@ -350,9 +369,12 @@ func TestProductFilterByStatus(t *testing.T) {
 	// 创建 active 产品
 	t.Log("\n步骤 1: 创建 active 产品")
 	activeReq := product.CreateProductDTO{
-		Name:   fmt.Sprintf("active_%d", time.Now().UnixNano()),
-		Price:  100.0,
-		Status: "active",
+		Code:        fmt.Sprintf("act%d", time.Now().UnixNano()),
+		Type:        "personal",
+		Name:        fmt.Sprintf("active%d", time.Now().UnixNano()),
+		Description: "active产品",
+		Price:       100.0,
+		Status:      "active",
 	}
 	activeProduct, err := manualtest.Post[product.ProductDTO](c, productBasePath(), activeReq)
 	require.NoError(t, err)
@@ -366,9 +388,12 @@ func TestProductFilterByStatus(t *testing.T) {
 	// 创建 inactive 产品
 	t.Log("\n步骤 2: 创建 inactive 产品")
 	inactiveReq := product.CreateProductDTO{
-		Name:   fmt.Sprintf("inactive_%d", time.Now().UnixNano()),
-		Price:  50.0,
-		Status: "inactive",
+		Code:        fmt.Sprintf("inact%d", time.Now().UnixNano()),
+		Type:        "team",
+		Name:        fmt.Sprintf("inactive%d", time.Now().UnixNano()),
+		Description: "inactive产品",
+		Price:       50.0,
+		Status:      "inactive",
 	}
 	inactiveProduct, err := manualtest.Post[product.ProductDTO](c, productBasePath(), inactiveReq)
 	require.NoError(t, err)
@@ -391,7 +416,7 @@ func TestProductFilterByStatus(t *testing.T) {
 	// 验证新创建的 active 产品在列表中
 	found := false
 	for _, p := range activeProducts {
-		if p.Name == activeReq.Name {
+		if p.Code == activeReq.Code {
 			assert.Equal(t, "active", p.Status, "新建产品应为 active 状态")
 			found = true
 			break
@@ -411,7 +436,7 @@ func TestProductFilterByStatus(t *testing.T) {
 	// 验证新创建的 inactive 产品在列表中
 	found = false
 	for _, p := range inactiveProducts {
-		if p.Name == inactiveReq.Name {
+		if p.Code == inactiveReq.Code {
 			assert.Equal(t, "inactive", p.Status, "新建产品应为 inactive 状态")
 			found = true
 			break

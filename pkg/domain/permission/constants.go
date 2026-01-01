@@ -172,3 +172,12 @@ const (
 	AdminProductsUpdate Operation = "admin:products:update"
 	AdminProductsDelete Operation = "admin:products:delete"
 )
+
+// Org 域 - 团队任务管理
+const (
+	OrgTasksCreate Operation = "org:tasks:create"
+	OrgTasksList   Operation = "org:tasks:list"
+	OrgTasksGet    Operation = "org:tasks:get"
+	OrgTasksUpdate Operation = "org:tasks:update"
+	OrgTasksDelete Operation = "org:tasks:delete"
+)

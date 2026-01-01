@@ -683,4 +683,46 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "删除产品",
 		Description: "删除产品（软删除）",
 	},
+
+	// ==================== Org 域 - 团队任务管理 ====================
+	permission.OrgTasksCreate: {
+		Method:      POST,
+		Path:        "/api/org/:org_id/teams/:team_id/tasks",
+		Tags:        "Organization - Task Management",
+		Audit:       true,
+		Summary:     "创建任务",
+		Description: "在团队内创建新任务",
+	},
+	permission.OrgTasksList: {
+		Method:      GET,
+		Path:        "/api/org/:org_id/teams/:team_id/tasks",
+		ReadOnly:    true,
+		Tags:        "Organization - Task Management",
+		Summary:     "任务列表",
+		Description: "分页获取团队任务列表",
+	},
+	permission.OrgTasksGet: {
+		Method:      GET,
+		Path:        "/api/org/:org_id/teams/:team_id/tasks/:id",
+		ReadOnly:    true,
+		Tags:        "Organization - Task Management",
+		Summary:     "任务详情",
+		Description: "获取任务详细信息",
+	},
+	permission.OrgTasksUpdate: {
+		Method:      PUT,
+		Path:        "/api/org/:org_id/teams/:team_id/tasks/:id",
+		Tags:        "Organization - Task Management",
+		Audit:       true,
+		Summary:     "更新任务",
+		Description: "更新任务信息",
+	},
+	permission.OrgTasksDelete: {
+		Method:      DELETE,
+		Path:        "/api/org/:org_id/teams/:team_id/tasks/:id",
+		Tags:        "Organization - Task Management",
+		Audit:       true,
+		Summary:     "删除任务",
+		Description: "删除任务",
+	},
 }

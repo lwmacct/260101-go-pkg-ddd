@@ -140,5 +140,12 @@ func (deps *RouterDependencies) AllRouteBindings() []RouteBinding {
 		{permission.AdminProductsGet, deps.ProductHandler.Get},
 		{permission.AdminProductsUpdate, deps.ProductHandler.Update},
 		{permission.AdminProductsDelete, deps.ProductHandler.Delete},
+
+		// ==================== Org 域 - 团队任务管理 ====================
+		{permission.OrgTasksCreate, deps.TaskHandler.Create},
+		{permission.OrgTasksList, deps.TaskHandler.List},
+		{permission.OrgTasksGet, deps.TaskHandler.Get},
+		{permission.OrgTasksUpdate, deps.TaskHandler.Update},
+		{permission.OrgTasksDelete, deps.TaskHandler.Delete},
 	}
 }
