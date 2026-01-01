@@ -16,9 +16,9 @@
 // 权限控制采用三段式格式：domain:resource:action
 // 例如：admin:users:create, user:profile:read
 //
-//	@title						Go DDD Template API
+//	@title						Go DDD Package Library API
 //	@version					1.0
-//	@description				基于 DDD + CQRS 架构的 Go Web 应用模板
+//	@description				基于 DDD + CQRS 架构的可复用模块库
 //
 //	@contact.name				API Support
 //	@contact.url				https://github.com/lwmacct/260101-go-pkg-ddd
@@ -167,7 +167,7 @@ func SetupRouterWithDeps(deps *RouterDependencies) *gin.Engine {
 	// 全局中间件
 	// OpenTelemetry 追踪中间件（如果启用）
 	if cfg.Telemetry.Enabled {
-		r.Use(otelgin.Middleware("go-ddd-template"))
+		r.Use(otelgin.Middleware("go-ddd-pkg-lib"))
 	}
 
 	// 自定义 Recovery，输出 panic 到 slog，生产环境隐藏详细错误

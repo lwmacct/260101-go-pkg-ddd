@@ -56,7 +56,7 @@ type TelemetryResult struct {
 func newTelemetry(lc fx.Lifecycle, cfg *config.Config) (TelemetryResult, error) {
 	ctx := context.Background()
 	shutdown, err := telemetry.InitTracer(ctx, telemetry.Config{
-		ServiceName:    "go-ddd-template",
+		ServiceName:    "go-ddd-pkg-lib",
 		ServiceVersion: "1.0.0",
 		Environment:    cfg.Server.Env,
 		Enabled:        cfg.Telemetry.Enabled,

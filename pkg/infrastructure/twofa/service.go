@@ -27,7 +27,7 @@ type Service struct {
 // NewService 创建 2FA 服务
 func NewService(twofaCommandRepo domainTwoFA.CommandRepository, twofaQueryRepo domainTwoFA.QueryRepository, userQueryRepo user.QueryRepository, issuer string) *Service {
 	if issuer == "" {
-		issuer = "Go-DDD-Template"
+		issuer = "Go-DDD-Package-Lib"
 	}
 	return &Service{
 		twofaCommandRepo: twofaCommandRepo,

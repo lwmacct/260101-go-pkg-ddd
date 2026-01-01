@@ -2521,12 +2521,12 @@ info:
     email: lwmacct@icloud.com
     name: API Support
     url: https://github.com/lwmacct/260101-go-pkg-ddd/issues
-  description: 基于 DDD+CQRS 架构的 Go Web 应用 API 文档
+  description: 基于 DDD+CQRS 架构的可复用模块库 API 文档
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
   termsOfService: https://github.com/lwmacct/260101-go-pkg-ddd
-  title: Go DDD Template API
+  title: Go DDD Package Library API
   version: 1.0.3
 paths:
   /api/admin/audit:

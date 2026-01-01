@@ -85,7 +85,7 @@ func DefaultConfig() Config {
 		},
 		Auth: Auth{
 			DevSecret:       "dev-secret-change-me",
-			TwoFAIssuer:     "Go-DDD-Template",
+			TwoFAIssuer:     "Go-DDD-Package-Lib",
 			CaptchaRequired: true, // 默认开启验证码
 		},
 		Telemetry: Telemetry{

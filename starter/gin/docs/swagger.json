@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "基于 DDD+CQRS 架构的 Go Web 应用 API 文档",
-    "title": "Go DDD Template API",
+    "description": "基于 DDD+CQRS 架构的可复用模块库 API 文档",
+    "title": "Go DDD Package Library API",
     "termsOfService": "https://github.com/lwmacct/260101-go-pkg-ddd",
     "contact": {
       "name": "API Support",

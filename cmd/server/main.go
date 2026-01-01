@@ -35,9 +35,9 @@ func main() {
 
 	app := &cli.Command{
 		Name:    "server",
-		Usage:   "Go DDD Template Server - 完整的生产级 HTTP 服务器",
+		Usage:   "Go DDD Package Library Server - 完整的生产级 HTTP 服务器",
 		Version: "1.0.0",
-		Description: `基于 DDD + CQRS 架构的 Go Web 应用服务器。
+		Description: `基于 DDD + CQRS 架构的可复用模块库。
 
 		示例:
 		  server                  启动 HTTP 服务器

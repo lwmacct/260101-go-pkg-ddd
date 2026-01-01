@@ -6,6 +6,7 @@ server:
   env: "development" # 运行环境: development | production
   web-dist: "dist" # 静态资源目录路径，用于提供前端文件服务 (如 SPA 应用)
   docs-dist: "docs/.vitepress/dist" # 文档目录路径，用于提供 VitePress 构建的文档服务，通过 /docs 路由访问
+  fx-log-enabled: false # 是否显示 Fx 框架的依赖注入日志 (默认 false，减少启动输出噪音)
 
 # 数据源配置
 data:
@@ -23,7 +24,7 @@ jwt:
 # 认证配置
 auth:
   dev-secret: "dev-secret-change-me" # 开发模式密钥 (用于验证码开发模式) - ⚠️ 生产环境务必修改! 建议通过环境变量 APP_AUTH_DEV_SECRET 设置
-  twofa-issuer: "Go-DDD-Template" # 2FA TOTP 发行者名称，显示在用户的验证器应用中
+  twofa-issuer: "Go-DDD-Package-Lib" # 2FA TOTP 发行者名称，显示在用户的验证器应用中
   captcha-required: true # 是否需要验证码 (可在生产环境强制开启以提升安全性)
 
 # OpenTelemetry 追踪配置
