@@ -90,23 +90,29 @@ func newTelemetry(lc fx.Lifecycle, cfg *config.Config) (TelemetryResult, error) 
 	return TelemetryResult{Shutdown: shutdown}, nil
 }
 
-func newDatabase(lc fx.Lifecycle, cfg *config.Config, opts *ContainerOptions) (*gorm.DB, error) {
+func newDatabase(lc fx.Lifecycle, cfg *config.Config) (*gorm.DB, error) {
 	ctx := context.Background()
 	dbConfig := database.DefaultConfig(cfg.Data.PgsqlURL)
 	dbConfig.EnableTracing = cfg.Telemetry.Enabled
 
 	db, err := database.NewConnection(ctx, dbConfig)
 	if err != nil {
+		slog.Error("Failed to connect to database",
+			"error", err,
+			"hint", "Ensure PostgreSQL is running and APP_PGSQL_URL is correct",
+		)
 		return nil, err
 	}
 
 	// 如果启用了自动迁移则执行
-	if opts.AutoMigrate {
+	if cfg.Data.AutoMigrate {
 		if err := runAutoMigrate(db); err != nil {
 			return nil, err
 		}
 	} else {
-		slog.Info("Auto-migration disabled, skipping database migration")
+		slog.Info("Auto-migration disabled, skipping database migration",
+			"hint", "Set APP_AUTO_MIGRATE=true to enable",
+		)
 	}
 
 	lc.Append(fx.Hook{
@@ -150,6 +156,10 @@ func newRedisClient(lc fx.Lifecycle, cfg *config.Config) (*redis.Client, error) 
 	ctx := context.Background()
 	client, err := cache.NewClient(ctx, cfg.Data.RedisURL, cfg.Telemetry.Enabled)
 	if err != nil {
+		slog.Error("Failed to connect to Redis",
+			"error", err,
+			"hint", "Ensure Redis is running and APP_REDIS_URL is correct",
+		)
 		return nil, err
 	}
 

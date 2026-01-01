@@ -14,7 +14,7 @@
 # 秘密文件
 **/.env
 **/.secret/*
-**/config/config.yaml
+**/config.yaml
 
 # node_modules
 **/node_modules/**

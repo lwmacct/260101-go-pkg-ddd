@@ -1,6 +1,11 @@
 package container
 
 import (
+	"context"
+	"errors"
+	"log/slog"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/redis/go-redis/v9"
 	"go.uber.org/fx"
@@ -10,7 +15,7 @@ import (
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/health"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/starter/config"
-	http "github.com/lwmacct/260101-go-pkg-ddd/starter/gin"
+	ginhttp "github.com/lwmacct/260101-go-pkg-ddd/starter/gin"
 	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/handler"
 )
 
@@ -40,14 +45,42 @@ type HandlersResult struct {
 	Product          *handler.ProductHandler
 }
 
-// HTTPModule 提供 HTTP 处理器和路由。
+// HTTPModule 提供 HTTP 处理器、路由和服务器。
 var HTTPModule = fx.Module("http",
 	fx.Provide(
 		health.NewSystemChecker,
 		newAllHandlers,
 		newRouter,
+		newHTTPServer,
 	),
+	fx.Invoke(startHTTPServer),
 )
+
+// newHTTPServer 创建 HTTP 服务器实例。
+func newHTTPServer(router *gin.Engine, cfg *config.Config) *ginhttp.Server {
+	return ginhttp.NewServer(router, cfg.Server.Addr)
+}
+
+// startHTTPServer 注册 HTTP 服务器启动和关闭钩子。
+func startHTTPServer(lc fx.Lifecycle, server *ginhttp.Server, cfg *config.Config) {
+	lc.Append(fx.Hook{
+		OnStart: func(ctx context.Context) error {
+			slog.Info("Starting HTTP server", "addr", cfg.Server.Addr, "env", cfg.Server.Env)
+
+			// 在 goroutine 中启动服务器，避免阻塞 OnStart
+			go func() {
+				if err := server.Start(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+					slog.Error("HTTP server error", "error", err)
+				}
+			}()
+			return nil
+		},
+		OnStop: func(ctx context.Context) error {
+			slog.Info("Shutting down HTTP server")
+			return server.Shutdown(ctx)
+		},
+	})
+}
 
 // handlersParams 聚合创建 Handler 所需的依赖。
 type handlersParams struct {
@@ -236,7 +269,7 @@ type routerParams struct {
 }
 
 func newRouter(p routerParams) *gin.Engine {
-	deps := &http.RouterDependencies{
+	deps := &ginhttp.RouterDependencies{
 		Config:                 p.Config,
 		RedisClient:            p.RedisClient,
 		CreateLogHandler:       p.Audit.CreateLog,
@@ -268,5 +301,5 @@ func newRouter(p routerParams) *gin.Engine {
 		ProductHandler:         p.Product,
 	}
 
-	return http.SetupRouterWithDeps(deps)
+	return ginhttp.SetupRouterWithDeps(deps)
 }

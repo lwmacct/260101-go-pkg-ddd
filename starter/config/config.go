@@ -7,10 +7,11 @@ import (
 
 // Server 服务器配置
 type Server struct {
-	Addr     string `koanf:"addr" desc:"监听地址，格式: host:port，例如 '0.0.0.0:8080' 或 ':8080'"`
-	Env      string `koanf:"env" desc:"运行环境: development | production"`
-	WebDist  string `koanf:"web-dist" desc:"静态资源目录路径，用于提供前端文件服务 (如 SPA 应用)"`
-	DocsDist string `koanf:"docs-dist" desc:"文档目录路径，用于提供 VitePress 构建的文档服务，通过 /docs 路由访问"`
+	Addr         string `koanf:"addr" desc:"监听地址，格式: host:port，例如 '0.0.0.0:8080' 或 ':8080'"`
+	Env          string `koanf:"env" desc:"运行环境: development | production"`
+	WebDist      string `koanf:"web-dist" desc:"静态资源目录路径，用于提供前端文件服务 (如 SPA 应用)"`
+	DocsDist     string `koanf:"docs-dist" desc:"文档目录路径，用于提供 VitePress 构建的文档服务，通过 /docs 路由访问"`
+	FxLogEnabled bool   `koanf:"fx-log-enabled" desc:"是否显示 Fx 框架的依赖注入日志 (默认 false，减少启动输出噪音)"`
 }
 
 // Data 数据源配置
@@ -65,10 +66,11 @@ func (c *Config) GetBaseUrl(https bool) string {
 func DefaultConfig() Config {
 	return Config{
 		Server: Server{
-			Addr:     "0.0.0.0:8080",
-			Env:      "development",
-			WebDist:  "dist",
-			DocsDist: "docs/.vitepress/dist",
+			Addr:         "0.0.0.0:8080",
+			Env:          "development",
+			WebDist:      "dist",
+			DocsDist:     "docs/.vitepress/dist",
+			FxLogEnabled: false, // 默认关闭 Fx 日志，减少启动输出噪音
 		},
 		Data: Data{
 			PgsqlURL:       "postgresql://postgres@localhost:5432/dev?sslmode=disable",
