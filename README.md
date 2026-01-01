@@ -69,17 +69,27 @@ air
 
 ```
 pkg/
-├── domain/          # 领域层 - 实体、Repository 接口、领域错误
-├── application/     # 应用层 - Use Cases (Command/Query Handler)、DTO
-├── infrastructure/  # 基础设施层 - Repository 实现、数据库、缓存、事件
-└── adapter/         # 适配器层 - HTTP Handler、路由、中间件
+├── config/              # 配置管理（独立的横切关注点）
+├── domain/              # 领域层 - 实体、Repository 接口、领域错误
+├── application/         # 应用层 - Use Cases (Command/Query Handler)、DTO
+├── infrastructure/      # 基础设施层 - Repository 实现、数据库、缓存、事件
+│   ├── persistence/     # GORM 数据持久化
+│   ├── cache/           # Redis 缓存服务
+│   ├── auth/            # JWT、密码哈希
+│   └── database/        # 数据库连接管理
+└── adapters/            # 适配器层 - 外部系统交互
+    └── http/            # HTTP 适配器
+        ├── handler/     # Gin HTTP Handler
+        ├── middleware/  # Gin 中间件
+        ├── routes/      # 路由元数据注册
+        ├── router.go    # 路由配置
+        └── server.go    # HTTP 服务器
 
 starter/
-├── fx/              # Fx 依赖注入容器模块
-├── gin/             # Gin HTTP 服务器、路由、Handler 基类
-└── config/          # 配置管理
+└── fx/                  # Uber Fx 依赖注入容器模块
 
-cmd/server/          # 示例服务器入口
+cmd/server/              # 示例服务器入口
+examples/                # 使用示例
 ```
 
 **依赖方向**: `Adapters → Application → Domain ← Infrastructure`
