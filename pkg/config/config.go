@@ -73,7 +73,7 @@ func DefaultConfig() Config {
 			FxLogEnabled: false, // 默认关闭 Fx 日志，减少启动输出噪音
 		},
 		Data: Data{
-			PgsqlURL:       "postgresql://postgres@localhost:5432/dev?sslmode=disable",
+			PgsqlURL:       "postgresql://postgres:postgres@localhost:5432/dev?sslmode=disable",
 			RedisURL:       "redis://localhost:6379/0",
 			RedisKeyPrefix: "app:",
 			AutoMigrate:    false, // 默认关闭自动迁移，生产环境使用 migrate 命令

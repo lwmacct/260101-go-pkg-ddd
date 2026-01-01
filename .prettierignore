@@ -48,3 +48,5 @@ yarn.lock
 
 # web
 *.d.ts
+
+config/*.yaml
