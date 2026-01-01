@@ -21,12 +21,11 @@ type nopLogger struct{}
 func (nopLogger) LogEvent(fxevent.Event) {}
 
 func main() {
+	logm.MustInit(logm.PresetAuto()...)
 	cfg := cfgm.MustLoad(
 		config.DefaultConfig(),
 		cfgm.WithEnvPrefix("APP_"), // 配置环境变量前缀，如 APP_SERVER_FX_LOG_ENABLED
 	)
-
-	logm.MustInit(logm.PresetAuto()...)
 
 	// 构建 Fx 选项
 	fxOptions := []fx.Option{
