@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/routes"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/permission"
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/routes"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

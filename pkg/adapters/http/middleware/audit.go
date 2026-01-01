@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/routes"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/audit"
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/routes"
 )
 
 // AuditMiddleware 创建审计日志中间件。

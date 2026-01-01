@@ -10,13 +10,13 @@ import (
 	"github.com/redis/go-redis/v9"
 	"go.uber.org/fx"
 
+	ginhttp "github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/handler"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/cache"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/auth"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/health"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/persistence"
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/config"
-	ginhttp "github.com/lwmacct/260101-go-pkg-ddd/starter/gin"
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/handler"
 )
 
 // HandlersResult 使用 fx.Out 批量返回所有 HTTP 处理器。

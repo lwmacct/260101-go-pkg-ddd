@@ -2,7 +2,7 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/routes"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/routes"
 
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )

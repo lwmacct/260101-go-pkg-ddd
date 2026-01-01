@@ -5,11 +5,11 @@ import (
 
 	appauth "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/auth"
 	appuser "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/user"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/auth"
 	domain_twofa "github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/twofa"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/persistence"
 	infra_twofa "github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/twofa"
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/config"
 
 	infra_auth "github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/auth"
 	infra_captcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/captcha"

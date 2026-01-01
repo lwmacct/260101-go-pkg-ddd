@@ -4,8 +4,8 @@ import (
 	"github.com/redis/go-redis/v9"
 	"go.uber.org/fx"
 
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/cache"
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/config"
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/auth"
 	appcache "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/cache"

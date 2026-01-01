@@ -52,16 +52,16 @@ import (
 	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 
 	// Swagger 文档
-	_ "github.com/lwmacct/260101-go-pkg-ddd/starter/gin/docs" // Swagger docs
+	_ "github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/docs" // Swagger docs
 
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/config"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
 	// 引入处理器和中间件包
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/handler"
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/middleware"
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/routes"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/handler"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/middleware"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/routes"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 
 	// 引入应用层包

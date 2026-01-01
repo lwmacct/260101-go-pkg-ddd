@@ -3,7 +3,7 @@ package precommit_test
 import (
 	"testing"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/routes"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/routes"
 	"github.com/stretchr/testify/assert"
 )
 
