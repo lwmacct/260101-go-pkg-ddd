@@ -3,6 +3,7 @@ package http
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/permission"
+	ginpermission "github.com/lwmacct/260101-go-pkg-ddd/starter/gin/permission"
 )
 
 // RouteBinding 路由绑定，将 Operation 与 Handler 关联
@@ -16,136 +17,136 @@ type RouteBinding struct {
 func (deps *RouterDependencies) AllRouteBindings() []RouteBinding {
 	return []RouteBinding{
 		// ==================== Public 域（公开） ====================
-		{permission.PublicAuthRegister, deps.AuthHandler.Register},
-		{permission.PublicAuthLogin, deps.AuthHandler.Login},
-		{permission.PublicAuthLogin2FA, deps.AuthHandler.Login2FA},
-		{permission.PublicAuthRefresh, deps.AuthHandler.RefreshToken},
-		{permission.PublicAuthCaptcha, deps.CaptchaHandler.GetCaptcha},
+		{ginpermission.PublicAuthRegister, deps.AuthHandler.Register},
+		{ginpermission.PublicAuthLogin, deps.AuthHandler.Login},
+		{ginpermission.PublicAuthLogin2FA, deps.AuthHandler.Login2FA},
+		{ginpermission.PublicAuthRefresh, deps.AuthHandler.RefreshToken},
+		{ginpermission.PublicAuthCaptcha, deps.CaptchaHandler.GetCaptcha},
 
 		// ==================== Self 域 - 2FA ====================
-		{permission.Self2FASetup, deps.TwoFAHandler.Setup},
-		{permission.Self2FAVerify, deps.TwoFAHandler.VerifyAndEnable},
-		{permission.Self2FADisable, deps.TwoFAHandler.Disable},
-		{permission.Self2FAStatus, deps.TwoFAHandler.GetStatus},
+		{ginpermission.Self2FASetup, deps.TwoFAHandler.Setup},
+		{ginpermission.Self2FAVerify, deps.TwoFAHandler.VerifyAndEnable},
+		{ginpermission.Self2FADisable, deps.TwoFAHandler.Disable},
+		{ginpermission.Self2FAStatus, deps.TwoFAHandler.GetStatus},
 
 		// ==================== Admin 域 - 用户管理 ====================
-		{permission.AdminUsersCreate, deps.AdminUserHandler.CreateUser},
-		{permission.AdminUsersBatchCreate, deps.AdminUserHandler.BatchCreateUsers},
-		{permission.AdminUsersList, deps.AdminUserHandler.ListUsers},
-		{permission.AdminUsersGet, deps.AdminUserHandler.GetUser},
-		{permission.AdminUsersUpdate, deps.AdminUserHandler.UpdateUser},
-		{permission.AdminUsersDelete, deps.AdminUserHandler.DeleteUser},
-		{permission.AdminUsersAssignRoles, deps.AdminUserHandler.AssignRoles},
+		{ginpermission.AdminUsersCreate, deps.AdminUserHandler.CreateUser},
+		{ginpermission.AdminUsersBatchCreate, deps.AdminUserHandler.BatchCreateUsers},
+		{ginpermission.AdminUsersList, deps.AdminUserHandler.ListUsers},
+		{ginpermission.AdminUsersGet, deps.AdminUserHandler.GetUser},
+		{ginpermission.AdminUsersUpdate, deps.AdminUserHandler.UpdateUser},
+		{ginpermission.AdminUsersDelete, deps.AdminUserHandler.DeleteUser},
+		{ginpermission.AdminUsersAssignRoles, deps.AdminUserHandler.AssignRoles},
 
 		// ==================== Admin 域 - 角色管理 ====================
-		{permission.AdminRolesCreate, deps.RoleHandler.CreateRole},
-		{permission.AdminRolesList, deps.RoleHandler.ListRoles},
-		{permission.AdminRolesGet, deps.RoleHandler.GetRole},
-		{permission.AdminRolesUpdate, deps.RoleHandler.UpdateRole},
-		{permission.AdminRolesDelete, deps.RoleHandler.DeleteRole},
-		{permission.AdminRolesSetPermissions, deps.RoleHandler.SetPermissions},
+		{ginpermission.AdminRolesCreate, deps.RoleHandler.CreateRole},
+		{ginpermission.AdminRolesList, deps.RoleHandler.ListRoles},
+		{ginpermission.AdminRolesGet, deps.RoleHandler.GetRole},
+		{ginpermission.AdminRolesUpdate, deps.RoleHandler.UpdateRole},
+		{ginpermission.AdminRolesDelete, deps.RoleHandler.DeleteRole},
+		{ginpermission.AdminRolesSetPermissions, deps.RoleHandler.SetPermissions},
 
 		// ==================== Admin 域 - 操作列表 ====================
-		{permission.AdminOperationsList, deps.OperationHandler.ListOperations},
+		{ginpermission.AdminOperationsList, deps.OperationHandler.ListOperations},
 
 		// ==================== Admin 域 - 审计日志 ====================
 		// 注意：actions 路由必须在 :id 路由之前
-		{permission.AdminAuditActions, deps.AuditHandler.GetActions},
-		{permission.AdminAuditList, deps.AuditHandler.ListLogs},
-		{permission.AdminAuditGet, deps.AuditHandler.GetLog},
+		{ginpermission.AdminAuditActions, deps.AuditHandler.GetActions},
+		{ginpermission.AdminAuditList, deps.AuditHandler.ListLogs},
+		{ginpermission.AdminAuditGet, deps.AuditHandler.GetLog},
 
 		// ==================== Admin 域 - 系统概览 ====================
-		{permission.AdminOverviewStats, deps.OverviewHandler.GetStats},
+		{ginpermission.AdminOverviewStats, deps.OverviewHandler.GetStats},
 
 		// ==================== Admin 域 - 配置分类（必须在 :key 之前） ====================
-		{permission.AdminSettingCategoriesList, deps.SettingHandler.GetCategories},
-		{permission.AdminSettingCategoriesGet, deps.SettingHandler.GetCategory},
-		{permission.AdminSettingCategoriesCreate, deps.SettingHandler.CreateCategory},
-		{permission.AdminSettingCategoriesUpdate, deps.SettingHandler.UpdateCategory},
-		{permission.AdminSettingCategoriesDelete, deps.SettingHandler.DeleteCategory},
+		{ginpermission.AdminSettingCategoriesList, deps.SettingHandler.GetCategories},
+		{ginpermission.AdminSettingCategoriesGet, deps.SettingHandler.GetCategory},
+		{ginpermission.AdminSettingCategoriesCreate, deps.SettingHandler.CreateCategory},
+		{ginpermission.AdminSettingCategoriesUpdate, deps.SettingHandler.UpdateCategory},
+		{ginpermission.AdminSettingCategoriesDelete, deps.SettingHandler.DeleteCategory},
 
 		// ==================== Admin 域 - 系统配置 ====================
 		// 注意：batch 路由必须在 :key 路由之前
-		{permission.AdminSettingsBatchUpdate, deps.SettingHandler.BatchUpdateSettings},
-		{permission.AdminSettingsCreate, deps.SettingHandler.CreateSetting},
-		{permission.AdminSettingsList, deps.SettingHandler.GetSettings},
-		{permission.AdminSettingsGet, deps.SettingHandler.GetSetting},
-		{permission.AdminSettingsUpdate, deps.SettingHandler.UpdateSetting},
-		{permission.AdminSettingsDelete, deps.SettingHandler.DeleteSetting},
+		{ginpermission.AdminSettingsBatchUpdate, deps.SettingHandler.BatchUpdateSettings},
+		{ginpermission.AdminSettingsCreate, deps.SettingHandler.CreateSetting},
+		{ginpermission.AdminSettingsList, deps.SettingHandler.GetSettings},
+		{ginpermission.AdminSettingsGet, deps.SettingHandler.GetSetting},
+		{ginpermission.AdminSettingsUpdate, deps.SettingHandler.UpdateSetting},
+		{ginpermission.AdminSettingsDelete, deps.SettingHandler.DeleteSetting},
 
 		// ==================== Admin 域 - 缓存管理 ====================
-		{permission.AdminCacheInfo, deps.CacheHandler.Info},
-		{permission.AdminCacheScanKeys, deps.CacheHandler.ScanKeys},
-		{permission.AdminCacheGetKey, deps.CacheHandler.GetKey},
-		{permission.AdminCacheDeleteKey, deps.CacheHandler.DeleteKey},
-		{permission.AdminCacheDeletePattern, deps.CacheHandler.DeleteByPattern},
+		{ginpermission.AdminCacheInfo, deps.CacheHandler.Info},
+		{ginpermission.AdminCacheScanKeys, deps.CacheHandler.ScanKeys},
+		{ginpermission.AdminCacheGetKey, deps.CacheHandler.GetKey},
+		{ginpermission.AdminCacheDeleteKey, deps.CacheHandler.DeleteKey},
+		{ginpermission.AdminCacheDeletePattern, deps.CacheHandler.DeleteByPattern},
 
 		// ==================== Self 域 - 个人资料 ====================
-		{permission.SelfProfileGet, deps.UserProfileHandler.GetProfile},
-		{permission.SelfProfileUpdate, deps.UserProfileHandler.UpdateProfile},
-		{permission.SelfPasswordUpdate, deps.UserProfileHandler.ChangePassword},
-		{permission.SelfAccountDelete, deps.UserProfileHandler.DeleteAccount},
+		{ginpermission.SelfProfileGet, deps.UserProfileHandler.GetProfile},
+		{ginpermission.SelfProfileUpdate, deps.UserProfileHandler.UpdateProfile},
+		{ginpermission.SelfPasswordUpdate, deps.UserProfileHandler.ChangePassword},
+		{ginpermission.SelfAccountDelete, deps.UserProfileHandler.DeleteAccount},
 
 		// ==================== Self 域 - 访问令牌 ====================
 		// 注意：scopes 必须在 :id 路由之前
-		{permission.SelfTokensCreate, deps.PATHandler.CreateToken},
-		{permission.SelfTokensList, deps.PATHandler.ListTokens},
-		{permission.SelfTokensScopes, deps.PATHandler.ListScopes},
-		{permission.SelfTokensGet, deps.PATHandler.GetToken},
-		{permission.SelfTokensDelete, deps.PATHandler.DeleteToken},
-		{permission.SelfTokensDisable, deps.PATHandler.DisableToken},
-		{permission.SelfTokensEnable, deps.PATHandler.EnableToken},
+		{ginpermission.SelfTokensCreate, deps.PATHandler.CreateToken},
+		{ginpermission.SelfTokensList, deps.PATHandler.ListTokens},
+		{ginpermission.SelfTokensScopes, deps.PATHandler.ListScopes},
+		{ginpermission.SelfTokensGet, deps.PATHandler.GetToken},
+		{ginpermission.SelfTokensDelete, deps.PATHandler.DeleteToken},
+		{ginpermission.SelfTokensDisable, deps.PATHandler.DisableToken},
+		{ginpermission.SelfTokensEnable, deps.PATHandler.EnableToken},
 
 		// ==================== Self 域 - 用户配置 ====================
 		// 注意：categories 和 batch 路由必须在 :key 路由之前
-		{permission.SelfSettingsCategoriesList, deps.UserSettingHandler.ListUserSettingCategories},
-		{permission.SelfSettingsBatchSet, deps.UserSettingHandler.BatchSetUserSettings},
-		{permission.SelfSettingsList, deps.UserSettingHandler.GetUserSettings},
-		{permission.SelfSettingsGet, deps.UserSettingHandler.GetUserSetting},
-		{permission.SelfSettingsSet, deps.UserSettingHandler.SetUserSetting},
-		{permission.SelfSettingsReset, deps.UserSettingHandler.ResetUserSetting},
+		{ginpermission.SelfSettingsCategoriesList, deps.UserSettingHandler.ListUserSettingCategories},
+		{ginpermission.SelfSettingsBatchSet, deps.UserSettingHandler.BatchSetUserSettings},
+		{ginpermission.SelfSettingsList, deps.UserSettingHandler.GetUserSettings},
+		{ginpermission.SelfSettingsGet, deps.UserSettingHandler.GetUserSetting},
+		{ginpermission.SelfSettingsSet, deps.UserSettingHandler.SetUserSetting},
+		{ginpermission.SelfSettingsReset, deps.UserSettingHandler.ResetUserSetting},
 
 		// ==================== Self 域 - 用户组织/团队 ====================
-		{permission.SelfOrgsList, deps.UserOrgHandler.ListMyOrganizations},
-		{permission.SelfTeamsList, deps.UserOrgHandler.ListMyTeams},
+		{ginpermission.SelfOrgsList, deps.UserOrgHandler.ListMyOrganizations},
+		{ginpermission.SelfTeamsList, deps.UserOrgHandler.ListMyTeams},
 
 		// ==================== Admin 域 - 组织管理 ====================
-		{permission.AdminOrgsCreate, deps.OrgHandler.Create},
-		{permission.AdminOrgsList, deps.OrgHandler.List},
-		{permission.AdminOrgsGet, deps.OrgHandler.Get},
-		{permission.AdminOrgsUpdate, deps.OrgHandler.Update},
-		{permission.AdminOrgsDelete, deps.OrgHandler.Delete},
+		{ginpermission.AdminOrgsCreate, deps.OrgHandler.Create},
+		{ginpermission.AdminOrgsList, deps.OrgHandler.List},
+		{ginpermission.AdminOrgsGet, deps.OrgHandler.Get},
+		{ginpermission.AdminOrgsUpdate, deps.OrgHandler.Update},
+		{ginpermission.AdminOrgsDelete, deps.OrgHandler.Delete},
 
 		// ==================== Org 域 - 组织成员管理 ====================
-		{permission.OrgMembersList, deps.OrgMemberHandler.List},
-		{permission.OrgMembersAdd, deps.OrgMemberHandler.Add},
-		{permission.OrgMembersRemove, deps.OrgMemberHandler.Remove},
-		{permission.OrgMembersUpdateRole, deps.OrgMemberHandler.UpdateRole},
+		{ginpermission.OrgMembersList, deps.OrgMemberHandler.List},
+		{ginpermission.OrgMembersAdd, deps.OrgMemberHandler.Add},
+		{ginpermission.OrgMembersRemove, deps.OrgMemberHandler.Remove},
+		{ginpermission.OrgMembersUpdateRole, deps.OrgMemberHandler.UpdateRole},
 
 		// ==================== Org 域 - 团队管理 ====================
-		{permission.OrgTeamsCreate, deps.TeamHandler.Create},
-		{permission.OrgTeamsList, deps.TeamHandler.List},
-		{permission.OrgTeamsGet, deps.TeamHandler.Get},
-		{permission.OrgTeamsUpdate, deps.TeamHandler.Update},
-		{permission.OrgTeamsDelete, deps.TeamHandler.Delete},
+		{ginpermission.OrgTeamsCreate, deps.TeamHandler.Create},
+		{ginpermission.OrgTeamsList, deps.TeamHandler.List},
+		{ginpermission.OrgTeamsGet, deps.TeamHandler.Get},
+		{ginpermission.OrgTeamsUpdate, deps.TeamHandler.Update},
+		{ginpermission.OrgTeamsDelete, deps.TeamHandler.Delete},
 
 		// ==================== Org 域 - 团队成员管理 ====================
-		{permission.OrgTeamMembersList, deps.TeamMemberHandler.List},
-		{permission.OrgTeamMembersAdd, deps.TeamMemberHandler.Add},
-		{permission.OrgTeamMembersRemove, deps.TeamMemberHandler.Remove},
+		{ginpermission.OrgTeamMembersList, deps.TeamMemberHandler.List},
+		{ginpermission.OrgTeamMembersAdd, deps.TeamMemberHandler.Add},
+		{ginpermission.OrgTeamMembersRemove, deps.TeamMemberHandler.Remove},
 
 		// ==================== Admin 域 - 产品管理 ====================
-		{permission.AdminProductsCreate, deps.ProductHandler.Create},
-		{permission.AdminProductsList, deps.ProductHandler.List},
-		{permission.AdminProductsGet, deps.ProductHandler.Get},
-		{permission.AdminProductsUpdate, deps.ProductHandler.Update},
-		{permission.AdminProductsDelete, deps.ProductHandler.Delete},
+		{ginpermission.AdminProductsCreate, deps.ProductHandler.Create},
+		{ginpermission.AdminProductsList, deps.ProductHandler.List},
+		{ginpermission.AdminProductsGet, deps.ProductHandler.Get},
+		{ginpermission.AdminProductsUpdate, deps.ProductHandler.Update},
+		{ginpermission.AdminProductsDelete, deps.ProductHandler.Delete},
 
 		// ==================== Org 域 - 团队任务管理 ====================
-		{permission.OrgTasksCreate, deps.TaskHandler.Create},
-		{permission.OrgTasksList, deps.TaskHandler.List},
-		{permission.OrgTasksGet, deps.TaskHandler.Get},
-		{permission.OrgTasksUpdate, deps.TaskHandler.Update},
-		{permission.OrgTasksDelete, deps.TaskHandler.Delete},
+		{ginpermission.OrgTasksCreate, deps.TaskHandler.Create},
+		{ginpermission.OrgTasksList, deps.TaskHandler.List},
+		{ginpermission.OrgTasksGet, deps.TaskHandler.Get},
+		{ginpermission.OrgTasksUpdate, deps.TaskHandler.Update},
+		{ginpermission.OrgTasksDelete, deps.TaskHandler.Delete},
 	}
 }

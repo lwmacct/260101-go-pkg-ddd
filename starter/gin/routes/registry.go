@@ -1,13 +1,16 @@
 package routes
 
-import "github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/permission"
+import (
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/permission"
+	ginpermission "github.com/lwmacct/260101-go-pkg-ddd/starter/gin/permission"
+)
 
 // Registry 路由注册表（单一数据源）。
 //
 //nolint:gochecknoglobals // 注册表是只读全局配置
 var Registry = map[permission.Operation]routeMeta{
 	// ==================== Public 域（公开） ====================
-	permission.PublicAuthRegister: {
+	ginpermission.PublicAuthRegister: {
 		Method:      POST,
 		Path:        "/api/auth/register",
 		Tags:        "Authentication",
@@ -15,7 +18,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "注册",
 		Description: "用户注册",
 	},
-	permission.PublicAuthLogin: {
+	ginpermission.PublicAuthLogin: {
 		Method:      POST,
 		Path:        "/api/auth/login",
 		Tags:        "Authentication",
@@ -23,7 +26,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "登录",
 		Description: "用户登录",
 	},
-	permission.PublicAuthLogin2FA: {
+	ginpermission.PublicAuthLogin2FA: {
 		Method:      POST,
 		Path:        "/api/auth/login/2fa",
 		Tags:        "Authentication",
@@ -31,7 +34,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "2FA 登录",
 		Description: "两步验证登录",
 	},
-	permission.PublicAuthRefresh: {
+	ginpermission.PublicAuthRefresh: {
 		Method:      POST,
 		Path:        "/api/auth/refresh",
 		Tags:        "Authentication",
@@ -39,7 +42,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "刷新令牌",
 		Description: "刷新访问令牌",
 	},
-	permission.PublicAuthCaptcha: {
+	ginpermission.PublicAuthCaptcha: {
 		Method:      GET,
 		Path:        "/api/auth/captcha",
 		Tags:        "Authentication",
@@ -48,7 +51,7 @@ var Registry = map[permission.Operation]routeMeta{
 	},
 
 	// ==================== Self 域 - 2FA（需认证） ====================
-	permission.Self2FASetup: {
+	ginpermission.Self2FASetup: {
 		Method:      POST,
 		Path:        "/api/auth/2fa/setup",
 		Tags:        "Authentication - 2FA",
@@ -56,7 +59,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "设置 2FA",
 		Description: "设置两步验证",
 	},
-	permission.Self2FAVerify: {
+	ginpermission.Self2FAVerify: {
 		Method:      POST,
 		Path:        "/api/auth/2fa/verify",
 		Tags:        "Authentication - 2FA",
@@ -64,7 +67,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "启用 2FA",
 		Description: "验证并启用两步验证",
 	},
-	permission.Self2FADisable: {
+	ginpermission.Self2FADisable: {
 		Method:      POST,
 		Path:        "/api/auth/2fa/disable",
 		Tags:        "Authentication - 2FA",
@@ -72,7 +75,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "禁用 2FA",
 		Description: "禁用两步验证",
 	},
-	permission.Self2FAStatus: {
+	ginpermission.Self2FAStatus: {
 		Method:      GET,
 		Path:        "/api/auth/2fa/status",
 		Tags:        "Authentication - 2FA",
@@ -81,7 +84,7 @@ var Registry = map[permission.Operation]routeMeta{
 	},
 
 	// ==================== Sys 域 - 用户管理 ====================
-	permission.AdminUsersCreate: {
+	ginpermission.AdminUsersCreate: {
 		Method:      POST,
 		Path:        "/api/admin/users",
 		Tags:        "Admin - User Management",
@@ -89,7 +92,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "创建用户",
 		Description: "创建新用户",
 	},
-	permission.AdminUsersBatchCreate: {
+	ginpermission.AdminUsersBatchCreate: {
 		Method:      POST,
 		Path:        "/api/admin/users/batch",
 		Tags:        "Admin - User Management",
@@ -97,21 +100,21 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "批量创建用户",
 		Description: "批量创建用户",
 	},
-	permission.AdminUsersList: {
+	ginpermission.AdminUsersList: {
 		Method:      GET,
 		Path:        "/api/admin/users",
 		Tags:        "Admin - User Management",
 		Summary:     "用户列表",
 		Description: "获取用户列表",
 	},
-	permission.AdminUsersGet: {
+	ginpermission.AdminUsersGet: {
 		Method:      GET,
 		Path:        "/api/admin/users/:id",
 		Tags:        "Admin - User Management",
 		Summary:     "用户详情",
 		Description: "获取用户详情",
 	},
-	permission.AdminUsersUpdate: {
+	ginpermission.AdminUsersUpdate: {
 		Method:      PUT,
 		Path:        "/api/admin/users/:id",
 		Tags:        "Admin - User Management",
@@ -119,7 +122,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "更新用户",
 		Description: "更新用户信息",
 	},
-	permission.AdminUsersDelete: {
+	ginpermission.AdminUsersDelete: {
 		Method:      DELETE,
 		Path:        "/api/admin/users/:id",
 		Tags:        "Admin - User Management",
@@ -127,7 +130,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "删除用户",
 		Description: "删除用户",
 	},
-	permission.AdminUsersAssignRoles: {
+	ginpermission.AdminUsersAssignRoles: {
 		Method:      PUT,
 		Path:        "/api/admin/users/:id/roles",
 		Tags:        "Admin - User Management",
@@ -137,7 +140,7 @@ var Registry = map[permission.Operation]routeMeta{
 	},
 
 	// ==================== Sys 域 - 角色管理 ====================
-	permission.AdminRolesCreate: {
+	ginpermission.AdminRolesCreate: {
 		Method:      POST,
 		Path:        "/api/admin/roles",
 		Tags:        "Admin - Role Management",
@@ -145,21 +148,21 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "创建角色",
 		Description: "创建角色",
 	},
-	permission.AdminRolesList: {
+	ginpermission.AdminRolesList: {
 		Method:      GET,
 		Path:        "/api/admin/roles",
 		Tags:        "Admin - Role Management",
 		Summary:     "角色列表",
 		Description: "获取角色列表",
 	},
-	permission.AdminRolesGet: {
+	ginpermission.AdminRolesGet: {
 		Method:      GET,
 		Path:        "/api/admin/roles/:id",
 		Tags:        "Admin - Role Management",
 		Summary:     "角色详情",
 		Description: "获取角色详情",
 	},
-	permission.AdminRolesUpdate: {
+	ginpermission.AdminRolesUpdate: {
 		Method:      PUT,
 		Path:        "/api/admin/roles/:id",
 		Tags:        "Admin - Role Management",
@@ -167,7 +170,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "更新角色",
 		Description: "更新角色",
 	},
-	permission.AdminRolesDelete: {
+	ginpermission.AdminRolesDelete: {
 		Method:      DELETE,
 		Path:        "/api/admin/roles/:id",
 		Tags:        "Admin - Role Management",
@@ -175,7 +178,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "删除角色",
 		Description: "删除角色",
 	},
-	permission.AdminRolesSetPermissions: {
+	ginpermission.AdminRolesSetPermissions: {
 		Method:      PUT,
 		Path:        "/api/admin/roles/:id/permissions",
 		Tags:        "Admin - Role Management",
@@ -185,7 +188,7 @@ var Registry = map[permission.Operation]routeMeta{
 	},
 
 	// ==================== Sys 域 - 操作列表 ====================
-	permission.AdminOperationsList: {
+	ginpermission.AdminOperationsList: {
 		Method:      GET,
 		Path:        "/api/admin/operations",
 		Tags:        "System",
@@ -194,21 +197,21 @@ var Registry = map[permission.Operation]routeMeta{
 	},
 
 	// ==================== Sys 域 - 审计日志 ====================
-	permission.AdminAuditList: {
+	ginpermission.AdminAuditList: {
 		Method:      GET,
 		Path:        "/api/admin/audit",
 		Tags:        "Admin - Audit Log",
 		Summary:     "审计日志列表",
 		Description: "获取审计日志列表",
 	},
-	permission.AdminAuditGet: {
+	ginpermission.AdminAuditGet: {
 		Method:      GET,
 		Path:        "/api/admin/audit/:id",
 		Tags:        "Admin - Audit Log",
 		Summary:     "审计日志详情",
 		Description: "获取审计日志详情",
 	},
-	permission.AdminAuditActions: {
+	ginpermission.AdminAuditActions: {
 		Method:      GET,
 		Path:        "/api/admin/audit/actions",
 		Tags:        "Admin - Audit Log",
@@ -217,7 +220,7 @@ var Registry = map[permission.Operation]routeMeta{
 	},
 
 	// ==================== Sys 域 - 系统概览 ====================
-	permission.AdminOverviewStats: {
+	ginpermission.AdminOverviewStats: {
 		Method:      GET,
 		Path:        "/api/admin/overview/stats",
 		Tags:        "Overview",
@@ -226,7 +229,7 @@ var Registry = map[permission.Operation]routeMeta{
 	},
 
 	// ==================== Sys 域 - 系统配置 ====================
-	permission.AdminSettingsCreate: {
+	ginpermission.AdminSettingsCreate: {
 		Method:      POST,
 		Path:        "/api/admin/settings",
 		Tags:        "Admin - Settings",
@@ -234,21 +237,21 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "创建配置",
 		Description: "创建配置项",
 	},
-	permission.AdminSettingsList: {
+	ginpermission.AdminSettingsList: {
 		Method:      GET,
 		Path:        "/api/admin/settings",
 		Tags:        "Admin - Settings",
 		Summary:     "配置列表",
 		Description: "获取配置列表",
 	},
-	permission.AdminSettingsGet: {
+	ginpermission.AdminSettingsGet: {
 		Method:      GET,
 		Path:        "/api/admin/settings/:key",
 		Tags:        "Admin - Settings",
 		Summary:     "配置详情",
 		Description: "获取配置详情",
 	},
-	permission.AdminSettingsUpdate: {
+	ginpermission.AdminSettingsUpdate: {
 		Method:      PUT,
 		Path:        "/api/admin/settings/:key",
 		Tags:        "Admin - Settings",
@@ -256,7 +259,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "更新配置",
 		Description: "更新配置",
 	},
-	permission.AdminSettingsDelete: {
+	ginpermission.AdminSettingsDelete: {
 		Method:      DELETE,
 		Path:        "/api/admin/settings/:key",
 		Tags:        "Admin - Settings",
@@ -264,7 +267,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "删除配置",
 		Description: "删除配置",
 	},
-	permission.AdminSettingsBatchUpdate: {
+	ginpermission.AdminSettingsBatchUpdate: {
 		Method:      POST,
 		Path:        "/api/admin/settings/batch",
 		Tags:        "Admin - Settings",
@@ -274,21 +277,21 @@ var Registry = map[permission.Operation]routeMeta{
 	},
 
 	// ==================== Sys 域 - 配置分类 ====================
-	permission.AdminSettingCategoriesList: {
+	ginpermission.AdminSettingCategoriesList: {
 		Method:      GET,
 		Path:        "/api/admin/settings/categories",
 		Tags:        "Admin - Setting Categories",
 		Summary:     "配置分类列表",
 		Description: "获取配置分类列表",
 	},
-	permission.AdminSettingCategoriesGet: {
+	ginpermission.AdminSettingCategoriesGet: {
 		Method:      GET,
 		Path:        "/api/admin/settings/categories/:id",
 		Tags:        "Admin - Setting Categories",
 		Summary:     "配置分类详情",
 		Description: "获取配置分类详情",
 	},
-	permission.AdminSettingCategoriesCreate: {
+	ginpermission.AdminSettingCategoriesCreate: {
 		Method:      POST,
 		Path:        "/api/admin/settings/categories",
 		Tags:        "Admin - Setting Categories",
@@ -296,7 +299,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "创建配置分类",
 		Description: "创建配置分类",
 	},
-	permission.AdminSettingCategoriesUpdate: {
+	ginpermission.AdminSettingCategoriesUpdate: {
 		Method:      PUT,
 		Path:        "/api/admin/settings/categories/:id",
 		Tags:        "Admin - Setting Categories",
@@ -304,7 +307,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "更新配置分类",
 		Description: "更新配置分类",
 	},
-	permission.AdminSettingCategoriesDelete: {
+	ginpermission.AdminSettingCategoriesDelete: {
 		Method:      DELETE,
 		Path:        "/api/admin/settings/categories/:id",
 		Tags:        "Admin - Setting Categories",
@@ -314,28 +317,28 @@ var Registry = map[permission.Operation]routeMeta{
 	},
 
 	// ==================== Sys 域 - 缓存管理 ====================
-	permission.AdminCacheInfo: {
+	ginpermission.AdminCacheInfo: {
 		Method:      GET,
 		Path:        "/api/admin/cache/info",
 		Tags:        "System",
 		Summary:     "缓存信息",
 		Description: "获取缓存信息",
 	},
-	permission.AdminCacheScanKeys: {
+	ginpermission.AdminCacheScanKeys: {
 		Method:      GET,
 		Path:        "/api/admin/cache/keys",
 		Tags:        "System",
 		Summary:     "扫描缓存键",
 		Description: "扫描缓存键",
 	},
-	permission.AdminCacheGetKey: {
+	ginpermission.AdminCacheGetKey: {
 		Method:      GET,
 		Path:        "/api/admin/cache/key",
 		Tags:        "System",
 		Summary:     "获取缓存值",
 		Description: "获取缓存键值",
 	},
-	permission.AdminCacheDeleteKey: {
+	ginpermission.AdminCacheDeleteKey: {
 		Method:      DELETE,
 		Path:        "/api/admin/cache/key",
 		Tags:        "System",
@@ -343,7 +346,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "删除缓存键",
 		Description: "删除缓存键",
 	},
-	permission.AdminCacheDeletePattern: {
+	ginpermission.AdminCacheDeletePattern: {
 		Method:      DELETE,
 		Path:        "/api/admin/cache/keys",
 		Tags:        "System",
@@ -353,14 +356,14 @@ var Registry = map[permission.Operation]routeMeta{
 	},
 
 	// ==================== Self 域 - 个人资料 ====================
-	permission.SelfProfileGet: {
+	ginpermission.SelfProfileGet: {
 		Method:      GET,
 		Path:        "/api/user/profile",
 		Tags:        "User - Profile",
 		Summary:     "获取资料",
 		Description: "获取当前用户资料",
 	},
-	permission.SelfProfileUpdate: {
+	ginpermission.SelfProfileUpdate: {
 		Method:      PUT,
 		Path:        "/api/user/profile",
 		Tags:        "User - Profile",
@@ -368,7 +371,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "更新资料",
 		Description: "更新当前用户资料",
 	},
-	permission.SelfPasswordUpdate: {
+	ginpermission.SelfPasswordUpdate: {
 		Method:      PUT,
 		Path:        "/api/user/password",
 		Tags:        "User - Profile",
@@ -376,7 +379,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "修改密码",
 		Description: "修改密码",
 	},
-	permission.SelfAccountDelete: {
+	ginpermission.SelfAccountDelete: {
 		Method:      DELETE,
 		Path:        "/api/user/account",
 		Tags:        "User - Profile",
@@ -386,7 +389,7 @@ var Registry = map[permission.Operation]routeMeta{
 	},
 
 	// ==================== Self 域 - 访问令牌 ====================
-	permission.SelfTokensCreate: {
+	ginpermission.SelfTokensCreate: {
 		Method:      POST,
 		Path:        "/api/user/tokens",
 		Tags:        "User - Personal Access Token",
@@ -394,21 +397,21 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "创建令牌",
 		Description: "创建访问令牌",
 	},
-	permission.SelfTokensList: {
+	ginpermission.SelfTokensList: {
 		Method:      GET,
 		Path:        "/api/user/tokens",
 		Tags:        "User - Personal Access Token",
 		Summary:     "令牌列表",
 		Description: "获取访问令牌列表",
 	},
-	permission.SelfTokensGet: {
+	ginpermission.SelfTokensGet: {
 		Method:      GET,
 		Path:        "/api/user/tokens/:id",
 		Tags:        "User - Personal Access Token",
 		Summary:     "令牌详情",
 		Description: "获取令牌详情",
 	},
-	permission.SelfTokensDelete: {
+	ginpermission.SelfTokensDelete: {
 		Method:      DELETE,
 		Path:        "/api/user/tokens/:id",
 		Tags:        "User - Personal Access Token",
@@ -416,7 +419,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "删除令牌",
 		Description: "删除令牌",
 	},
-	permission.SelfTokensDisable: {
+	ginpermission.SelfTokensDisable: {
 		Method:      PATCH,
 		Path:        "/api/user/tokens/:id/disable",
 		Tags:        "User - Personal Access Token",
@@ -424,7 +427,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "禁用令牌",
 		Description: "禁用令牌",
 	},
-	permission.SelfTokensEnable: {
+	ginpermission.SelfTokensEnable: {
 		Method:      PATCH,
 		Path:        "/api/user/tokens/:id/enable",
 		Tags:        "User - Personal Access Token",
@@ -432,7 +435,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "启用令牌",
 		Description: "启用令牌",
 	},
-	permission.SelfTokensScopes: {
+	ginpermission.SelfTokensScopes: {
 		Method:      GET,
 		Path:        "/api/user/tokens/scopes",
 		Tags:        "User - Personal Access Token",
@@ -441,28 +444,28 @@ var Registry = map[permission.Operation]routeMeta{
 	},
 
 	// ==================== Self 域 - 用户配置 ====================
-	permission.SelfSettingsCategoriesList: {
+	ginpermission.SelfSettingsCategoriesList: {
 		Method:      GET,
 		Path:        "/api/user/settings/categories",
 		Tags:        "User - Settings",
 		Summary:     "配置分类列表",
 		Description: "获取用户配置分类",
 	},
-	permission.SelfSettingsList: {
+	ginpermission.SelfSettingsList: {
 		Method:      GET,
 		Path:        "/api/user/settings",
 		Tags:        "User - Settings",
 		Summary:     "用户配置列表",
 		Description: "获取所有用户配置",
 	},
-	permission.SelfSettingsGet: {
+	ginpermission.SelfSettingsGet: {
 		Method:      GET,
 		Path:        "/api/user/settings/:key",
 		Tags:        "User - Settings",
 		Summary:     "用户配置详情",
 		Description: "获取用户配置项",
 	},
-	permission.SelfSettingsSet: {
+	ginpermission.SelfSettingsSet: {
 		Method:      PUT,
 		Path:        "/api/user/settings/:key",
 		Tags:        "User - Settings",
@@ -470,7 +473,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "设置用户配置",
 		Description: "设置用户配置",
 	},
-	permission.SelfSettingsReset: {
+	ginpermission.SelfSettingsReset: {
 		Method:      DELETE,
 		Path:        "/api/user/settings/:key",
 		Tags:        "User - Settings",
@@ -478,7 +481,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "重置用户配置",
 		Description: "重置用户配置",
 	},
-	permission.SelfSettingsBatchSet: {
+	ginpermission.SelfSettingsBatchSet: {
 		Method:      POST,
 		Path:        "/api/user/settings/batch",
 		Tags:        "User - Settings",
@@ -488,14 +491,14 @@ var Registry = map[permission.Operation]routeMeta{
 	},
 
 	// ==================== Self 域 - 用户组织/团队 ====================
-	permission.SelfOrgsList: {
+	ginpermission.SelfOrgsList: {
 		Method:      GET,
 		Path:        "/api/user/orgs",
 		Tags:        "User - Organization",
 		Summary:     "我的组织",
 		Description: "获取当前用户加入的所有组织",
 	},
-	permission.SelfTeamsList: {
+	ginpermission.SelfTeamsList: {
 		Method:      GET,
 		Path:        "/api/user/teams",
 		Tags:        "User - Organization",
@@ -504,7 +507,7 @@ var Registry = map[permission.Operation]routeMeta{
 	},
 
 	// ==================== Admin 域 - 组织管理 ====================
-	permission.AdminOrgsCreate: {
+	ginpermission.AdminOrgsCreate: {
 		Method:      POST,
 		Path:        "/api/admin/orgs",
 		Tags:        "Admin - Organization Management",
@@ -512,21 +515,21 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "创建组织",
 		Description: "系统管理员创建新组织",
 	},
-	permission.AdminOrgsList: {
+	ginpermission.AdminOrgsList: {
 		Method:      GET,
 		Path:        "/api/admin/orgs",
 		Tags:        "Admin - Organization Management",
 		Summary:     "组织列表",
 		Description: "分页获取所有组织",
 	},
-	permission.AdminOrgsGet: {
+	ginpermission.AdminOrgsGet: {
 		Method:      GET,
 		Path:        "/api/admin/orgs/:id",
 		Tags:        "Admin - Organization Management",
 		Summary:     "组织详情",
 		Description: "根据 ID 获取组织详情",
 	},
-	permission.AdminOrgsUpdate: {
+	ginpermission.AdminOrgsUpdate: {
 		Method:      PUT,
 		Path:        "/api/admin/orgs/:id",
 		Tags:        "Admin - Organization Management",
@@ -534,7 +537,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "更新组织",
 		Description: "更新组织信息",
 	},
-	permission.AdminOrgsDelete: {
+	ginpermission.AdminOrgsDelete: {
 		Method:      DELETE,
 		Path:        "/api/admin/orgs/:id",
 		Tags:        "Admin - Organization Management",
@@ -544,14 +547,14 @@ var Registry = map[permission.Operation]routeMeta{
 	},
 
 	// ==================== Org 域 - 组织成员管理 ====================
-	permission.OrgMembersList: {
+	ginpermission.OrgMembersList: {
 		Method:      GET,
 		Path:        "/api/org/:org_id/members",
 		Tags:        "Organization - Member Management",
 		Summary:     "成员列表",
 		Description: "分页获取组织成员列表",
 	},
-	permission.OrgMembersAdd: {
+	ginpermission.OrgMembersAdd: {
 		Method:      POST,
 		Path:        "/api/org/:org_id/members",
 		Tags:        "Organization - Member Management",
@@ -559,7 +562,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "添加成员",
 		Description: "添加用户到组织",
 	},
-	permission.OrgMembersRemove: {
+	ginpermission.OrgMembersRemove: {
 		Method:      DELETE,
 		Path:        "/api/org/:org_id/members/:user_id",
 		Tags:        "Organization - Member Management",
@@ -567,7 +570,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "移除成员",
 		Description: "从组织中移除成员",
 	},
-	permission.OrgMembersUpdateRole: {
+	ginpermission.OrgMembersUpdateRole: {
 		Method:      PUT,
 		Path:        "/api/org/:org_id/members/:user_id/role",
 		Tags:        "Organization - Member Management",
@@ -577,7 +580,7 @@ var Registry = map[permission.Operation]routeMeta{
 	},
 
 	// ==================== Org 域 - 团队管理 ====================
-	permission.OrgTeamsCreate: {
+	ginpermission.OrgTeamsCreate: {
 		Method:      POST,
 		Path:        "/api/org/:org_id/teams",
 		Tags:        "Organization - Team Management",
@@ -585,7 +588,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "创建团队",
 		Description: "在组织内创建新团队",
 	},
-	permission.OrgTeamsList: {
+	ginpermission.OrgTeamsList: {
 		Method:      GET,
 		Path:        "/api/org/:org_id/teams",
 		ReadOnly:    true,
@@ -593,7 +596,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "团队列表",
 		Description: "分页获取组织内的团队列表",
 	},
-	permission.OrgTeamsGet: {
+	ginpermission.OrgTeamsGet: {
 		Method:      GET,
 		Path:        "/api/org/:org_id/teams/:team_id",
 		ReadOnly:    true,
@@ -601,7 +604,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "团队详情",
 		Description: "获取团队详情",
 	},
-	permission.OrgTeamsUpdate: {
+	ginpermission.OrgTeamsUpdate: {
 		Method:      PUT,
 		Path:        "/api/org/:org_id/teams/:team_id",
 		Tags:        "Organization - Team Management",
@@ -609,7 +612,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "更新团队",
 		Description: "更新团队信息",
 	},
-	permission.OrgTeamsDelete: {
+	ginpermission.OrgTeamsDelete: {
 		Method:      DELETE,
 		Path:        "/api/org/:org_id/teams/:team_id",
 		Tags:        "Organization - Team Management",
@@ -619,7 +622,7 @@ var Registry = map[permission.Operation]routeMeta{
 	},
 
 	// ==================== Org 域 - 团队成员管理 ====================
-	permission.OrgTeamMembersList: {
+	ginpermission.OrgTeamMembersList: {
 		Method:      GET,
 		Path:        "/api/org/:org_id/teams/:team_id/members",
 		ReadOnly:    true,
@@ -627,7 +630,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "团队成员列表",
 		Description: "分页获取团队成员列表",
 	},
-	permission.OrgTeamMembersAdd: {
+	ginpermission.OrgTeamMembersAdd: {
 		Method:      POST,
 		Path:        "/api/org/:org_id/teams/:team_id/members",
 		Tags:        "Organization - Team Member Management",
@@ -635,7 +638,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "添加团队成员",
 		Description: "添加用户到团队（用户必须先是组织成员）",
 	},
-	permission.OrgTeamMembersRemove: {
+	ginpermission.OrgTeamMembersRemove: {
 		Method:      DELETE,
 		Path:        "/api/org/:org_id/teams/:team_id/members/:user_id",
 		Tags:        "Organization - Team Member Management",
@@ -645,7 +648,7 @@ var Registry = map[permission.Operation]routeMeta{
 	},
 
 	// ==================== Sys 域 - 产品管理 ====================
-	permission.AdminProductsCreate: {
+	ginpermission.AdminProductsCreate: {
 		Method:      POST,
 		Path:        "/api/admin/products",
 		Tags:        "Admin - Product Management",
@@ -653,21 +656,21 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "创建产品",
 		Description: "创建可订阅的产品",
 	},
-	permission.AdminProductsList: {
+	ginpermission.AdminProductsList: {
 		Method:      GET,
 		Path:        "/api/admin/products",
 		Tags:        "Admin - Product Management",
 		Summary:     "产品列表",
 		Description: "分页获取产品列表",
 	},
-	permission.AdminProductsGet: {
+	ginpermission.AdminProductsGet: {
 		Method:      GET,
 		Path:        "/api/admin/products/:id",
 		Tags:        "Admin - Product Management",
 		Summary:     "产品详情",
 		Description: "获取产品详细信息",
 	},
-	permission.AdminProductsUpdate: {
+	ginpermission.AdminProductsUpdate: {
 		Method:      PUT,
 		Path:        "/api/admin/products/:id",
 		Tags:        "Admin - Product Management",
@@ -675,7 +678,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "更新产品",
 		Description: "更新产品信息",
 	},
-	permission.AdminProductsDelete: {
+	ginpermission.AdminProductsDelete: {
 		Method:      DELETE,
 		Path:        "/api/admin/products/:id",
 		Tags:        "Admin - Product Management",
@@ -685,7 +688,7 @@ var Registry = map[permission.Operation]routeMeta{
 	},
 
 	// ==================== Org 域 - 团队任务管理 ====================
-	permission.OrgTasksCreate: {
+	ginpermission.OrgTasksCreate: {
 		Method:      POST,
 		Path:        "/api/org/:org_id/teams/:team_id/tasks",
 		Tags:        "Organization - Task Management",
@@ -693,7 +696,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "创建任务",
 		Description: "在团队内创建新任务",
 	},
-	permission.OrgTasksList: {
+	ginpermission.OrgTasksList: {
 		Method:      GET,
 		Path:        "/api/org/:org_id/teams/:team_id/tasks",
 		ReadOnly:    true,
@@ -701,7 +704,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "任务列表",
 		Description: "分页获取团队任务列表",
 	},
-	permission.OrgTasksGet: {
+	ginpermission.OrgTasksGet: {
 		Method:      GET,
 		Path:        "/api/org/:org_id/teams/:team_id/tasks/:id",
 		ReadOnly:    true,
@@ -709,7 +712,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "任务详情",
 		Description: "获取任务详细信息",
 	},
-	permission.OrgTasksUpdate: {
+	ginpermission.OrgTasksUpdate: {
 		Method:      PUT,
 		Path:        "/api/org/:org_id/teams/:team_id/tasks/:id",
 		Tags:        "Organization - Task Management",
@@ -717,7 +720,7 @@ var Registry = map[permission.Operation]routeMeta{
 		Summary:     "更新任务",
 		Description: "更新任务信息",
 	},
-	permission.OrgTasksDelete: {
+	ginpermission.OrgTasksDelete: {
 		Method:      DELETE,
 		Path:        "/api/org/:org_id/teams/:team_id/tasks/:id",
 		Tags:        "Organization - Task Management",
