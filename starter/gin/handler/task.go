@@ -135,7 +135,7 @@ func (h *TaskHandler) Create(c *gin.Context) {
 //	@Security		BearerAuth
 //	@Param			org_id		path		int										true	"组织ID"
 //	@Param			team_id	path		int										true	"团队ID"
-//	@Param			params	query		ListTasksQuery							false	"查询参数"
+//	@Param			params	query		handler.ListTasksQuery					false	"查询参数"
 //	@Success		200		{object}	response.PagedResponse[task.TaskDTO]	"任务列表"
 //	@Failure		401		{object}	response.ErrorResponse						"未授权"
 //	@Failure		403		{object}	response.ErrorResponse						"权限不足"

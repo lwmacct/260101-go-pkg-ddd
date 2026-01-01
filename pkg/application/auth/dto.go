@@ -61,13 +61,13 @@ type LoginResultDTO struct {
 
 // RefreshTokenResultDTO 刷新令牌结果 DTO（Handler 返回类型）
 type RefreshTokenResultDTO struct {
-	AccessToken  string `json:"access_token"`
-	RefreshToken string `json:"refresh_token"`
-	TokenType    string `json:"token_type"`
-	ExpiresIn    int    `json:"expires_in"`
-	UserID       uint
-	Username     string
-	Roles        []LoginRoleDTO
+	AccessToken  string         `json:"access_token"`
+	RefreshToken string         `json:"refresh_token"`
+	TokenType    string         `json:"token_type"`
+	ExpiresIn    int            `json:"expires_in"`
+	UserID       uint           `json:"user_id"`
+	Username     string         `json:"username"`
+	Roles        []LoginRoleDTO `json:"roles"`
 }
 
 // ToRefreshTokenResponse 将 RefreshTokenResultDTO 转换为 HTTP 响应格式

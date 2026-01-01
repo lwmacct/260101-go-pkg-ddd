@@ -139,6 +139,13 @@ func runAutoMigrate(db *gorm.DB) error {
 		return err
 	}
 
+	// 为 TaskModel 创建复合索引
+	if err := database.CreateIndexes(db, &persistence.TaskModel{}, []string{
+		"idx_tasks_org_team",
+	}); err != nil {
+		return err
+	}
+
 	// 为多对多关联表创建索引
 	// role_permissions 使用复合主键，PostgreSQL 自动利用前缀索引
 	if err := database.CreateJoinTableIndexes(db, []database.JoinTableIndex{

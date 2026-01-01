@@ -1,6 +1,8 @@
 package captcha
 
 import (
+	"crypto/rand"
+	"encoding/binary"
 	"fmt"
 	"image/color"
 	"time"
@@ -79,8 +81,14 @@ func (s *Service) GenerateCustomCodeImage(text string) (string, error) {
 }
 
 // GenerateDevCaptchaID 生成开发模式验证码ID
+// 使用纳秒级时间戳 + 随机后缀确保并发唯一性
 func (s *Service) GenerateDevCaptchaID() string {
-	return fmt.Sprintf("dev-%d", time.Now().Unix())
+	var rnd uint32
+	if err := binary.Read(rand.Reader, binary.LittleEndian, &rnd); err != nil {
+		// 降级为仅使用时间戳
+		return fmt.Sprintf("dev-%d", time.Now().UnixNano())
+	}
+	return fmt.Sprintf("dev-%d-%d", time.Now().UnixNano(), rnd%10000)
 }
 
 // GetDefaultExpiration 获取默认过期时间（秒）

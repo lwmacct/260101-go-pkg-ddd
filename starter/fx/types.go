@@ -35,5 +35,7 @@ func GetAllModels() []any {
 		&persistence.TeamMemberModel{},
 		// 产品
 		&persistence.ProductModel{},
+		// 任务
+		&persistence.TaskModel{},
 	}
 }

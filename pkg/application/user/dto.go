@@ -124,12 +124,12 @@ type BatchCreateErrorDTO struct {
 
 // CreateResultDTO 创建用户结果 DTO（Handler 返回类型）
 type CreateResultDTO struct {
-	UserID   uint
-	Username string
-	Email    string
+	UserID   uint   `json:"user_id"`
+	Username string `json:"username"`
+	Email    string `json:"email"`
 }
 
 // UpdateResultDTO 更新用户结果 DTO（Handler 返回类型）
 type UpdateResultDTO struct {
-	UserID uint
+	UserID uint `json:"user_id"`
 }
