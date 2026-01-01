@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/lwmacct/251207-go-pkg-cfgm/pkg/cfgm"
+	"github.com/lwmacct/251219-go-pkg-logm/pkg/logm"
 	"github.com/lwmacct/260101-go-pkg-ddd/starter/config"
 	starterfx "github.com/lwmacct/260101-go-pkg-ddd/starter/fx"
 	"go.uber.org/fx"
@@ -24,6 +25,8 @@ func main() {
 		config.DefaultConfig(),
 		cfgm.WithEnvPrefix("APP_"), // 配置环境变量前缀，如 APP_SERVER_FX_LOG_ENABLED
 	)
+
+	logm.MustInit(logm.PresetAuto()...)
 
 	// 构建 Fx 选项
 	fxOptions := []fx.Option{
