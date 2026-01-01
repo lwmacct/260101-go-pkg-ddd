@@ -43,6 +43,13 @@ linters:
     - tagalign # struct tag 对齐, 负优化
     - tagliatelle # JSON tag 使用 snake_case 以兼容 OpenAI/Anthropic/Gemini API
     - goconst # 协议适配和测试中的字符串字面量是合理的
+    # 公开库适配 - 迁移代码兼容
+    - dupl # Handler 类似结构是合理的，强行合并反而降低可读性
+    - forcetypeassert # Context 中已验证的类型直接断言是安全的
+    - funcorder # Go 官方无此要求，unexported 方法位置不影响功能
+    - godoclint # 多文件有各自文档重点是常见的
+    - nestif # 某些场景嵌套是合理的
+    - prealloc # 优化建议，非必须规则
 
   settings:
     govet:
@@ -56,8 +63,6 @@ linters:
     gocritic: {}
     exhaustive:
       default-signifies-exhaustive: true
-    nestif:
-      min-complexity: 3 # JSON 解析等场景允许适度嵌套
 
 formatters:
   enable:

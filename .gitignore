@@ -20,10 +20,6 @@
 **/node_modules/**
 **/tsconfig.tsbuildinfo
 
-# Vitest
-__screenshots__/
-__snapshots__/
-
 # 临时文件
 **/*.bak
 **/*.log
@@ -38,3 +34,26 @@ log/**
 logs/**
 temp/**
 cache/**
+
+# python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+*.pywz
+*.pyzw
+
+# 前端相关
+coverage/
+dist-ssr/
+.eslintcache
+
+# Cypress
+/cypress/videos/
+/cypress/screenshots/
+
+# Vitest
+__screenshots__/
+__snapshots__/
