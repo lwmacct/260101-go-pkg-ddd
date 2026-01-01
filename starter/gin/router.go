@@ -1,0 +1,350 @@
+// Package http 提供 HTTP 适配器层的实现。
+//
+// 本包是 DDD 架构的适配器层入口，负责：
+//   - 路由配置：基于 Gin 框架的 RESTful API 路由定义
+//   - 中间件集成：认证、授权、日志、CORS 等中间件
+//   - 静态文件服务：前端 SPA 和文档服务
+//
+// 路由结构：
+//   - /api/auth/*: 认证相关（登录、注册、刷新令牌）
+//   - /api/admin/*: 管理后台（用户、角色、权限管理）
+//   - /api/user/*: 用户中心（个人资料、PAT 管理）
+//   - /swagger/*: API 文档
+//   - /docs/*: VitePress 文档
+//   - /health: 健康检查
+//
+// 权限控制采用三段式格式：domain:resource:action
+// 例如：admin:users:create, user:profile:read
+//
+//	@title						Go DDD Template API
+//	@version					1.0
+//	@description				基于 DDD + CQRS 架构的 Go Web 应用模板
+//
+//	@contact.name				API Support
+//	@contact.url				https://github.com/lwmacct/260101-go-pkg-ddd
+//
+//	@license.name				MIT
+//	@license.url				https://opensource.org/licenses/MIT
+//
+//	@host						localhost:8080
+//	@BasePath					/
+//
+//	@securityDefinitions.apikey	BearerAuth
+//	@in							header
+//	@name						Authorization
+//	@description				Bearer token authentication
+package http
+
+import (
+	"fmt"
+	"io"
+	"log/slog"
+	"os"
+	"path/filepath"
+	"strings"
+	"unicode"
+
+	// 引入第三方包
+	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
+	"github.com/go-playground/validator/v10"
+	"github.com/redis/go-redis/v9"
+	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
+
+	// Swagger 文档
+	_ "github.com/lwmacct/260101-go-pkg-ddd/starter/gin/docs" // Swagger docs
+
+	"github.com/lwmacct/260101-go-pkg-ddd/starter/config"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+
+	// 引入处理器和中间件包
+	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/handler"
+	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/middleware"
+	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/response"
+	"github.com/lwmacct/260101-go-pkg-ddd/starter/gin/routes"
+
+	// 引入应用层包
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/audit"
+
+	// 引入领域层包
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/org"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/permission"
+
+	// 引入基础设施包
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/auth"
+)
+
+// RouterDependencies 路由依赖项（参数对象模式）
+// 将所有依赖项聚合为单一结构体，减少函数参数数量
+type RouterDependencies struct {
+	// Config
+	Config      *config.Config
+	RedisClient *redis.Client
+
+	// Application Handlers (for middleware)
+	CreateLogHandler *audit.CreateHandler
+
+	// Infrastructure Services
+	JWTManager             *auth.JWTManager
+	PATService             *auth.PATService
+	PermissionCacheService *auth.PermissionCacheService
+
+	// Domain Repositories (for middleware)
+	OrgMemberQuery  org.MemberQueryRepository
+	TeamQuery       org.TeamQueryRepository
+	TeamMemberQuery org.TeamMemberQueryRepository
+
+	// HTTP Handlers
+	HealthHandler      *handler.HealthHandler
+	AuthHandler        *handler.AuthHandler
+	CaptchaHandler     *handler.CaptchaHandler
+	RoleHandler        *handler.RoleHandler
+	SettingHandler     *handler.SettingHandler
+	UserSettingHandler *handler.UserSettingHandler
+	PATHandler         *handler.PATHandler
+	AuditHandler       *handler.AuditHandler
+	AdminUserHandler   *handler.AdminUserHandler
+	UserProfileHandler *handler.UserProfileHandler
+	OverviewHandler    *handler.OverviewHandler
+	TwoFAHandler       *handler.TwoFAHandler
+	CacheHandler       *handler.CacheHandler
+	OperationHandler   *handler.OperationHandler
+	OrgHandler         *handler.OrgHandler
+	OrgMemberHandler   *handler.OrgMemberHandler
+	TeamHandler        *handler.TeamHandler
+	TeamMemberHandler  *handler.TeamMemberHandler
+	UserOrgHandler     *handler.UserOrgHandler
+	ProductHandler     *handler.ProductHandler
+}
+
+// SetupRouterWithDeps 使用依赖对象配置路由（推荐方式）
+// 通过参数对象模式，将所有依赖聚合为单一结构体，简化函数签名
+func SetupRouterWithDeps(deps *RouterDependencies) *gin.Engine {
+	cfg := deps.Config
+
+	// 配置 Gin 模式和日志输出
+	if cfg.Server.Env == "production" {
+		gin.SetMode(gin.ReleaseMode)
+	} else {
+		gin.SetMode(gin.DebugMode)
+	}
+	// 禁用 Gin 的默认调试输出（路由注册信息等），我们使用 slog
+	gin.DefaultWriter = io.Discard
+	gin.DefaultErrorWriter = io.Discard
+
+	r := gin.New()
+
+	// 注册自定义验证器
+	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
+		// alphanumhyphen: 字母、数字、连字符、下划线
+		if err := v.RegisterValidation("alphanumhyphen", func(fl validator.FieldLevel) bool {
+			value := fl.Field().String()
+			for _, r := range value {
+				if !unicode.IsLetter(r) && !unicode.IsDigit(r) && r != '-' && r != '_' {
+					return false
+				}
+			}
+			return true
+		}); err != nil {
+			slog.Warn("failed to register alphanumhyphen validation", "err", err)
+		}
+		// loweralphanumhyphen: 小写字母、数字、连字符、下划线
+		if err := v.RegisterValidation("loweralphanumhyphen", func(fl validator.FieldLevel) bool {
+			value := fl.Field().String()
+			for _, r := range value {
+				if !unicode.IsLower(r) && !unicode.IsDigit(r) && r != '-' && r != '_' {
+					return false
+				}
+			}
+			return true
+		}); err != nil {
+			slog.Warn("failed to register loweralphanumhyphen validation", "err", err)
+		}
+	}
+
+	// 全局中间件
+	// OpenTelemetry 追踪中间件（如果启用）
+	if cfg.Telemetry.Enabled {
+		r.Use(otelgin.Middleware("go-ddd-template"))
+	}
+
+	// 自定义 Recovery，输出 panic 到 slog，生产环境隐藏详细错误
+	r.Use(gin.CustomRecovery(func(c *gin.Context, recovered any) {
+		slog.Error("PANIC recovered", "error", recovered, "path", c.Request.URL.Path, "method", c.Request.Method)
+		if cfg.Server.Env != "production" {
+			response.InternalError(c, fmt.Sprintf("%v", recovered))
+		} else {
+			response.InternalError(c)
+		}
+		c.Abort()
+	}))
+	r.Use(middleware.CORS())
+	// 使用基于 slog 的日志中间件，跳过健康检查端点
+	r.Use(middleware.LoggerSkipPaths("/health"))
+
+	// 健康检查
+	r.GET("/health", deps.HealthHandler.Check)
+	r.GET("/health/live", deps.HealthHandler.Live)
+	r.GET("/health/ready", deps.HealthHandler.Ready)
+
+	// Swagger API 文档
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	// 声明式路由注册
+	registerRoutes(r, deps)
+
+	// 静态文件服务
+	setupStaticRoutes(r, cfg)
+
+	return r
+}
+
+// registerRoutes 自动注册所有路由
+// 根据 Operation 元数据自动构建中间件链
+func registerRoutes(r *gin.Engine, deps *RouterDependencies) {
+	bindings := deps.AllRouteBindings()
+
+	for _, b := range bindings {
+		middlewares := buildMiddlewares(deps, b.Op)
+		middlewares = append(middlewares, b.Handler)
+
+		switch routes.Method(b.Op) {
+		case routes.GET:
+			r.GET(routes.Path(b.Op), middlewares...)
+		case routes.POST:
+			r.POST(routes.Path(b.Op), middlewares...)
+		case routes.PUT:
+			r.PUT(routes.Path(b.Op), middlewares...)
+		case routes.DELETE:
+			r.DELETE(routes.Path(b.Op), middlewares...)
+		case routes.PATCH:
+			r.PATCH(routes.Path(b.Op), middlewares...)
+		default:
+			slog.Warn("unknown HTTP method", "operation", b.Op, "method", routes.Method(b.Op))
+		}
+	}
+}
+
+// buildMiddlewares 根据 Operation 自动构建中间件链
+// 中间件顺序：RequestID → OperationID → Auth → OrgContext → TeamContext/TeamContextOptional → Permission → Audit
+func buildMiddlewares(deps *RouterDependencies, o permission.Operation) []gin.HandlerFunc {
+	var mws []gin.HandlerFunc
+
+	// 1. Request ID（所有请求）
+	mws = append(mws, middleware.RequestID())
+
+	// 2. Operation ID（所有请求）
+	mws = append(mws, middleware.SetOperationID(o.String()))
+
+	// 3. Auth + OrgContext/TeamContext + Permission（非公开操作需要认证和权限检查）
+	if !o.IsPublic() {
+		mws = append(mws, middleware.Auth(deps.JWTManager, deps.PATService, deps.PermissionCacheService))
+
+		// 4. OrgContext（组织级操作，需验证用户是组织成员）
+		if routes.NeedsOrgContext(o) {
+			mws = append(mws, middleware.OrgContext(deps.OrgMemberQuery))
+		}
+
+		// 5. TeamContext/TeamContextOptional（团队级操作）
+		//    - ReadOnly 操作使用 TeamContextOptional（组织成员可访问）
+		//    - 非只读操作使用 TeamContext（需是团队成员）
+		if routes.NeedsTeamContext(o) {
+			if routes.IsReadOnly(o) {
+				mws = append(mws, middleware.TeamContextOptional(deps.TeamQuery, deps.TeamMemberQuery))
+			} else {
+				mws = append(mws, middleware.TeamContext(deps.TeamQuery, deps.TeamMemberQuery))
+			}
+		}
+
+		// 6. RBAC 权限检查：使用 Operation 本身作为权限标识符
+		mws = append(mws, middleware.RequireOperation(o))
+	}
+
+	// 7. Audit（需要审计的操作）
+	if routes.NeedsAudit(o) {
+		mws = append(mws, middleware.AuditMiddleware(deps.CreateLogHandler))
+	}
+
+	return mws
+}
+
+// setupStaticRoutes 配置静态文件服务路由
+func setupStaticRoutes(r *gin.Engine, cfg *config.Config) {
+	// 提供 VitePress 文档服务 (通过 /docs 路由访问)
+	if cfg.Server.DocsDist != "" {
+		docs := r.Group("/docs")
+		docs.GET("/*filepath", serveVitePressHandler(cfg.Server.DocsDist))
+	}
+
+	// 提供静态文件服务 (使用 NoRoute 避免与 API 路由冲突)
+	if cfg.Server.WebDist != "" {
+		r.NoRoute(serveSPAHandler(cfg.Server.WebDist))
+	}
+}
+
+// serveVitePressHandler 返回 VitePress 文档服务处理函数
+func serveVitePressHandler(distDocs string) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		reqPath := c.Param("filepath")
+		if reqPath == "/" || reqPath == "" {
+			reqPath = "/index.html"
+		}
+
+		// 尝试直接提供文件
+		fullPath := filepath.Join(distDocs, reqPath)
+		if fileExists(fullPath) {
+			c.File(fullPath)
+			return
+		}
+
+		// VitePress clean URL: 尝试 .html 后缀
+		if !strings.HasSuffix(reqPath, ".html") && !strings.Contains(reqPath, ".") {
+			htmlPath := filepath.Join(distDocs, reqPath+".html")
+			if fileExists(htmlPath) {
+				c.File(htmlPath)
+				return
+			}
+		}
+
+		// fallback 到 index.html 或 404
+		serveIndexOrNotFound(c, distDocs)
+	}
+}
+
+// serveSPAHandler 返回 SPA 静态文件服务处理函数
+func serveSPAHandler(distWeb string) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// API 路由返回 JSON 404，避免 SPA fallback 干扰
+		if strings.HasPrefix(c.Request.URL.Path, "/api/") {
+			response.NotFound(c, "endpoint")
+			return
+		}
+
+		// 非 API 路径使用 SPA fallback
+		path := filepath.Join(distWeb, c.Request.URL.Path)
+		if fileExists(path) {
+			c.File(path)
+			return
+		}
+
+		// fallback 到 index.html 或 404
+		serveIndexOrNotFound(c, distWeb)
+	}
+}
+
+// fileExists 检查文件是否存在
+func fileExists(path string) bool {
+	_, err := os.Stat(path)
+	return err == nil
+}
+
+// serveIndexOrNotFound 提供 index.html 或返回 404
+func serveIndexOrNotFound(c *gin.Context, dir string) {
+	indexPath := filepath.Join(dir, "index.html")
+	if fileExists(indexPath) {
+		c.File(indexPath)
+		return
+	}
+	c.Status(404)
+}

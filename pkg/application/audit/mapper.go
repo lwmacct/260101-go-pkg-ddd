@@ -1,12 +1,11 @@
 package audit
 
 import (
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/routes"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/audit"
+	auditDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/audit"
 )
 
 // ToAuditDTO 将领域实体转换为 DTO
-func ToAuditDTO(log *audit.Audit) *AuditDTO {
+func ToAuditDTO(log *auditDomain.Audit) *AuditDTO {
 	if log == nil {
 		return nil
 	}
@@ -24,17 +23,22 @@ func ToAuditDTO(log *audit.Audit) *AuditDTO {
 	}
 }
 
-// ToAuditActionsResponseDTO 将 operation 包的审计操作定义转换为 DTO
-func ToAuditActionsResponseDTO() AuditActionsResponseDTO {
+// ToAuditActionsResponseDTO 将审计操作定义转换为 DTO
+// 参数由调用方提供，通常从 starter/gin/routes.Registry 派生
+func ToAuditActionsResponseDTO(
+	actions []AuditActionDefinition,
+	categories []CategoryOption,
+	operations []OperationTypeOption,
+) AuditActionsResponseDTO {
 	return AuditActionsResponseDTO{
-		Actions:    ToAuditActionDTOs(routes.AllAuditActions()),
-		Categories: ToCategoryOptionDTOs(routes.AllAuditCategories()),
-		Operations: ToOperationTypeDTOs(routes.AllAuditOperations()),
+		Actions:    ToAuditActionDTOs(actions),
+		Categories: ToCategoryOptionDTOs(categories),
+		Operations: ToOperationTypeDTOs(operations),
 	}
 }
 
 // ToAuditActionDTOs 将审计操作定义列表转换为 DTO 列表
-func ToAuditActionDTOs(actions []routes.AuditActionDefinition) []AuditActionDTO {
+func ToAuditActionDTOs(actions []AuditActionDefinition) []AuditActionDTO {
 	result := make([]AuditActionDTO, len(actions))
 	for i, a := range actions {
 		result[i] = AuditActionDTO{
@@ -49,7 +53,7 @@ func ToAuditActionDTOs(actions []routes.AuditActionDefinition) []AuditActionDTO 
 }
 
 // ToCategoryOptionDTOs 将分类选项列表转换为 DTO 列表
-func ToCategoryOptionDTOs(options []routes.CategoryOption) []CategoryOptionDTO {
+func ToCategoryOptionDTOs(options []CategoryOption) []CategoryOptionDTO {
 	result := make([]CategoryOptionDTO, len(options))
 	for i, o := range options {
 		result[i] = CategoryOptionDTO{
@@ -61,7 +65,7 @@ func ToCategoryOptionDTOs(options []routes.CategoryOption) []CategoryOptionDTO {
 }
 
 // ToOperationTypeDTOs 将操作类型选项列表转换为 DTO 列表
-func ToOperationTypeDTOs(options []routes.OperationTypeOption) []OperationTypeDTO {
+func ToOperationTypeDTOs(options []OperationTypeOption) []OperationTypeDTO {
 	result := make([]OperationTypeDTO, len(options))
 	for i, o := range options {
 		result[i] = OperationTypeDTO{
