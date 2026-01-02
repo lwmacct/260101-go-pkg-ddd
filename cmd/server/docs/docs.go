@@ -9,11 +9,9 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "https://github.com/lwmacct/260101-go-pkg-ddd",
         "contact": {
             "name": "API Support",
-            "url": "https://github.com/lwmacct/260101-go-pkg-ddd/issues",
-            "email": "lwmacct@icloud.com"
+            "url": "https://github.com/lwmacct/260101-go-pkg-ddd"
         },
         "license": {
             "name": "MIT",
@@ -105,7 +103,7 @@ const docTemplate = `{
                     "200": {
                         "description": "审计日志列表",
                         "schema": {
-                            "$ref": "#/definitions/response.PagedResponse-audit_AuditDTO"
+                            "$ref": "#/definitions/response.PagedResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_audit_AuditDTO"
                         }
                     },
                     "400": {
@@ -157,7 +155,7 @@ const docTemplate = `{
                     "200": {
                         "description": "审计操作定义",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-audit_AuditActionsResponseDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_audit_AuditActionsResponseDTO"
                         }
                     },
                     "401": {
@@ -207,7 +205,7 @@ const docTemplate = `{
                     "200": {
                         "description": "日志详情",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-audit_AuditDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_audit_AuditDTO"
                         }
                     },
                     "400": {
@@ -259,7 +257,7 @@ const docTemplate = `{
                     "200": {
                         "description": "成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-cache_CacheInfoDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_cache_CacheInfoDTO"
                         }
                     },
                     "500": {
@@ -302,7 +300,7 @@ const docTemplate = `{
                     "200": {
                         "description": "成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-cache_CacheValueDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_cache_CacheValueDTO"
                         }
                     },
                     "400": {
@@ -355,7 +353,7 @@ const docTemplate = `{
                     "200": {
                         "description": "成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-cache_DeleteResultDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_cache_DeleteResultDTO"
                         }
                     },
                     "400": {
@@ -417,7 +415,7 @@ const docTemplate = `{
                     "200": {
                         "description": "成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-cache_ScanKeysResultDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_cache_ScanKeysResultDTO"
                         }
                     },
                     "400": {
@@ -464,7 +462,7 @@ const docTemplate = `{
                     "200": {
                         "description": "成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-cache_DeleteResultDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_cache_DeleteResultDTO"
                         }
                     },
                     "400": {
@@ -504,7 +502,7 @@ const docTemplate = `{
                     "200": {
                         "description": "操作列表",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-array_routes_OperationDefinition"
+                            "$ref": "#/definitions/response.DataResponse-array_github_com_lwmacct_260101-go-pkg-ddd_pkg_adapters_http_routes_OperationDefinition"
                         }
                     },
                     "401": {
@@ -572,7 +570,7 @@ const docTemplate = `{
                     "200": {
                         "description": "组织列表",
                         "schema": {
-                            "$ref": "#/definitions/response.PagedResponse-org_OrgDTO"
+                            "$ref": "#/definitions/response.PagedResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org_OrgDTO"
                         }
                     },
                     "401": {
@@ -619,7 +617,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/org.CreateOrgDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.CreateOrgDTO"
                         }
                     }
                 ],
@@ -627,7 +625,7 @@ const docTemplate = `{
                     "201": {
                         "description": "组织创建成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-org_OrgDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org_OrgDTO"
                         }
                     },
                     "400": {
@@ -689,7 +687,7 @@ const docTemplate = `{
                     "200": {
                         "description": "组织详情",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-org_OrgDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org_OrgDTO"
                         }
                     },
                     "400": {
@@ -750,7 +748,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/org.UpdateOrgDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.UpdateOrgDTO"
                         }
                     }
                 ],
@@ -758,7 +756,7 @@ const docTemplate = `{
                     "200": {
                         "description": "组织更新成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-org_OrgDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org_OrgDTO"
                         }
                     },
                     "400": {
@@ -882,7 +880,7 @@ const docTemplate = `{
                     "200": {
                         "description": "统计信息",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-stats_StatsDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_stats_StatsDTO"
                         }
                     },
                     "401": {
@@ -947,7 +945,7 @@ const docTemplate = `{
                     "200": {
                         "description": "产品列表",
                         "schema": {
-                            "$ref": "#/definitions/response.PagedResponse-product_ProductDTO"
+                            "$ref": "#/definitions/response.PagedResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_product_ProductDTO"
                         }
                     },
                     "401": {
@@ -994,7 +992,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/product.CreateProductDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_product.CreateProductDTO"
                         }
                     }
                 ],
@@ -1002,7 +1000,7 @@ const docTemplate = `{
                     "201": {
                         "description": "产品创建成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-product_ProductDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_product_ProductDTO"
                         }
                     },
                     "400": {
@@ -1063,7 +1061,7 @@ const docTemplate = `{
                     "200": {
                         "description": "产品详情",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-product_ProductDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_product_ProductDTO"
                         }
                     },
                     "401": {
@@ -1123,7 +1121,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/product.UpdateProductDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_product.UpdateProductDTO"
                         }
                     }
                 ],
@@ -1131,7 +1129,7 @@ const docTemplate = `{
                     "200": {
                         "description": "更新成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-product_ProductDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_product_ProductDTO"
                         }
                     },
                     "400": {
@@ -1273,7 +1271,7 @@ const docTemplate = `{
                     "200": {
                         "description": "角色列表",
                         "schema": {
-                            "$ref": "#/definitions/response.PagedResponse-role_RoleDTO"
+                            "$ref": "#/definitions/response.PagedResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_role_RoleDTO"
                         }
                     },
                     "401": {
@@ -1320,7 +1318,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/role.CreateDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_role.CreateDTO"
                         }
                     }
                 ],
@@ -1328,7 +1326,7 @@ const docTemplate = `{
                     "201": {
                         "description": "角色创建成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-role_CreateResultDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_role_CreateResultDTO"
                         }
                     },
                     "400": {
@@ -1390,7 +1388,7 @@ const docTemplate = `{
                     "200": {
                         "description": "角色详情",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-role_RoleDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_role_RoleDTO"
                         }
                     },
                     "400": {
@@ -1451,7 +1449,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/role.UpdateDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_role.UpdateDTO"
                         }
                     }
                 ],
@@ -1459,7 +1457,7 @@ const docTemplate = `{
                     "200": {
                         "description": "角色更新成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-role_RoleDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_role_RoleDTO"
                         }
                     },
                     "400": {
@@ -1594,7 +1592,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/role.SetPermissionsDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_role.SetPermissionsDTO"
                         }
                     }
                 ],
@@ -1668,7 +1666,7 @@ const docTemplate = `{
                     "200": {
                         "description": "配置列表（层级结构）",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-array_setting_SettingsCategoryDTO"
+                            "$ref": "#/definitions/response.DataResponse-array_github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting_SettingsCategoryDTO"
                         }
                     },
                     "401": {
@@ -1721,7 +1719,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.CreateSettingRequest"
+                            "$ref": "#/definitions/pkg_adapters_http_handler.CreateSettingRequest"
                         }
                     }
                 ],
@@ -1729,7 +1727,7 @@ const docTemplate = `{
                     "201": {
                         "description": "配置创建成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-setting_SettingDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting_SettingDTO"
                         }
                     },
                     "400": {
@@ -1784,7 +1782,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.BatchUpdateSettingsRequest"
+                            "$ref": "#/definitions/pkg_adapters_http_handler.BatchUpdateSettingsRequest"
                         }
                     }
                 ],
@@ -1844,7 +1842,7 @@ const docTemplate = `{
                     "200": {
                         "description": "分类列表",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-array_setting_CategoryDTO"
+                            "$ref": "#/definitions/response.DataResponse-array_github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting_CategoryDTO"
                         }
                     },
                     "401": {
@@ -1891,7 +1889,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.CreateCategoryRequest"
+                            "$ref": "#/definitions/pkg_adapters_http_handler.CreateCategoryRequest"
                         }
                     }
                 ],
@@ -1899,7 +1897,7 @@ const docTemplate = `{
                     "201": {
                         "description": "分类创建成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-setting_CategoryDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting_CategoryDTO"
                         }
                     },
                     "400": {
@@ -1960,7 +1958,7 @@ const docTemplate = `{
                     "200": {
                         "description": "分类详情",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-setting_CategoryDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting_CategoryDTO"
                         }
                     },
                     "401": {
@@ -2014,7 +2012,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.UpdateCategoryRequest"
+                            "$ref": "#/definitions/pkg_adapters_http_handler.UpdateCategoryRequest"
                         }
                     }
                 ],
@@ -2022,7 +2020,7 @@ const docTemplate = `{
                     "200": {
                         "description": "分类更新成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-setting_CategoryDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting_CategoryDTO"
                         }
                     },
                     "400": {
@@ -2151,7 +2149,7 @@ const docTemplate = `{
                     "200": {
                         "description": "配置详情",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-setting_SettingDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting_SettingDTO"
                         }
                     },
                     "401": {
@@ -2205,7 +2203,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.UpdateSettingRequest"
+                            "$ref": "#/definitions/pkg_adapters_http_handler.UpdateSettingRequest"
                         }
                     }
                 ],
@@ -2213,7 +2211,7 @@ const docTemplate = `{
                     "200": {
                         "description": "配置更新成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-setting_SettingDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting_SettingDTO"
                         }
                     },
                     "400": {
@@ -2352,7 +2350,7 @@ const docTemplate = `{
                     "200": {
                         "description": "用户列表",
                         "schema": {
-                            "$ref": "#/definitions/response.PagedResponse-user_UserWithRolesDTO"
+                            "$ref": "#/definitions/response.PagedResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user_UserWithRolesDTO"
                         }
                     },
                     "401": {
@@ -2399,7 +2397,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/user.CreateDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user.CreateDTO"
                         }
                     }
                 ],
@@ -2407,7 +2405,7 @@ const docTemplate = `{
                     "201": {
                         "description": "用户创建成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-user_UserWithRolesDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user_UserWithRolesDTO"
                         }
                     },
                     "400": {
@@ -2462,7 +2460,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/user.BatchCreateDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user.BatchCreateDTO"
                         }
                     }
                 ],
@@ -2470,7 +2468,7 @@ const docTemplate = `{
                     "200": {
                         "description": "批量创建结果",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-user_BatchCreateResultDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user_BatchCreateResultDTO"
                         }
                     },
                     "400": {
@@ -2532,7 +2530,7 @@ const docTemplate = `{
                     "200": {
                         "description": "用户详情",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-user_UserWithRolesDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user_UserWithRolesDTO"
                         }
                     },
                     "400": {
@@ -2593,7 +2591,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/user.UpdateDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user.UpdateDTO"
                         }
                     }
                 ],
@@ -2601,7 +2599,7 @@ const docTemplate = `{
                     "200": {
                         "description": "用户更新成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-user_UserWithRolesDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user_UserWithRolesDTO"
                         }
                     },
                     "400": {
@@ -2736,7 +2734,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/user.AssignRolesDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user.AssignRolesDTO"
                         }
                     }
                 ],
@@ -2744,7 +2742,7 @@ const docTemplate = `{
                     "200": {
                         "description": "角色分配成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-user_UserWithRolesDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user_UserWithRolesDTO"
                         }
                     },
                     "400": {
@@ -2842,7 +2840,7 @@ const docTemplate = `{
                     "200": {
                         "description": "2FA初始化成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-twofa_SetupDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_twofa_SetupDTO"
                         }
                     },
                     "400": {
@@ -2882,7 +2880,7 @@ const docTemplate = `{
                     "200": {
                         "description": "2FA状态",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-twofa_StatusDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_twofa_StatusDTO"
                         }
                     },
                     "400": {
@@ -2925,7 +2923,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/twofa.VerifyDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_twofa.VerifyDTO"
                         }
                     }
                 ],
@@ -2933,7 +2931,7 @@ const docTemplate = `{
                     "200": {
                         "description": "2FA启用成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-twofa_EnableDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_twofa_EnableDTO"
                         }
                     },
                     "400": {
@@ -2982,7 +2980,7 @@ const docTemplate = `{
                     "200": {
                         "description": "验证码生成成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-captcha_GenerateResultDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_captcha_GenerateResultDTO"
                         }
                     },
                     "500": {
@@ -3014,7 +3012,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/auth.LoginDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth.LoginDTO"
                         }
                     }
                 ],
@@ -3022,7 +3020,7 @@ const docTemplate = `{
                     "200": {
                         "description": "登录成功或需要2FA验证",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-auth_LoginResponseDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth_LoginResponseDTO"
                         }
                     },
                     "401": {
@@ -3054,7 +3052,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/auth.Login2FADTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth.Login2FADTO"
                         }
                     }
                 ],
@@ -3062,7 +3060,7 @@ const docTemplate = `{
                     "200": {
                         "description": "登录成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-auth_TokenDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth_TokenDTO"
                         }
                     },
                     "401": {
@@ -3099,7 +3097,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/auth.RefreshTokenDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth.RefreshTokenDTO"
                         }
                     }
                 ],
@@ -3107,7 +3105,7 @@ const docTemplate = `{
                     "200": {
                         "description": "令牌刷新成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-auth_LoginResponseDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth_LoginResponseDTO"
                         }
                     },
                     "401": {
@@ -3139,7 +3137,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/auth.RegisterDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth.RegisterDTO"
                         }
                     }
                 ],
@@ -3147,7 +3145,7 @@ const docTemplate = `{
                     "201": {
                         "description": "注册成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-auth_RegisterResultDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth_RegisterResultDTO"
                         }
                     },
                     "400": {
@@ -3208,7 +3206,7 @@ const docTemplate = `{
                     "200": {
                         "description": "成员列表",
                         "schema": {
-                            "$ref": "#/definitions/response.PagedResponse-org_MemberDTO"
+                            "$ref": "#/definitions/response.PagedResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org_MemberDTO"
                         }
                     },
                     "401": {
@@ -3263,7 +3261,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/org.AddMemberDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.AddMemberDTO"
                         }
                     }
                 ],
@@ -3271,7 +3269,7 @@ const docTemplate = `{
                     "201": {
                         "description": "成员添加成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-org_MemberDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org_MemberDTO"
                         }
                     },
                     "400": {
@@ -3418,7 +3416,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/org.UpdateMemberRoleDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.UpdateMemberRoleDTO"
                         }
                     }
                 ],
@@ -3426,7 +3424,7 @@ const docTemplate = `{
                     "200": {
                         "description": "角色更新成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-org_MemberDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org_MemberDTO"
                         }
                     },
                     "400": {
@@ -3511,7 +3509,7 @@ const docTemplate = `{
                     "200": {
                         "description": "团队列表",
                         "schema": {
-                            "$ref": "#/definitions/response.PagedResponse-org_TeamDTO"
+                            "$ref": "#/definitions/response.PagedResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org_TeamDTO"
                         }
                     },
                     "401": {
@@ -3566,7 +3564,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/org.CreateTeamDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.CreateTeamDTO"
                         }
                     }
                 ],
@@ -3574,7 +3572,7 @@ const docTemplate = `{
                     "201": {
                         "description": "团队创建成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-org_TeamDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org_TeamDTO"
                         }
                     },
                     "400": {
@@ -3644,7 +3642,7 @@ const docTemplate = `{
                     "200": {
                         "description": "团队详情",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-org_TeamDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org_TeamDTO"
                         }
                     },
                     "400": {
@@ -3667,89 +3665,6 @@ const docTemplate = `{
                     },
                     "404": {
                         "description": "团队不存在",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "更新团队信息",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Organization - Team Management"
-                ],
-                "summary": "更新团队",
-                "parameters": [
-                    {
-                        "minimum": 1,
-                        "type": "integer",
-                        "description": "组织ID",
-                        "name": "org_id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "minimum": 1,
-                        "type": "integer",
-                        "description": "团队ID",
-                        "name": "team_id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "更新信息",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/org.UpdateTeamDTO"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "团队更新成功",
-                        "schema": {
-                            "$ref": "#/definitions/response.DataResponse-org_TeamDTO"
-                        }
-                    },
-                    "400": {
-                        "description": "参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "未授权",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    },
-                    "403": {
-                        "description": "权限不足",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "团队不存在",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "服务器内部错误",
                         "schema": {
                             "$ref": "#/definitions/response.ErrorResponse"
                         }
@@ -3888,88 +3803,11 @@ const docTemplate = `{
                     "200": {
                         "description": "成员列表",
                         "schema": {
-                            "$ref": "#/definitions/response.PagedResponse-org_TeamMemberDTO"
+                            "$ref": "#/definitions/response.PagedResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org_TeamMemberDTO"
                         }
                     },
                     "400": {
                         "description": "无效的ID",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "未授权",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    },
-                    "403": {
-                        "description": "权限不足",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "服务器内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "添加用户到团队（用户必须先是组织成员）",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Organization - Team Member Management"
-                ],
-                "summary": "添加团队成员",
-                "parameters": [
-                    {
-                        "minimum": 1,
-                        "type": "integer",
-                        "description": "组织ID",
-                        "name": "org_id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "minimum": 1,
-                        "type": "integer",
-                        "description": "团队ID",
-                        "name": "team_id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "成员信息",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/org.AddTeamMemberDTO"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "成员添加成功",
-                        "schema": {
-                            "$ref": "#/definitions/response.DataResponse-org_TeamMemberDTO"
-                        }
-                    },
-                    "400": {
-                        "description": "参数错误、成员已存在或用户非组织成员",
                         "schema": {
                             "$ref": "#/definitions/response.ErrorResponse"
                         }
@@ -4094,12 +3932,11 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Organization - Team Task Management"
+                    "Organization - Task Management"
                 ],
                 "summary": "任务列表",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "组织ID",
                         "name": "org_id",
@@ -4107,7 +3944,6 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "团队ID",
                         "name": "team_id",
@@ -4136,7 +3972,7 @@ const docTemplate = `{
                     "200": {
                         "description": "任务列表",
                         "schema": {
-                            "$ref": "#/definitions/response.PagedResponse-task_TaskDTO"
+                            "$ref": "#/definitions/response.PagedResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_task_TaskDTO"
                         }
                     },
                     "401": {
@@ -4165,7 +4001,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "在团队中创建新任务",
+                "description": "在团队内创建新任务",
                 "consumes": [
                     "application/json"
                 ],
@@ -4173,12 +4009,11 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Organization - Team Task Management"
+                    "Organization - Task Management"
                 ],
                 "summary": "创建任务",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "组织ID",
                         "name": "org_id",
@@ -4186,7 +4021,6 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "团队ID",
                         "name": "team_id",
@@ -4199,7 +4033,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/task.CreateTaskDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_task.CreateTaskDTO"
                         }
                     }
                 ],
@@ -4207,7 +4041,7 @@ const docTemplate = `{
                     "201": {
                         "description": "任务创建成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-task_TaskDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_task_TaskDTO"
                         }
                     },
                     "400": {
@@ -4252,12 +4086,11 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Organization - Team Task Management"
+                    "Organization - Task Management"
                 ],
                 "summary": "任务详情",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "组织ID",
                         "name": "org_id",
@@ -4265,7 +4098,6 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "团队ID",
                         "name": "team_id",
@@ -4273,7 +4105,6 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "任务ID",
                         "name": "id",
@@ -4285,7 +4116,7 @@ const docTemplate = `{
                     "200": {
                         "description": "任务详情",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-task_TaskDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_task_TaskDTO"
                         }
                     },
                     "401": {
@@ -4320,7 +4151,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "更新任务信息或状态",
+                "description": "更新任务信息",
                 "consumes": [
                     "application/json"
                 ],
@@ -4328,12 +4159,11 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Organization - Team Task Management"
+                    "Organization - Task Management"
                 ],
                 "summary": "更新任务",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "组织ID",
                         "name": "org_id",
@@ -4341,7 +4171,6 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "团队ID",
                         "name": "team_id",
@@ -4349,7 +4178,6 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "任务ID",
                         "name": "id",
@@ -4362,7 +4190,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/task.UpdateTaskDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_task.UpdateTaskDTO"
                         }
                     }
                 ],
@@ -4370,11 +4198,11 @@ const docTemplate = `{
                     "200": {
                         "description": "更新成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-task_TaskDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_task_TaskDTO"
                         }
                     },
                     "400": {
-                        "description": "参数错误或状态转换无效",
+                        "description": "参数错误",
                         "schema": {
                             "$ref": "#/definitions/response.ErrorResponse"
                         }
@@ -4411,7 +4239,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "删除任务（软删除）",
+                "description": "删除任务",
                 "consumes": [
                     "application/json"
                 ],
@@ -4419,12 +4247,11 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Organization - Team Task Management"
+                    "Organization - Task Management"
                 ],
                 "summary": "删除任务",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "组织ID",
                         "name": "org_id",
@@ -4432,7 +4259,6 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "团队ID",
                         "name": "team_id",
@@ -4440,7 +4266,6 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "任务ID",
                         "name": "id",
@@ -4469,298 +4294,6 @@ const docTemplate = `{
                     },
                     "404": {
                         "description": "任务不存在",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "服务器内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/public/products": {
-            "get": {
-                "description": "获取所有激活的产品目录（公开接口）",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Public - Products"
-                ],
-                "summary": "产品目录",
-                "responses": {
-                    "200": {
-                        "description": "产品列表",
-                        "schema": {
-                            "$ref": "#/definitions/response.DataResponse-array_product_ProductCatalogDTO"
-                        }
-                    },
-                    "500": {
-                        "description": "服务器内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/public/products/{code}": {
-            "get": {
-                "description": "根据产品代码获取产品详情（公开接口）",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Public - Products"
-                ],
-                "summary": "产品详情",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "产品代码",
-                        "name": "code",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "产品详情",
-                        "schema": {
-                            "$ref": "#/definitions/response.DataResponse-product_ProductCatalogDTO"
-                        }
-                    },
-                    "404": {
-                        "description": "产品不存在",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "服务器内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/public/products/{code}/plans": {
-            "get": {
-                "description": "获取指定产品的套餐列表",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Public - Products"
-                ],
-                "summary": "产品套餐",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "产品代码",
-                        "name": "code",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "套餐列表",
-                        "schema": {
-                            "$ref": "#/definitions/response.DataResponse-array_subscription_PlanDTO"
-                        }
-                    },
-                    "500": {
-                        "description": "服务器内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/self/subscriptions": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "获取当前用户的所有订阅",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Self - Subscriptions"
-                ],
-                "summary": "我的订阅",
-                "responses": {
-                    "200": {
-                        "description": "订阅列表",
-                        "schema": {
-                            "$ref": "#/definitions/response.DataResponse-array_subscription_SubscriptionDTO"
-                        }
-                    },
-                    "500": {
-                        "description": "服务器内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "为用户或组织创建订阅",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Self - Subscriptions"
-                ],
-                "summary": "创建订阅",
-                "parameters": [
-                    {
-                        "description": "创建订阅请求",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/subscription.CreateSubscriptionDTO"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "订阅创建成功",
-                        "schema": {
-                            "$ref": "#/definitions/response.DataResponse-subscription_SubscriptionDTO"
-                        }
-                    },
-                    "400": {
-                        "description": "参数错误",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "服务器内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/self/subscriptions/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "根据订阅 ID 获取订阅详情",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Self - Subscriptions"
-                ],
-                "summary": "订阅详情",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "订阅 ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "订阅详情",
-                        "schema": {
-                            "$ref": "#/definitions/response.DataResponse-subscription_SubscriptionDTO"
-                        }
-                    },
-                    "404": {
-                        "description": "订阅不存在",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "服务器内部错误",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/self/subscriptions/{id}/cancel": {
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "取消指定的订阅",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Self - Subscriptions"
-                ],
-                "summary": "取消订阅",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "订阅 ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "取消成功",
-                        "schema": {
-                            "$ref": "#/definitions/response.MessageResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "订阅不存在",
                         "schema": {
                             "$ref": "#/definitions/response.ErrorResponse"
                         }
@@ -4836,7 +4369,7 @@ const docTemplate = `{
                     "200": {
                         "description": "组织列表",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-array_org_UserOrgDTO"
+                            "$ref": "#/definitions/response.DataResponse-array_github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org_UserOrgDTO"
                         }
                     },
                     "401": {
@@ -4879,7 +4412,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/user.ChangePasswordDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user.ChangePasswordDTO"
                         }
                     }
                 ],
@@ -4927,7 +4460,7 @@ const docTemplate = `{
                     "200": {
                         "description": "个人资料",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-user_UserWithRolesDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user_UserWithRolesDTO"
                         }
                     },
                     "401": {
@@ -4968,7 +4501,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.UpdateProfileRequest"
+                            "$ref": "#/definitions/pkg_adapters_http_handler.UpdateProfileRequest"
                         }
                     }
                 ],
@@ -4976,7 +4509,7 @@ const docTemplate = `{
                     "200": {
                         "description": "资料更新成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-user_UserWithRolesDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user_UserWithRolesDTO"
                         }
                     },
                     "400": {
@@ -5030,7 +4563,7 @@ const docTemplate = `{
                     "200": {
                         "description": "配置列表（层级结构）",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-array_setting_SettingsCategoryDTO"
+                            "$ref": "#/definitions/response.DataResponse-array_github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting_SettingsCategoryDTO"
                         }
                     },
                     "401": {
@@ -5079,7 +4612,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.BatchSetUserSettingsRequest"
+                            "$ref": "#/definitions/pkg_adapters_http_handler.BatchSetUserSettingsRequest"
                         }
                     }
                 ],
@@ -5133,7 +4666,7 @@ const docTemplate = `{
                     "200": {
                         "description": "分类列表",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-array_setting_CategoryMetaDTO"
+                            "$ref": "#/definitions/response.DataResponse-array_github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting_CategoryMetaDTO"
                         }
                     },
                     "401": {
@@ -5182,7 +4715,7 @@ const docTemplate = `{
                     "200": {
                         "description": "配置详情",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-setting_UserSettingDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting_UserSettingDTO"
                         }
                     },
                     "401": {
@@ -5230,7 +4763,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.SetUserSettingRequest"
+                            "$ref": "#/definitions/pkg_adapters_http_handler.SetUserSettingRequest"
                         }
                     }
                 ],
@@ -5238,7 +4771,7 @@ const docTemplate = `{
                     "200": {
                         "description": "设置成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-setting_UserSettingDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting_UserSettingDTO"
                         }
                     },
                     "400": {
@@ -5342,7 +4875,7 @@ const docTemplate = `{
                     "200": {
                         "description": "团队列表",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-array_org_UserTeamDTO"
+                            "$ref": "#/definitions/response.DataResponse-array_github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org_UserTeamDTO"
                         }
                     },
                     "401": {
@@ -5382,7 +4915,7 @@ const docTemplate = `{
                     "200": {
                         "description": "令牌列表",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-array_pat_TokenDTO"
+                            "$ref": "#/definitions/response.DataResponse-array_github_com_lwmacct_260101-go-pkg-ddd_pkg_application_pat_TokenDTO"
                         }
                     },
                     "401": {
@@ -5423,7 +4956,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/pat.CreateDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_pat.CreateDTO"
                         }
                     }
                 ],
@@ -5431,7 +4964,7 @@ const docTemplate = `{
                     "201": {
                         "description": "令牌创建成功",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-pat_CreateResultDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_pat_CreateResultDTO"
                         }
                     },
                     "400": {
@@ -5471,7 +5004,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Scope 列表",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-array_pat_ScopeInfoDTO"
+                            "$ref": "#/definitions/response.DataResponse-array_github_com_lwmacct_260101-go-pkg-ddd_pkg_application_pat_ScopeInfoDTO"
                         }
                     },
                     "401": {
@@ -5515,7 +5048,7 @@ const docTemplate = `{
                     "200": {
                         "description": "令牌详情",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-pat_TokenDTO"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_pat_TokenDTO"
                         }
                     },
                     "400": {
@@ -5710,13 +5243,13 @@ const docTemplate = `{
                     "200": {
                         "description": "服务健康",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_internal_application_health_HealthReport"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_health_HealthReport"
                         }
                     },
                     "503": {
                         "description": "服务降级",
                         "schema": {
-                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_internal_application_health_HealthReport"
+                            "$ref": "#/definitions/response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_health_HealthReport"
                         }
                     }
                 }
@@ -5770,7 +5303,40 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "audit.AuditActionDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_adapters_http_routes.OperationDefinition": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "操作代码，如 sys:users:create",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "描述",
+                    "type": "string"
+                },
+                "group": {
+                    "description": "Swagger 分组",
+                    "type": "string"
+                },
+                "identifier": {
+                    "description": "标识符，如 create",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "中文标签",
+                    "type": "string"
+                },
+                "scope": {
+                    "description": "Scope，如 sys",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "类型，如 users",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_audit.AuditActionDTO": {
             "type": "object",
             "properties": {
                 "action": {
@@ -5795,33 +5361,33 @@ const docTemplate = `{
                 }
             }
         },
-        "audit.AuditActionsResponseDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_audit.AuditActionsResponseDTO": {
             "type": "object",
             "properties": {
                 "actions": {
                     "description": "操作定义列表",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/audit.AuditActionDTO"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_audit.AuditActionDTO"
                     }
                 },
                 "categories": {
                     "description": "分类选项",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/audit.CategoryOptionDTO"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_audit.CategoryOptionDTO"
                     }
                 },
                 "operations": {
                     "description": "操作类型选项",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/audit.OperationTypeDTO"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_audit.OperationTypeDTO"
                     }
                 }
             }
         },
-        "audit.AuditDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_audit.AuditDTO": {
             "type": "object",
             "properties": {
                 "action": {
@@ -5853,7 +5419,7 @@ const docTemplate = `{
                 }
             }
         },
-        "audit.CategoryOptionDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_audit.CategoryOptionDTO": {
             "type": "object",
             "properties": {
                 "label": {
@@ -5866,7 +5432,7 @@ const docTemplate = `{
                 }
             }
         },
-        "audit.OperationTypeDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_audit.OperationTypeDTO": {
             "type": "object",
             "properties": {
                 "label": {
@@ -5879,7 +5445,7 @@ const docTemplate = `{
                 }
             }
         },
-        "auth.Login2FADTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth.Login2FADTO": {
             "type": "object",
             "required": [
                 "session_token",
@@ -5898,7 +5464,7 @@ const docTemplate = `{
                 }
             }
         },
-        "auth.LoginDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth.LoginDTO": {
             "type": "object",
             "required": [
                 "account",
@@ -5929,7 +5495,7 @@ const docTemplate = `{
                 }
             }
         },
-        "auth.LoginResponseDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth.LoginResponseDTO": {
             "type": "object",
             "properties": {
                 "access_token": {
@@ -5952,11 +5518,11 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "user": {
-                    "$ref": "#/definitions/auth.UserBriefDTO"
+                    "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth.UserBriefDTO"
                 }
             }
         },
-        "auth.LoginRoleDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth.LoginRoleDTO": {
             "type": "object",
             "properties": {
                 "id": {
@@ -5967,7 +5533,7 @@ const docTemplate = `{
                 }
             }
         },
-        "auth.RefreshTokenDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth.RefreshTokenDTO": {
             "type": "object",
             "required": [
                 "refresh_token"
@@ -5979,7 +5545,7 @@ const docTemplate = `{
                 }
             }
         },
-        "auth.RegisterDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth.RegisterDTO": {
             "type": "object",
             "required": [
                 "email",
@@ -6023,7 +5589,7 @@ const docTemplate = `{
                 }
             }
         },
-        "auth.RegisterResultDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth.RegisterResultDTO": {
             "type": "object",
             "properties": {
                 "access_token": {
@@ -6049,7 +5615,7 @@ const docTemplate = `{
                 }
             }
         },
-        "auth.TokenDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth.TokenDTO": {
             "type": "object",
             "properties": {
                 "access_token": {
@@ -6066,13 +5632,13 @@ const docTemplate = `{
                 }
             }
         },
-        "auth.UserBriefDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth.UserBriefDTO": {
             "type": "object",
             "properties": {
                 "roles": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/auth.LoginRoleDTO"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth.LoginRoleDTO"
                     }
                 },
                 "user_id": {
@@ -6083,7 +5649,7 @@ const docTemplate = `{
                 }
             }
         },
-        "cache.CacheInfoDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_cache.CacheInfoDTO": {
             "type": "object",
             "properties": {
                 "db_size": {
@@ -6104,7 +5670,7 @@ const docTemplate = `{
                 }
             }
         },
-        "cache.CacheKeyDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_cache.CacheKeyDTO": {
             "type": "object",
             "properties": {
                 "key": {
@@ -6121,7 +5687,7 @@ const docTemplate = `{
                 }
             }
         },
-        "cache.CacheValueDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_cache.CacheValueDTO": {
             "type": "object",
             "properties": {
                 "key": {
@@ -6145,7 +5711,7 @@ const docTemplate = `{
                 }
             }
         },
-        "cache.DeleteResultDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_cache.DeleteResultDTO": {
             "type": "object",
             "properties": {
                 "deleted_count": {
@@ -6154,7 +5720,7 @@ const docTemplate = `{
                 }
             }
         },
-        "cache.ScanKeysResultDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_cache.ScanKeysResultDTO": {
             "type": "object",
             "properties": {
                 "cursor": {
@@ -6165,7 +5731,7 @@ const docTemplate = `{
                     "description": "Keys key 列表",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/cache.CacheKeyDTO"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_cache.CacheKeyDTO"
                     }
                 },
                 "total_scanned": {
@@ -6174,7 +5740,7 @@ const docTemplate = `{
                 }
             }
         },
-        "captcha.GenerateResultDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_captcha.GenerateResultDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -6195,240 +5761,21 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_lwmacct_260101-go-pkg-ddd_internal_application_health.HealthReport": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_health.HealthReport": {
             "type": "object",
             "properties": {
                 "checks": {
                     "type": "object",
                     "additionalProperties": {
-                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_internal_domain_health.CheckResult"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_domain_health.CheckResult"
                     }
                 },
                 "status": {
-                    "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_internal_domain_health.Status"
+                    "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_domain_health.Status"
                 }
             }
         },
-        "github_com_lwmacct_260101-go-pkg-ddd_internal_domain_health.CheckResult": {
-            "type": "object",
-            "properties": {
-                "error": {
-                    "type": "string"
-                },
-                "stats": {
-                    "type": "object",
-                    "additionalProperties": {}
-                },
-                "status": {
-                    "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_internal_domain_health.Status"
-                }
-            }
-        },
-        "github_com_lwmacct_260101-go-pkg-ddd_internal_domain_health.Status": {
-            "type": "string",
-            "enum": [
-                "healthy",
-                "unhealthy",
-                "degraded"
-            ],
-            "x-enum-varnames": [
-                "StatusHealthy",
-                "StatusUnhealthy",
-                "StatusDegraded"
-            ]
-        },
-        "handler.BatchSetUserSettingsRequest": {
-            "type": "object",
-            "required": [
-                "settings"
-            ],
-            "properties": {
-                "settings": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "type": "object",
-                        "required": [
-                            "key"
-                        ],
-                        "properties": {
-                            "key": {
-                                "type": "string"
-                            },
-                            "value": {
-                                "description": "JSONB 原生值"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "handler.BatchUpdateSettingsRequest": {
-            "type": "object",
-            "required": [
-                "settings"
-            ],
-            "properties": {
-                "settings": {
-                    "description": "至少需要一个设置项",
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "type": "object",
-                        "required": [
-                            "key"
-                        ],
-                        "properties": {
-                            "key": {
-                                "type": "string"
-                            },
-                            "value": {
-                                "description": "JSONB 原生值"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "handler.CreateCategoryRequest": {
-            "type": "object",
-            "required": [
-                "key",
-                "label"
-            ],
-            "properties": {
-                "icon": {
-                    "type": "string",
-                    "example": "mdi-cog"
-                },
-                "key": {
-                    "type": "string",
-                    "example": "custom"
-                },
-                "label": {
-                    "type": "string",
-                    "example": "自定义配置"
-                },
-                "order": {
-                    "type": "integer",
-                    "example": 100
-                }
-            }
-        },
-        "handler.CreateSettingRequest": {
-            "type": "object",
-            "required": [
-                "category_id",
-                "default_value",
-                "key"
-            ],
-            "properties": {
-                "category_id": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "default_value": {},
-                "group": {
-                    "type": "string",
-                    "example": "basic"
-                },
-                "key": {
-                    "type": "string",
-                    "example": "site_name"
-                },
-                "label": {
-                    "type": "string",
-                    "example": "网站名称"
-                },
-                "order": {
-                    "type": "integer",
-                    "example": 0
-                },
-                "ui_config": {
-                    "type": "string",
-                    "example": "{}"
-                },
-                "value_type": {
-                    "type": "string",
-                    "example": "string"
-                }
-            }
-        },
-        "handler.SetUserSettingRequest": {
-            "type": "object",
-            "properties": {
-                "value": {
-                    "description": "JSONB 原生值"
-                }
-            }
-        },
-        "handler.UpdateCategoryRequest": {
-            "type": "object",
-            "properties": {
-                "icon": {
-                    "type": "string",
-                    "example": "mdi-settings"
-                },
-                "label": {
-                    "type": "string",
-                    "example": "更新后的标签"
-                },
-                "order": {
-                    "type": "integer",
-                    "example": 50
-                }
-            }
-        },
-        "handler.UpdateProfileRequest": {
-            "type": "object",
-            "properties": {
-                "avatar": {
-                    "type": "string",
-                    "maxLength": 255,
-                    "example": "https://example.com/avatar.jpg"
-                },
-                "bio": {
-                    "type": "string",
-                    "example": "这是我的个人简介"
-                },
-                "nickname": {
-                    "type": "string",
-                    "maxLength": 50,
-                    "example": "小三"
-                },
-                "phone": {
-                    "type": "string",
-                    "example": "13800138000"
-                },
-                "real_name": {
-                    "type": "string",
-                    "maxLength": 100,
-                    "example": "张三"
-                },
-                "signature": {
-                    "type": "string",
-                    "maxLength": 255,
-                    "example": "Hello World"
-                }
-            }
-        },
-        "handler.UpdateSettingRequest": {
-            "type": "object",
-            "properties": {
-                "default_value": {},
-                "label": {
-                    "type": "string",
-                    "example": "更新后的标签"
-                },
-                "order": {
-                    "type": "integer"
-                },
-                "ui_config": {
-                    "type": "string"
-                }
-            }
-        },
-        "org.AddMemberDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.AddMemberDTO": {
             "type": "object",
             "required": [
                 "role",
@@ -6448,26 +5795,7 @@ const docTemplate = `{
                 }
             }
         },
-        "org.AddTeamMemberDTO": {
-            "type": "object",
-            "required": [
-                "role",
-                "user_id"
-            ],
-            "properties": {
-                "role": {
-                    "type": "string",
-                    "enum": [
-                        "lead",
-                        "member"
-                    ]
-                },
-                "user_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "org.CreateOrgDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.CreateOrgDTO": {
             "type": "object",
             "required": [
                 "display_name",
@@ -6494,7 +5822,7 @@ const docTemplate = `{
                 }
             }
         },
-        "org.CreateTeamDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.CreateTeamDTO": {
             "type": "object",
             "required": [
                 "display_name",
@@ -6521,7 +5849,7 @@ const docTemplate = `{
                 }
             }
         },
-        "org.MemberDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.MemberDTO": {
             "type": "object",
             "properties": {
                 "avatar": {
@@ -6554,7 +5882,7 @@ const docTemplate = `{
                 }
             }
         },
-        "org.OrgDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.OrgDTO": {
             "type": "object",
             "properties": {
                 "avatar": {
@@ -6583,7 +5911,7 @@ const docTemplate = `{
                 }
             }
         },
-        "org.TeamDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.TeamDTO": {
             "type": "object",
             "properties": {
                 "avatar": {
@@ -6612,7 +5940,7 @@ const docTemplate = `{
                 }
             }
         },
-        "org.TeamMemberDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.TeamMemberDTO": {
             "type": "object",
             "properties": {
                 "avatar": {
@@ -6645,7 +5973,7 @@ const docTemplate = `{
                 }
             }
         },
-        "org.UpdateMemberRoleDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.UpdateMemberRoleDTO": {
             "type": "object",
             "required": [
                 "role"
@@ -6661,7 +5989,7 @@ const docTemplate = `{
                 }
             }
         },
-        "org.UpdateOrgDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.UpdateOrgDTO": {
             "type": "object",
             "properties": {
                 "avatar": {
@@ -6686,25 +6014,7 @@ const docTemplate = `{
                 }
             }
         },
-        "org.UpdateTeamDTO": {
-            "type": "object",
-            "properties": {
-                "avatar": {
-                    "type": "string",
-                    "maxLength": 255
-                },
-                "description": {
-                    "type": "string",
-                    "maxLength": 500
-                },
-                "display_name": {
-                    "type": "string",
-                    "maxLength": 100,
-                    "minLength": 2
-                }
-            }
-        },
-        "org.UserOrgDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.UserOrgDTO": {
             "type": "object",
             "properties": {
                 "avatar": {
@@ -6741,7 +6051,7 @@ const docTemplate = `{
                 }
             }
         },
-        "org.UserTeamDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.UserTeamDTO": {
             "type": "object",
             "properties": {
                 "avatar": {
@@ -6782,7 +6092,7 @@ const docTemplate = `{
                 }
             }
         },
-        "pat.CreateDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_pat.CreateDTO": {
             "type": "object",
             "required": [
                 "name"
@@ -6821,18 +6131,18 @@ const docTemplate = `{
                 }
             }
         },
-        "pat.CreateResultDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_pat.CreateResultDTO": {
             "type": "object",
             "properties": {
                 "plain_token": {
                     "type": "string"
                 },
                 "token": {
-                    "$ref": "#/definitions/pat.TokenDTO"
+                    "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_pat.TokenDTO"
                 }
             }
         },
-        "pat.ScopeInfoDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_pat.ScopeInfoDTO": {
             "type": "object",
             "properties": {
                 "description": {
@@ -6846,7 +6156,7 @@ const docTemplate = `{
                 }
             }
         },
-        "pat.TokenDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_pat.TokenDTO": {
             "type": "object",
             "properties": {
                 "created_at": {
@@ -6890,7 +6200,7 @@ const docTemplate = `{
                 }
             }
         },
-        "product.CreateProductDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_product.CreateProductDTO": {
             "type": "object",
             "required": [
                 "code",
@@ -6944,36 +6254,7 @@ const docTemplate = `{
                 }
             }
         },
-        "product.ProductCatalogDTO": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "layout_ref": {
-                    "type": "string"
-                },
-                "max_seats": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "price": {
-                    "type": "number"
-                },
-                "trial_days": {
-                    "type": "integer"
-                },
-                "type": {
-                    "type": "string"
-                }
-            }
-        },
-        "product.ProductDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_product.ProductDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7014,7 +6295,7 @@ const docTemplate = `{
                 }
             }
         },
-        "product.UpdateProductDTO": {
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_product.UpdateProductDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7063,6 +6344,1119 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_role.CreateDTO": {
+            "type": "object",
+            "required": [
+                "display_name",
+                "name"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "example": "系统开发人员角色"
+                },
+                "display_name": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "example": "开发者"
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 2,
+                    "example": "developer"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_role.CreateResultDTO": {
+            "type": "object",
+            "properties": {
+                "display_name": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "role_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_role.PermissionDTO": {
+            "type": "object",
+            "properties": {
+                "operation_pattern": {
+                    "type": "string",
+                    "example": "sys:users.*"
+                },
+                "resource_pattern": {
+                    "type": "string",
+                    "example": "user/*"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_role.PermissionInputDTO": {
+            "type": "object",
+            "required": [
+                "operation_pattern"
+            ],
+            "properties": {
+                "operation_pattern": {
+                    "type": "string",
+                    "example": "sys:users.*"
+                },
+                "resource_pattern": {
+                    "type": "string",
+                    "example": "user/*"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_role.RoleDTO": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "display_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_system": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "permissions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_role.PermissionDTO"
+                    }
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_role.SetPermissionsDTO": {
+            "type": "object",
+            "required": [
+                "permissions"
+            ],
+            "properties": {
+                "permissions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_role.PermissionInputDTO"
+                    }
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_role.UpdateDTO": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "display_name": {
+                    "type": "string",
+                    "maxLength": 100
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.CategoryDTO": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "key": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.CategoryMetaDTO": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "description": "key",
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.DependsOnConfigDTO": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string"
+                },
+                "operator": {
+                    "description": "eq, ne, gt, lt（默认 eq）",
+                    "type": "string"
+                },
+                "value": {}
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.SelectOptionDTO": {
+            "type": "object",
+            "properties": {
+                "label": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.SettingDTO": {
+            "type": "object",
+            "properties": {
+                "category_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "default_value": {
+                    "description": "JSONB 原生值"
+                },
+                "group": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "input_type": {
+                    "description": "控件类型",
+                    "type": "string"
+                },
+                "key": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "scope": {
+                    "description": "system | user",
+                    "type": "string"
+                },
+                "ui_config": {
+                    "description": "hint/options/depends_on",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.UIConfigDTO"
+                        }
+                    ]
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "validation": {
+                    "description": "JSON Logic 规则"
+                },
+                "value_type": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.SettingsCategoryDTO": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "groups": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.SettingsGroupDTO"
+                    }
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.SettingsGroupDTO": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "分组名称（如 \"基本设置\"）",
+                    "type": "string"
+                },
+                "settings": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.SettingsItemDTO"
+                    }
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.SettingsItemDTO": {
+            "type": "object",
+            "properties": {
+                "default_value": {
+                    "description": "系统默认值"
+                },
+                "input_type": {
+                    "description": "控件类型",
+                    "type": "string"
+                },
+                "is_customized": {
+                    "description": "是否用户自定义",
+                    "type": "boolean"
+                },
+                "key": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "public": {
+                    "description": "是否对所有用户可见（仅 scope=system 时有意义）",
+                    "type": "boolean"
+                },
+                "scope": {
+                    "description": "system | user（用于前端判断可编辑性）",
+                    "type": "string"
+                },
+                "ui_config": {
+                    "description": "hint/options/depends_on",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.UIConfigDTO"
+                        }
+                    ]
+                },
+                "validation": {
+                    "description": "JSON Logic 规则"
+                },
+                "value": {
+                    "description": "实际生效值"
+                },
+                "value_type": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.UIConfigDTO": {
+            "type": "object",
+            "properties": {
+                "depends_on": {
+                    "description": "依赖关系",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.DependsOnConfigDTO"
+                        }
+                    ]
+                },
+                "hint": {
+                    "description": "输入提示",
+                    "type": "string"
+                },
+                "options": {
+                    "description": "下拉选项",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.SelectOptionDTO"
+                    }
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.UserSettingDTO": {
+            "type": "object",
+            "properties": {
+                "category_id": {
+                    "type": "integer"
+                },
+                "default_value": {
+                    "description": "系统默认值"
+                },
+                "group": {
+                    "type": "string"
+                },
+                "input_type": {
+                    "description": "控件类型",
+                    "type": "string"
+                },
+                "is_customized": {
+                    "description": "是否为用户自定义",
+                    "type": "boolean"
+                },
+                "key": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "ui_config": {
+                    "description": "hint/options/depends_on",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.UIConfigDTO"
+                        }
+                    ]
+                },
+                "validation": {
+                    "description": "JSON Logic 规则"
+                },
+                "value": {
+                    "description": "实际生效值（用户值或默认值）"
+                },
+                "value_type": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_stats.AuditLogSummaryDTO": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "resource": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_stats.StatsDTO": {
+            "type": "object",
+            "properties": {
+                "active_users": {
+                    "type": "integer"
+                },
+                "banned_users": {
+                    "type": "integer"
+                },
+                "inactive_users": {
+                    "type": "integer"
+                },
+                "recent_audit_logs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_stats.AuditLogSummaryDTO"
+                    }
+                },
+                "total_permissions": {
+                    "type": "integer"
+                },
+                "total_roles": {
+                    "type": "integer"
+                },
+                "total_users": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_task.CreateTaskDTO": {
+            "type": "object",
+            "required": [
+                "title"
+            ],
+            "properties": {
+                "assignee_id": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string",
+                    "maxLength": 2000
+                },
+                "title": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 1
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_task.TaskDTO": {
+            "type": "object",
+            "properties": {
+                "assignee_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "org_id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "team_id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_task.UpdateTaskDTO": {
+            "type": "object",
+            "properties": {
+                "assignee_id": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string",
+                    "maxLength": 2000
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "pending",
+                        "in_progress",
+                        "completed"
+                    ]
+                },
+                "title": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 1
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_twofa.EnableDTO": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "description": "提示消息",
+                    "type": "string"
+                },
+                "recovery_codes": {
+                    "description": "恢复码列表",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_twofa.SetupDTO": {
+            "type": "object",
+            "properties": {
+                "qrcode_img": {
+                    "description": "Base64 编码的二维码图片",
+                    "type": "string"
+                },
+                "qrcode_url": {
+                    "description": "二维码 URL",
+                    "type": "string"
+                },
+                "secret": {
+                    "description": "TOTP 密钥（用户可手动输入）",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_twofa.StatusDTO": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "description": "是否启用",
+                    "type": "boolean"
+                },
+                "recovery_codes_count": {
+                    "description": "剩余恢复码数量",
+                    "type": "integer"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_twofa.VerifyDTO": {
+            "type": "object",
+            "required": [
+                "code"
+            ],
+            "properties": {
+                "code": {
+                    "description": "TOTP 验证码",
+                    "type": "string",
+                    "example": "123456"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user.AssignRolesDTO": {
+            "type": "object",
+            "required": [
+                "role_ids"
+            ],
+            "properties": {
+                "role_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user.BatchCreateDTO": {
+            "type": "object",
+            "required": [
+                "users"
+            ],
+            "properties": {
+                "users": {
+                    "type": "array",
+                    "maxItems": 100,
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user.BatchItemDTO"
+                    }
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user.BatchCreateErrorDTO": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "error": {
+                    "type": "string"
+                },
+                "index": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user.BatchCreateResultDTO": {
+            "type": "object",
+            "properties": {
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user.BatchCreateErrorDTO"
+                    }
+                },
+                "failed": {
+                    "type": "integer"
+                },
+                "success": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user.BatchItemDTO": {
+            "type": "object",
+            "required": [
+                "email",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "nickname": {
+                    "type": "string",
+                    "maxLength": 50
+                },
+                "password": {
+                    "type": "string",
+                    "minLength": 6
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "real_name": {
+                    "type": "string",
+                    "maxLength": 100
+                },
+                "role_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "signature": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "active",
+                        "inactive"
+                    ]
+                },
+                "username": {
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 3
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user.ChangePasswordDTO": {
+            "type": "object",
+            "required": [
+                "new_password",
+                "old_password"
+            ],
+            "properties": {
+                "new_password": {
+                    "type": "string",
+                    "minLength": 6
+                },
+                "old_password": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user.CreateDTO": {
+            "type": "object",
+            "required": [
+                "email",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "nickname": {
+                    "type": "string",
+                    "maxLength": 50
+                },
+                "password": {
+                    "type": "string",
+                    "minLength": 6
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "real_name": {
+                    "type": "string",
+                    "maxLength": 100
+                },
+                "role_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "signature": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "active",
+                        "inactive"
+                    ]
+                },
+                "username": {
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 3
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user.RoleDTO": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "display_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user.UpdateDTO": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "bio": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "nickname": {
+                    "type": "string",
+                    "maxLength": 50
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "real_name": {
+                    "type": "string",
+                    "maxLength": 100
+                },
+                "signature": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "active",
+                        "inactive",
+                        "banned"
+                    ]
+                },
+                "username": {
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 3
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user.UserWithRolesDTO": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "type": "string"
+                },
+                "bio": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "real_name": {
+                    "type": "string"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user.RoleDTO"
+                    }
+                },
+                "signature": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "type": {
+                    "description": "\"human\" | \"service\" | \"system\"",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_domain_health.CheckResult": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "stats": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "status": {
+                    "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_domain_health.Status"
+                }
+            }
+        },
+        "github_com_lwmacct_260101-go-pkg-ddd_pkg_domain_health.Status": {
+            "type": "string",
+            "enum": [
+                "healthy",
+                "unhealthy",
+                "degraded"
+            ],
+            "x-enum-varnames": [
+                "StatusHealthy",
+                "StatusUnhealthy",
+                "StatusDegraded"
+            ]
+        },
+        "pkg_adapters_http_handler.BatchSetUserSettingsRequest": {
+            "type": "object",
+            "required": [
+                "settings"
+            ],
+            "properties": {
+                "settings": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "key"
+                        ],
+                        "properties": {
+                            "key": {
+                                "type": "string"
+                            },
+                            "value": {
+                                "description": "JSONB 原生值"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "pkg_adapters_http_handler.BatchUpdateSettingsRequest": {
+            "type": "object",
+            "required": [
+                "settings"
+            ],
+            "properties": {
+                "settings": {
+                    "description": "至少需要一个设置项",
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "key"
+                        ],
+                        "properties": {
+                            "key": {
+                                "type": "string"
+                            },
+                            "value": {
+                                "description": "JSONB 原生值"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "pkg_adapters_http_handler.CreateCategoryRequest": {
+            "type": "object",
+            "required": [
+                "key",
+                "label"
+            ],
+            "properties": {
+                "icon": {
+                    "type": "string",
+                    "example": "mdi-cog"
+                },
+                "key": {
+                    "type": "string",
+                    "example": "custom"
+                },
+                "label": {
+                    "type": "string",
+                    "example": "自定义配置"
+                },
+                "order": {
+                    "type": "integer",
+                    "example": 100
+                }
+            }
+        },
+        "pkg_adapters_http_handler.CreateSettingRequest": {
+            "type": "object",
+            "required": [
+                "category_id",
+                "default_value",
+                "key"
+            ],
+            "properties": {
+                "category_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "default_value": {},
+                "group": {
+                    "type": "string",
+                    "example": "basic"
+                },
+                "key": {
+                    "type": "string",
+                    "example": "site_name"
+                },
+                "label": {
+                    "type": "string",
+                    "example": "网站名称"
+                },
+                "order": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "ui_config": {
+                    "type": "string",
+                    "example": "{}"
+                },
+                "value_type": {
+                    "type": "string",
+                    "example": "string"
+                }
+            }
+        },
+        "pkg_adapters_http_handler.SetUserSettingRequest": {
+            "type": "object",
+            "properties": {
+                "value": {
+                    "description": "JSONB 原生值"
+                }
+            }
+        },
+        "pkg_adapters_http_handler.UpdateCategoryRequest": {
+            "type": "object",
+            "properties": {
+                "icon": {
+                    "type": "string",
+                    "example": "mdi-settings"
+                },
+                "label": {
+                    "type": "string",
+                    "example": "更新后的标签"
+                },
+                "order": {
+                    "type": "integer",
+                    "example": 50
+                }
+            }
+        },
+        "pkg_adapters_http_handler.UpdateProfileRequest": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "example": "https://example.com/avatar.jpg"
+                },
+                "bio": {
+                    "type": "string",
+                    "example": "这是我的个人简介"
+                },
+                "nickname": {
+                    "type": "string",
+                    "maxLength": 50,
+                    "example": "小三"
+                },
+                "phone": {
+                    "type": "string",
+                    "example": "13800138000"
+                },
+                "real_name": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "example": "张三"
+                },
+                "signature": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "example": "Hello World"
+                }
+            }
+        },
+        "pkg_adapters_http_handler.UpdateSettingRequest": {
+            "type": "object",
+            "properties": {
+                "default_value": {},
+                "label": {
+                    "type": "string",
+                    "example": "更新后的标签"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "ui_config": {
+                    "type": "string"
+                }
+            }
+        },
         "response.DataResponse-any": {
             "type": "object",
             "properties": {
@@ -7082,7 +7476,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-array_org_UserOrgDTO": {
+        "response.DataResponse-array_github_com_lwmacct_260101-go-pkg-ddd_pkg_adapters_http_routes_OperationDefinition": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7093,7 +7487,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/org.UserOrgDTO"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_adapters_http_routes.OperationDefinition"
                     }
                 },
                 "error": {
@@ -7105,7 +7499,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-array_org_UserTeamDTO": {
+        "response.DataResponse-array_github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org_UserOrgDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7116,7 +7510,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/org.UserTeamDTO"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.UserOrgDTO"
                     }
                 },
                 "error": {
@@ -7128,7 +7522,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-array_pat_ScopeInfoDTO": {
+        "response.DataResponse-array_github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org_UserTeamDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7139,7 +7533,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/pat.ScopeInfoDTO"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.UserTeamDTO"
                     }
                 },
                 "error": {
@@ -7151,7 +7545,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-array_pat_TokenDTO": {
+        "response.DataResponse-array_github_com_lwmacct_260101-go-pkg-ddd_pkg_application_pat_ScopeInfoDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7162,7 +7556,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/pat.TokenDTO"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_pat.ScopeInfoDTO"
                     }
                 },
                 "error": {
@@ -7174,7 +7568,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-array_product_ProductCatalogDTO": {
+        "response.DataResponse-array_github_com_lwmacct_260101-go-pkg-ddd_pkg_application_pat_TokenDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7185,7 +7579,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/product.ProductCatalogDTO"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_pat.TokenDTO"
                     }
                 },
                 "error": {
@@ -7197,7 +7591,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-array_routes_OperationDefinition": {
+        "response.DataResponse-array_github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting_CategoryDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7208,7 +7602,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/routes.OperationDefinition"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.CategoryDTO"
                     }
                 },
                 "error": {
@@ -7220,7 +7614,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-array_setting_CategoryDTO": {
+        "response.DataResponse-array_github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting_CategoryMetaDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7231,7 +7625,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/setting.CategoryDTO"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.CategoryMetaDTO"
                     }
                 },
                 "error": {
@@ -7243,7 +7637,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-array_setting_CategoryMetaDTO": {
+        "response.DataResponse-array_github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting_SettingsCategoryDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7254,7 +7648,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/setting.CategoryMetaDTO"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.SettingsCategoryDTO"
                     }
                 },
                 "error": {
@@ -7266,76 +7660,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-array_setting_SettingsCategoryDTO": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "description": "HTTP 状态码",
-                    "type": "integer"
-                },
-                "data": {
-                    "description": "响应数据",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/setting.SettingsCategoryDTO"
-                    }
-                },
-                "error": {
-                    "description": "错误详情（仅失败时）"
-                },
-                "message": {
-                    "description": "消息描述",
-                    "type": "string"
-                }
-            }
-        },
-        "response.DataResponse-array_subscription_PlanDTO": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "description": "HTTP 状态码",
-                    "type": "integer"
-                },
-                "data": {
-                    "description": "响应数据",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/subscription.PlanDTO"
-                    }
-                },
-                "error": {
-                    "description": "错误详情（仅失败时）"
-                },
-                "message": {
-                    "description": "消息描述",
-                    "type": "string"
-                }
-            }
-        },
-        "response.DataResponse-array_subscription_SubscriptionDTO": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "description": "HTTP 状态码",
-                    "type": "integer"
-                },
-                "data": {
-                    "description": "响应数据",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/subscription.SubscriptionDTO"
-                    }
-                },
-                "error": {
-                    "description": "错误详情（仅失败时）"
-                },
-                "message": {
-                    "description": "消息描述",
-                    "type": "string"
-                }
-            }
-        },
-        "response.DataResponse-audit_AuditActionsResponseDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_audit_AuditActionsResponseDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7346,7 +7671,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/audit.AuditActionsResponseDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_audit.AuditActionsResponseDTO"
                         }
                     ]
                 },
@@ -7359,7 +7684,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-audit_AuditDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_audit_AuditDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7370,7 +7695,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/audit.AuditDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_audit.AuditDTO"
                         }
                     ]
                 },
@@ -7383,7 +7708,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-auth_LoginResponseDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth_LoginResponseDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7394,7 +7719,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/auth.LoginResponseDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth.LoginResponseDTO"
                         }
                     ]
                 },
@@ -7407,7 +7732,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-auth_RegisterResultDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth_RegisterResultDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7418,7 +7743,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/auth.RegisterResultDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth.RegisterResultDTO"
                         }
                     ]
                 },
@@ -7431,7 +7756,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-auth_TokenDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth_TokenDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7442,7 +7767,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/auth.TokenDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_auth.TokenDTO"
                         }
                     ]
                 },
@@ -7455,7 +7780,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-cache_CacheInfoDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_cache_CacheInfoDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7466,7 +7791,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/cache.CacheInfoDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_cache.CacheInfoDTO"
                         }
                     ]
                 },
@@ -7479,7 +7804,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-cache_CacheValueDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_cache_CacheValueDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7490,7 +7815,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/cache.CacheValueDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_cache.CacheValueDTO"
                         }
                     ]
                 },
@@ -7503,7 +7828,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-cache_DeleteResultDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_cache_DeleteResultDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7514,7 +7839,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/cache.DeleteResultDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_cache.DeleteResultDTO"
                         }
                     ]
                 },
@@ -7527,7 +7852,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-cache_ScanKeysResultDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_cache_ScanKeysResultDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7538,7 +7863,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/cache.ScanKeysResultDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_cache.ScanKeysResultDTO"
                         }
                     ]
                 },
@@ -7551,7 +7876,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-captcha_GenerateResultDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_captcha_GenerateResultDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7562,7 +7887,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/captcha.GenerateResultDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_captcha.GenerateResultDTO"
                         }
                     ]
                 },
@@ -7575,7 +7900,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_internal_application_health_HealthReport": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_health_HealthReport": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7586,7 +7911,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_internal_application_health.HealthReport"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_health.HealthReport"
                         }
                     ]
                 },
@@ -7599,7 +7924,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-org_MemberDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org_MemberDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7610,7 +7935,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/org.MemberDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.MemberDTO"
                         }
                     ]
                 },
@@ -7623,7 +7948,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-org_OrgDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org_OrgDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7634,7 +7959,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/org.OrgDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.OrgDTO"
                         }
                     ]
                 },
@@ -7647,7 +7972,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-org_TeamDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org_TeamDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7658,7 +7983,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/org.TeamDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.TeamDTO"
                         }
                     ]
                 },
@@ -7671,7 +7996,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-org_TeamMemberDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_pat_CreateResultDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7682,7 +8007,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/org.TeamMemberDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_pat.CreateResultDTO"
                         }
                     ]
                 },
@@ -7695,7 +8020,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-pat_CreateResultDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_pat_TokenDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7706,7 +8031,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/pat.CreateResultDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_pat.TokenDTO"
                         }
                     ]
                 },
@@ -7719,7 +8044,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-pat_TokenDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_product_ProductDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7730,7 +8055,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/pat.TokenDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_product.ProductDTO"
                         }
                     ]
                 },
@@ -7743,7 +8068,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-product_ProductCatalogDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_role_CreateResultDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7754,7 +8079,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/product.ProductCatalogDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_role.CreateResultDTO"
                         }
                     ]
                 },
@@ -7767,7 +8092,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-product_ProductDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_role_RoleDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7778,7 +8103,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/product.ProductDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_role.RoleDTO"
                         }
                     ]
                 },
@@ -7791,7 +8116,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-role_CreateResultDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting_CategoryDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7802,7 +8127,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/role.CreateResultDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.CategoryDTO"
                         }
                     ]
                 },
@@ -7815,7 +8140,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-role_RoleDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting_SettingDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7826,7 +8151,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/role.RoleDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.SettingDTO"
                         }
                     ]
                 },
@@ -7839,7 +8164,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-setting_CategoryDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting_UserSettingDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7850,7 +8175,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/setting.CategoryDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_setting.UserSettingDTO"
                         }
                     ]
                 },
@@ -7863,7 +8188,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-setting_SettingDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_stats_StatsDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7874,7 +8199,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/setting.SettingDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_stats.StatsDTO"
                         }
                     ]
                 },
@@ -7887,7 +8212,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-setting_UserSettingDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_task_TaskDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7898,7 +8223,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/setting.UserSettingDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_task.TaskDTO"
                         }
                     ]
                 },
@@ -7911,7 +8236,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-stats_StatsDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_twofa_EnableDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7922,7 +8247,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/stats.StatsDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_twofa.EnableDTO"
                         }
                     ]
                 },
@@ -7935,7 +8260,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-subscription_SubscriptionDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_twofa_SetupDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7946,7 +8271,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/subscription.SubscriptionDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_twofa.SetupDTO"
                         }
                     ]
                 },
@@ -7959,7 +8284,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-task_TaskDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_twofa_StatusDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7970,7 +8295,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/task.TaskDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_twofa.StatusDTO"
                         }
                     ]
                 },
@@ -7983,7 +8308,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-twofa_EnableDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user_BatchCreateResultDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -7994,7 +8319,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/twofa.EnableDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user.BatchCreateResultDTO"
                         }
                     ]
                 },
@@ -8007,7 +8332,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.DataResponse-twofa_SetupDTO": {
+        "response.DataResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user_UserWithRolesDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -8018,79 +8343,7 @@ const docTemplate = `{
                     "description": "响应数据",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/twofa.SetupDTO"
-                        }
-                    ]
-                },
-                "error": {
-                    "description": "错误详情（仅失败时）"
-                },
-                "message": {
-                    "description": "消息描述",
-                    "type": "string"
-                }
-            }
-        },
-        "response.DataResponse-twofa_StatusDTO": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "description": "HTTP 状态码",
-                    "type": "integer"
-                },
-                "data": {
-                    "description": "响应数据",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/twofa.StatusDTO"
-                        }
-                    ]
-                },
-                "error": {
-                    "description": "错误详情（仅失败时）"
-                },
-                "message": {
-                    "description": "消息描述",
-                    "type": "string"
-                }
-            }
-        },
-        "response.DataResponse-user_BatchCreateResultDTO": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "description": "HTTP 状态码",
-                    "type": "integer"
-                },
-                "data": {
-                    "description": "响应数据",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/user.BatchCreateResultDTO"
-                        }
-                    ]
-                },
-                "error": {
-                    "description": "错误详情（仅失败时）"
-                },
-                "message": {
-                    "description": "消息描述",
-                    "type": "string"
-                }
-            }
-        },
-        "response.DataResponse-user_UserWithRolesDTO": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "description": "HTTP 状态码",
-                    "type": "integer"
-                },
-                "data": {
-                    "description": "响应数据",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/user.UserWithRolesDTO"
+                            "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user.UserWithRolesDTO"
                         }
                     ]
                 },
@@ -8141,7 +8394,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.PagedResponse-audit_AuditDTO": {
+        "response.PagedResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_audit_AuditDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -8152,7 +8405,7 @@ const docTemplate = `{
                     "description": "数据列表",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/audit.AuditDTO"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_audit.AuditDTO"
                     }
                 },
                 "message": {
@@ -8169,7 +8422,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.PagedResponse-org_MemberDTO": {
+        "response.PagedResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org_MemberDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -8180,7 +8433,7 @@ const docTemplate = `{
                     "description": "数据列表",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/org.MemberDTO"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.MemberDTO"
                     }
                 },
                 "message": {
@@ -8197,7 +8450,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.PagedResponse-org_OrgDTO": {
+        "response.PagedResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org_OrgDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -8208,7 +8461,7 @@ const docTemplate = `{
                     "description": "数据列表",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/org.OrgDTO"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.OrgDTO"
                     }
                 },
                 "message": {
@@ -8225,7 +8478,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.PagedResponse-org_TeamDTO": {
+        "response.PagedResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org_TeamDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -8236,7 +8489,7 @@ const docTemplate = `{
                     "description": "数据列表",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/org.TeamDTO"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.TeamDTO"
                     }
                 },
                 "message": {
@@ -8253,7 +8506,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.PagedResponse-org_TeamMemberDTO": {
+        "response.PagedResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org_TeamMemberDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -8264,7 +8517,7 @@ const docTemplate = `{
                     "description": "数据列表",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/org.TeamMemberDTO"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_org.TeamMemberDTO"
                     }
                 },
                 "message": {
@@ -8281,7 +8534,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.PagedResponse-product_ProductDTO": {
+        "response.PagedResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_product_ProductDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -8292,7 +8545,7 @@ const docTemplate = `{
                     "description": "数据列表",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/product.ProductDTO"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_product.ProductDTO"
                     }
                 },
                 "message": {
@@ -8309,7 +8562,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.PagedResponse-role_RoleDTO": {
+        "response.PagedResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_role_RoleDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -8320,7 +8573,7 @@ const docTemplate = `{
                     "description": "数据列表",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/role.RoleDTO"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_role.RoleDTO"
                     }
                 },
                 "message": {
@@ -8337,7 +8590,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.PagedResponse-task_TaskDTO": {
+        "response.PagedResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_task_TaskDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -8348,7 +8601,7 @@ const docTemplate = `{
                     "description": "数据列表",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/task.TaskDTO"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_task.TaskDTO"
                     }
                 },
                 "message": {
@@ -8365,7 +8618,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.PagedResponse-user_UserWithRolesDTO": {
+        "response.PagedResponse-github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user_UserWithRolesDTO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -8376,7 +8629,7 @@ const docTemplate = `{
                     "description": "数据列表",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/user.UserWithRolesDTO"
+                        "$ref": "#/definitions/github_com_lwmacct_260101-go-pkg-ddd_pkg_application_user.UserWithRolesDTO"
                     }
                 },
                 "message": {
@@ -8421,1100 +8674,11 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
-        },
-        "role.CreateDTO": {
-            "type": "object",
-            "required": [
-                "display_name",
-                "name"
-            ],
-            "properties": {
-                "description": {
-                    "type": "string",
-                    "maxLength": 255,
-                    "example": "系统开发人员角色"
-                },
-                "display_name": {
-                    "type": "string",
-                    "maxLength": 100,
-                    "example": "开发者"
-                },
-                "name": {
-                    "type": "string",
-                    "maxLength": 50,
-                    "minLength": 2,
-                    "example": "developer"
-                }
-            }
-        },
-        "role.CreateResultDTO": {
-            "type": "object",
-            "properties": {
-                "display_name": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "role_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "role.PermissionDTO": {
-            "type": "object",
-            "properties": {
-                "operation_pattern": {
-                    "type": "string",
-                    "example": "sys:users.*"
-                },
-                "resource_pattern": {
-                    "type": "string",
-                    "example": "user/*"
-                }
-            }
-        },
-        "role.PermissionInputDTO": {
-            "type": "object",
-            "required": [
-                "operation_pattern"
-            ],
-            "properties": {
-                "operation_pattern": {
-                    "type": "string",
-                    "example": "sys:users.*"
-                },
-                "resource_pattern": {
-                    "type": "string",
-                    "example": "user/*"
-                }
-            }
-        },
-        "role.RoleDTO": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "display_name": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "is_system": {
-                    "type": "boolean"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "permissions": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/role.PermissionDTO"
-                    }
-                },
-                "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
-        "role.SetPermissionsDTO": {
-            "type": "object",
-            "required": [
-                "permissions"
-            ],
-            "properties": {
-                "permissions": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/role.PermissionInputDTO"
-                    }
-                }
-            }
-        },
-        "role.UpdateDTO": {
-            "type": "object",
-            "properties": {
-                "description": {
-                    "type": "string",
-                    "maxLength": 255
-                },
-                "display_name": {
-                    "type": "string",
-                    "maxLength": 100
-                }
-            }
-        },
-        "routes.OperationDefinition": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "description": "操作代码，如 sys:users:create",
-                    "type": "string"
-                },
-                "description": {
-                    "description": "描述",
-                    "type": "string"
-                },
-                "group": {
-                    "description": "Swagger 分组",
-                    "type": "string"
-                },
-                "identifier": {
-                    "description": "标识符，如 create",
-                    "type": "string"
-                },
-                "label": {
-                    "description": "中文标签",
-                    "type": "string"
-                },
-                "scope": {
-                    "description": "Scope，如 sys",
-                    "type": "string"
-                },
-                "type": {
-                    "description": "类型，如 users",
-                    "type": "string"
-                }
-            }
-        },
-        "setting.CategoryDTO": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "icon": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "key": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "order": {
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
-        "setting.CategoryMetaDTO": {
-            "type": "object",
-            "properties": {
-                "category": {
-                    "description": "key",
-                    "type": "string"
-                },
-                "icon": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "order": {
-                    "type": "integer"
-                }
-            }
-        },
-        "setting.DependsOnConfigDTO": {
-            "type": "object",
-            "properties": {
-                "key": {
-                    "type": "string"
-                },
-                "operator": {
-                    "description": "eq, ne, gt, lt（默认 eq）",
-                    "type": "string"
-                },
-                "value": {}
-            }
-        },
-        "setting.SelectOptionDTO": {
-            "type": "object",
-            "properties": {
-                "label": {
-                    "type": "string"
-                },
-                "value": {
-                    "type": "string"
-                }
-            }
-        },
-        "setting.SettingDTO": {
-            "type": "object",
-            "properties": {
-                "category_id": {
-                    "type": "integer"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "default_value": {
-                    "description": "JSONB 原生值"
-                },
-                "group": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "input_type": {
-                    "description": "控件类型",
-                    "type": "string"
-                },
-                "key": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "order": {
-                    "type": "integer"
-                },
-                "scope": {
-                    "description": "system | user",
-                    "type": "string"
-                },
-                "ui_config": {
-                    "description": "hint/options/depends_on",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/setting.UIConfigDTO"
-                        }
-                    ]
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "validation": {
-                    "description": "JSON Logic 规则"
-                },
-                "value_type": {
-                    "type": "string"
-                }
-            }
-        },
-        "setting.SettingsCategoryDTO": {
-            "type": "object",
-            "properties": {
-                "category": {
-                    "type": "string"
-                },
-                "groups": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/setting.SettingsGroupDTO"
-                    }
-                },
-                "icon": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                }
-            }
-        },
-        "setting.SettingsGroupDTO": {
-            "type": "object",
-            "properties": {
-                "name": {
-                    "description": "分组名称（如 \"基本设置\"）",
-                    "type": "string"
-                },
-                "settings": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/setting.SettingsItemDTO"
-                    }
-                }
-            }
-        },
-        "setting.SettingsItemDTO": {
-            "type": "object",
-            "properties": {
-                "default_value": {
-                    "description": "系统默认值"
-                },
-                "input_type": {
-                    "description": "控件类型",
-                    "type": "string"
-                },
-                "is_customized": {
-                    "description": "是否用户自定义",
-                    "type": "boolean"
-                },
-                "key": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "order": {
-                    "type": "integer"
-                },
-                "public": {
-                    "description": "是否对所有用户可见（仅 scope=system 时有意义）",
-                    "type": "boolean"
-                },
-                "scope": {
-                    "description": "system | user（用于前端判断可编辑性）",
-                    "type": "string"
-                },
-                "ui_config": {
-                    "description": "hint/options/depends_on",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/setting.UIConfigDTO"
-                        }
-                    ]
-                },
-                "validation": {
-                    "description": "JSON Logic 规则"
-                },
-                "value": {
-                    "description": "实际生效值"
-                },
-                "value_type": {
-                    "type": "string"
-                }
-            }
-        },
-        "setting.UIConfigDTO": {
-            "type": "object",
-            "properties": {
-                "depends_on": {
-                    "description": "依赖关系",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/setting.DependsOnConfigDTO"
-                        }
-                    ]
-                },
-                "hint": {
-                    "description": "输入提示",
-                    "type": "string"
-                },
-                "options": {
-                    "description": "下拉选项",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/setting.SelectOptionDTO"
-                    }
-                }
-            }
-        },
-        "setting.UserSettingDTO": {
-            "type": "object",
-            "properties": {
-                "category_id": {
-                    "type": "integer"
-                },
-                "default_value": {
-                    "description": "系统默认值"
-                },
-                "group": {
-                    "type": "string"
-                },
-                "input_type": {
-                    "description": "控件类型",
-                    "type": "string"
-                },
-                "is_customized": {
-                    "description": "是否为用户自定义",
-                    "type": "boolean"
-                },
-                "key": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "order": {
-                    "type": "integer"
-                },
-                "ui_config": {
-                    "description": "hint/options/depends_on",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/setting.UIConfigDTO"
-                        }
-                    ]
-                },
-                "validation": {
-                    "description": "JSON Logic 规则"
-                },
-                "value": {
-                    "description": "实际生效值（用户值或默认值）"
-                },
-                "value_type": {
-                    "type": "string"
-                }
-            }
-        },
-        "stats.AuditLogSummaryDTO": {
-            "type": "object",
-            "properties": {
-                "action": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "resource": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "integer"
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
-        },
-        "stats.StatsDTO": {
-            "type": "object",
-            "properties": {
-                "active_users": {
-                    "type": "integer"
-                },
-                "banned_users": {
-                    "type": "integer"
-                },
-                "inactive_users": {
-                    "type": "integer"
-                },
-                "recent_audit_logs": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/stats.AuditLogSummaryDTO"
-                    }
-                },
-                "total_permissions": {
-                    "type": "integer"
-                },
-                "total_roles": {
-                    "type": "integer"
-                },
-                "total_users": {
-                    "type": "integer"
-                }
-            }
-        },
-        "subscription.CreateSubscriptionDTO": {
-            "type": "object",
-            "required": [
-                "product_code"
-            ],
-            "properties": {
-                "billing_cycle": {
-                    "type": "string",
-                    "enum": [
-                        "monthly",
-                        "yearly"
-                    ]
-                },
-                "max_seats": {
-                    "type": "integer",
-                    "minimum": 0
-                },
-                "org_id": {
-                    "description": "组织订阅时提供",
-                    "type": "integer"
-                },
-                "plan_id": {
-                    "type": "integer"
-                },
-                "product_code": {
-                    "type": "string"
-                }
-            }
-        },
-        "subscription.FeatureDTO": {
-            "type": "object",
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "enabled": {
-                    "type": "boolean"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "subscription.PlanDTO": {
-            "type": "object",
-            "properties": {
-                "currency": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "features": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/subscription.FeatureDTO"
-                    }
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "max_seats": {
-                    "type": "integer"
-                },
-                "monthly_price": {
-                    "type": "number"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "price": {
-                    "type": "number"
-                },
-                "product_id": {
-                    "type": "integer"
-                },
-                "sort_order": {
-                    "type": "integer"
-                },
-                "trial_days": {
-                    "type": "integer"
-                },
-                "yearly_discount": {
-                    "description": "计算得出的年付折扣",
-                    "type": "number"
-                },
-                "yearly_price": {
-                    "type": "number"
-                }
-            }
-        },
-        "subscription.SubscriptionDTO": {
-            "type": "object",
-            "properties": {
-                "billing_cycle": {
-                    "type": "string"
-                },
-                "canceled_at": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "current_period_end": {
-                    "type": "string"
-                },
-                "current_period_start": {
-                    "type": "string"
-                },
-                "expires_at": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "max_seats": {
-                    "type": "integer"
-                },
-                "org_id": {
-                    "type": "integer"
-                },
-                "plan_features": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/subscription.FeatureDTO"
-                    }
-                },
-                "plan_id": {
-                    "type": "integer"
-                },
-                "plan_name": {
-                    "type": "string"
-                },
-                "plan_price": {
-                    "type": "number"
-                },
-                "product_code": {
-                    "type": "string"
-                },
-                "product_id": {
-                    "type": "integer"
-                },
-                "product_name": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "trial_ends_at": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "used_seats": {
-                    "type": "integer"
-                },
-                "user_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "task.CreateTaskDTO": {
-            "type": "object",
-            "required": [
-                "title"
-            ],
-            "properties": {
-                "assignee_id": {
-                    "type": "integer"
-                },
-                "description": {
-                    "type": "string",
-                    "maxLength": 2000
-                },
-                "title": {
-                    "type": "string",
-                    "maxLength": 200,
-                    "minLength": 1
-                }
-            }
-        },
-        "task.TaskDTO": {
-            "type": "object",
-            "properties": {
-                "assignee_id": {
-                    "type": "integer"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "integer"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "org_id": {
-                    "type": "integer"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "team_id": {
-                    "type": "integer"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
-        "task.UpdateTaskDTO": {
-            "type": "object",
-            "properties": {
-                "assignee_id": {
-                    "type": "integer"
-                },
-                "description": {
-                    "type": "string",
-                    "maxLength": 2000
-                },
-                "status": {
-                    "type": "string",
-                    "enum": [
-                        "pending",
-                        "in_progress",
-                        "completed"
-                    ]
-                },
-                "title": {
-                    "type": "string",
-                    "maxLength": 200,
-                    "minLength": 1
-                }
-            }
-        },
-        "twofa.EnableDTO": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "description": "提示消息",
-                    "type": "string"
-                },
-                "recovery_codes": {
-                    "description": "恢复码列表",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "twofa.SetupDTO": {
-            "type": "object",
-            "properties": {
-                "qrcode_img": {
-                    "description": "Base64 编码的二维码图片",
-                    "type": "string"
-                },
-                "qrcode_url": {
-                    "description": "二维码 URL",
-                    "type": "string"
-                },
-                "secret": {
-                    "description": "TOTP 密钥（用户可手动输入）",
-                    "type": "string"
-                }
-            }
-        },
-        "twofa.StatusDTO": {
-            "type": "object",
-            "properties": {
-                "enabled": {
-                    "description": "是否启用",
-                    "type": "boolean"
-                },
-                "recovery_codes_count": {
-                    "description": "剩余恢复码数量",
-                    "type": "integer"
-                }
-            }
-        },
-        "twofa.VerifyDTO": {
-            "type": "object",
-            "required": [
-                "code"
-            ],
-            "properties": {
-                "code": {
-                    "description": "TOTP 验证码",
-                    "type": "string",
-                    "example": "123456"
-                }
-            }
-        },
-        "user.AssignRolesDTO": {
-            "type": "object",
-            "required": [
-                "role_ids"
-            ],
-            "properties": {
-                "role_ids": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                }
-            }
-        },
-        "user.BatchCreateDTO": {
-            "type": "object",
-            "required": [
-                "users"
-            ],
-            "properties": {
-                "users": {
-                    "type": "array",
-                    "maxItems": 100,
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/user.BatchItemDTO"
-                    }
-                }
-            }
-        },
-        "user.BatchCreateErrorDTO": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "error": {
-                    "type": "string"
-                },
-                "index": {
-                    "type": "integer"
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
-        },
-        "user.BatchCreateResultDTO": {
-            "type": "object",
-            "properties": {
-                "errors": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/user.BatchCreateErrorDTO"
-                    }
-                },
-                "failed": {
-                    "type": "integer"
-                },
-                "success": {
-                    "type": "integer"
-                },
-                "total": {
-                    "type": "integer"
-                }
-            }
-        },
-        "user.BatchItemDTO": {
-            "type": "object",
-            "required": [
-                "email",
-                "password",
-                "username"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "nickname": {
-                    "type": "string",
-                    "maxLength": 50
-                },
-                "password": {
-                    "type": "string",
-                    "minLength": 6
-                },
-                "phone": {
-                    "type": "string"
-                },
-                "real_name": {
-                    "type": "string",
-                    "maxLength": 100
-                },
-                "role_ids": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "signature": {
-                    "type": "string",
-                    "maxLength": 255
-                },
-                "status": {
-                    "type": "string",
-                    "enum": [
-                        "active",
-                        "inactive"
-                    ]
-                },
-                "username": {
-                    "type": "string",
-                    "maxLength": 50,
-                    "minLength": 3
-                }
-            }
-        },
-        "user.ChangePasswordDTO": {
-            "type": "object",
-            "required": [
-                "new_password",
-                "old_password"
-            ],
-            "properties": {
-                "new_password": {
-                    "type": "string",
-                    "minLength": 6
-                },
-                "old_password": {
-                    "type": "string"
-                }
-            }
-        },
-        "user.CreateDTO": {
-            "type": "object",
-            "required": [
-                "email",
-                "password",
-                "username"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "nickname": {
-                    "type": "string",
-                    "maxLength": 50
-                },
-                "password": {
-                    "type": "string",
-                    "minLength": 6
-                },
-                "phone": {
-                    "type": "string"
-                },
-                "real_name": {
-                    "type": "string",
-                    "maxLength": 100
-                },
-                "role_ids": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "signature": {
-                    "type": "string",
-                    "maxLength": 255
-                },
-                "status": {
-                    "type": "string",
-                    "enum": [
-                        "active",
-                        "inactive"
-                    ]
-                },
-                "username": {
-                    "type": "string",
-                    "maxLength": 50,
-                    "minLength": 3
-                }
-            }
-        },
-        "user.RoleDTO": {
-            "type": "object",
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "display_name": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "user.UpdateDTO": {
-            "type": "object",
-            "properties": {
-                "avatar": {
-                    "type": "string",
-                    "maxLength": 255
-                },
-                "bio": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "nickname": {
-                    "type": "string",
-                    "maxLength": 50
-                },
-                "phone": {
-                    "type": "string"
-                },
-                "real_name": {
-                    "type": "string",
-                    "maxLength": 100
-                },
-                "signature": {
-                    "type": "string",
-                    "maxLength": 255
-                },
-                "status": {
-                    "type": "string",
-                    "enum": [
-                        "active",
-                        "inactive",
-                        "banned"
-                    ]
-                },
-                "username": {
-                    "type": "string",
-                    "maxLength": 50,
-                    "minLength": 3
-                }
-            }
-        },
-        "user.UserWithRolesDTO": {
-            "type": "object",
-            "properties": {
-                "avatar": {
-                    "type": "string"
-                },
-                "bio": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "nickname": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
-                },
-                "real_name": {
-                    "type": "string"
-                },
-                "roles": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/user.RoleDTO"
-                    }
-                },
-                "signature": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "type": {
-                    "description": "\"human\" | \"service\" | \"system\"",
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
         }
     },
     "securityDefinitions": {
         "BearerAuth": {
-            "description": "Bearer token authentication. Format: \"Bearer {token}\"",
+            "description": "Bearer token authentication",
             "type": "apiKey",
             "name": "Authorization",
             "in": "header"
@@ -9524,12 +8688,12 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "1.0.3",
-	Host:             "localhost:40012",
-	BasePath:         "/api",
+	Version:          "1.0",
+	Host:             "localhost:8080",
+	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Go DDD Package Library API",
-	Description:      "基于 DDD+CQRS 架构的可复用模块库 API 文档",
+	Description:      "基于 DDD + CQRS 架构的可复用模块库",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

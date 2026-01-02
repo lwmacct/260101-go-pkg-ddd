@@ -13,6 +13,15 @@ import (
 	"os"
 	"time"
 
+	"github.com/gin-gonic/gin"
+
+	// Swagger docs - 空白导入触发 docs.go 的 init() 函数
+	_ "github.com/lwmacct/260101-go-pkg-ddd/cmd/server/docs"
+
+	// Swagger - 使用者完全控制文档生成
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+
 	"github.com/lwmacct/251207-go-pkg-cfgm/pkg/cfgm"
 	"github.com/lwmacct/251219-go-pkg-logm/pkg/logm"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
@@ -21,6 +30,25 @@ import (
 	"go.uber.org/fx"
 	"go.uber.org/fx/fxevent"
 )
+
+// Swagger 总体配置 - 使用者自定义
+//
+//	@title           Go DDD Package Library API
+//	@version         1.0
+//	@description     基于 DDD + CQRS 架构的可复用模块库
+//	@host            localhost:8080
+//	@BasePath        /
+//
+//	@contact.name    API Support
+//	@contact.url     https://github.com/lwmacct/260101-go-pkg-ddd
+//
+//	@license.name    MIT
+//	@license.url     https://opensource.org/licenses/MIT
+//
+//	@securityDefinitions.apikey	BearerAuth
+//	@in								header
+//	@name							Authorization
+//	@description					Bearer token authentication
 
 var (
 	// 全局 flags（持久化到子命令）
@@ -191,6 +219,10 @@ func buildFxOptions(cfg *config.Config) []fx.Option {
 		starterfx.UseCaseModule,
 		starterfx.HTTPModule,
 		starterfx.HooksModule,
+		// Swagger 端点注册 - 使用者决定
+		fx.Invoke(func(r *gin.Engine) {
+			r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+		}),
 	}
 
 	// CLI --fx-log 优先级高于配置文件

@@ -51,12 +51,7 @@ import (
 	"github.com/redis/go-redis/v9"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 
-	// Swagger 文档
-	_ "github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/docs" // Swagger docs
-
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 
 	// 引入处理器和中间件包
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/handler"
@@ -187,9 +182,6 @@ func SetupRouterWithDeps(deps *RouterDependencies) *gin.Engine {
 	r.GET("/health", deps.HealthHandler.Check)
 	r.GET("/health/live", deps.HealthHandler.Live)
 	r.GET("/health/ready", deps.HealthHandler.Ready)
-
-	// Swagger API 文档
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// 声明式路由注册
 	registerRoutes(r, deps)
