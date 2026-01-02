@@ -26,16 +26,27 @@
 ## 架构概览
 
 ```
-pkg/                          # 可复用的 DDD 原子能力
-├── domain/                   # 领域层（User、Role、Product...）
-├── application/              # 应用层（UseCase Handlers）
-├── infrastructure/           # 基础设施层（Repository 实现）
-└── adapters/                 # 适配器层（HTTP Handler）
+pkg/                          # 可复用的 DDD 原子能力（垂直切分）
+├── core/                     # 核心域（Org、Setting、Task、Audit...）
+│   ├── domain/               # 领域层
+│   ├── application/          # 应用层（UseCase Handlers）
+│   ├── infrastructure/       # 基础设施层（Repository 实现）
+│   └── adapters/http/        # 适配器层（HTTP Handler）
+├── iam/                      # 身份管理域（User、Auth、Role、PAT、2FA）
+│   ├── domain/
+│   ├── application/
+│   ├── infrastructure/       # IAM 专用基础设施（auth, twofa）
+│   └── adapters/http/
+├── crm/                      # CRM 域（Lead、Opportunity、Contact、Company）
+│   ├── domain/
+│   ├── application/
+│   └── adapters/http/
+└── config/                   # 配置管理（跨域）
 
-internal/                     # 示例项目（如何组装）
+internal/                     # 依赖注入容器
 ├── container/                # ★ Fx 依赖注入组装点
-├── domain/order/             # 示例：自定义领域模块
-└── manualtest/               # 集成测试
+├── manualtest/               # 集成测试
+└── precommit/                # 预提交钩子
 
 your-project/                 # 你的项目
 ├── internal/
@@ -46,6 +57,13 @@ your-project/                 # 你的项目
 ```
 
 **依赖方向**: `Adapters → Application → Domain ← Infrastructure`
+
+**垂直切分优势**：
+
+- 按业务域组织（core/iam/crm），边界清晰
+- 每个域包含完整的四层架构
+- 共享技术基础设施在 core/infrastructure/
+- 便于独立演进和微服务化
 
 ## 快速开始
 
@@ -88,10 +106,10 @@ Container 文件结构：
 
 **步骤 2：添加自定义模块**
 
-以 `Invoice` 模块为例：
+以 `Invoice` 模块为例，建议在项目中创建独立的域（如 `pkg/invoice/` 或 `internal/domain/invoice/`）：
 
 ```go
-// 1. 创建领域层 internal/domain/invoice/
+// 1. 创建领域层 internal/domain/invoice/entity.go
 type Invoice struct {
     ID      uint
     OrderID uint
@@ -99,7 +117,7 @@ type Invoice struct {
     Status  string
 }
 
-// 2. 创建基础设施层 internal/infrastructure/persistence/
+// 2. 创建基础设施层 internal/infrastructure/persistence/invoice_model.go
 type InvoiceModel struct {
     ID      uint    `gorm:"primaryKey"`
     OrderID uint    `gorm:"index;not null"`
@@ -107,12 +125,12 @@ type InvoiceModel struct {
     Status  string  `gorm:"size:20"`
 }
 
-// 3. 创建应用层 internal/application/invoice/
+// 3. 创建应用层 internal/application/invoice/cmd_create.go
 type CreateHandler struct {
     cmdRepo invoice.CommandRepository
 }
 
-// 4. 创建适配器层 internal/adapters/http/handler/
+// 4. 创建适配器层 internal/adapters/http/handler/invoice.go
 type InvoiceHandler struct {
     createHandler *appInvoice.CreateHandler
 }
@@ -140,14 +158,39 @@ var UseCaseModule = fx.Module("usecase",
 
 ### 裁剪策略
 
-不需要某些模块时，直接从 Container 中移除：
+不需要某些域时，直接从 Container 中移除对应的模块：
 
 ```go
+// infra.go - 移除不需要的基础设施
+var InfraModule = fx.Module("infra",
+    fx.Provide(
+        database.New,        // 数据库（必需）
+        // eventbus.New,     // 不需要事件总线
+    ),
+)
+
+// repository.go - 按域选择需要的仓储
 var RepositoryModule = fx.Module("repository",
     fx.Provide(
+        // Core 域
+        persistence.NewOrgRepositories,
+        persistence.NewSettingRepositories,
+
+        // IAM 域
         persistence.NewUserRepositories,
         // persistence.NewRoleRepositories,    // 不需要角色管理
-        // persistence.NewSettingRepositories, // 不需要系统设置
+
+        // CRM 域（如不需要整个域，可全部注释）
+        // persistence.NewLeadRepositories,
+        // persistence.NewOpportunityRepositories,
+    ),
+)
+
+// usecase.go - 只注册需要的用例
+var UseCaseModule = fx.Module("usecase",
+    fx.Provide(
+        newAuthUseCases,
+        // newRoleUseCases,  // 不需要角色管理
     ),
 )
 ```
@@ -180,13 +223,21 @@ MANUAL=1 go test -v ./internal/manualtest/...
 
 ## 参考示例
 
-本库的 `internal/` 目录就是一个完整的使用示例：
+本库展示了完整的垂直切分 DDD 架构：
 
-- `internal/domain/order/` - 自定义订单领域
-- `internal/application/order/` - 订单用例
-- `internal/infrastructure/persistence/order_*.go` - 订单持久化
-- `internal/adapters/http/handler/order.go` - 订单 HTTP Handler
-- `internal/container/` - 组装本库 + 自定义模块
+**业务域划分**：
+
+- `pkg/core/` - 核心域（组织、设置、任务、审计日志等）
+- `pkg/iam/` - 身份管理域（用户、认证、角色、PAT、2FA）
+- `pkg/crm/` - CRM 域（线索、商机、联系人、公司）
+
+**依赖注入组装**：
+
+- `internal/container/` - Fx 容器配置，展示如何组合所有域
+
+**集成测试**：
+
+- `internal/manualtest/` - HTTP API 集成测试，覆盖所有域
 
 ## License
 
