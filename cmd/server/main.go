@@ -29,8 +29,8 @@ import (
 	"go.uber.org/fx"
 	"go.uber.org/fx/fxevent"
 
-	// 本地 container 包（启动器组装代码）
-	"github.com/lwmacct/260101-go-pkg-ddd/internal/container"
+	// 本地 app/di 包（启动器组装代码）
+	"github.com/lwmacct/260101-go-pkg-ddd/internal/app/di"
 )
 
 // Swagger 总体配置 - 使用者自定义
@@ -214,13 +214,13 @@ func buildFxOptions(cfg *config.Config) []fx.Option {
 		fx.Supply(cfg),
 		fx.StartTimeout(30 * time.Second),
 		fx.StopTimeout(10 * time.Second),
-		container.InfraModule,
-		container.CacheModule,
-		container.RepositoryModule,
-		container.ServiceModule,
-		container.UseCaseModule,
-		container.HTTPModule,
-		container.HooksModule,
+		di.InfraModule,
+		di.CacheModule,
+		di.RepositoryModule,
+		di.ServiceModule,
+		di.UseCaseModule,
+		di.HTTPModule,
+		di.HooksModule,
 		// Swagger 端点注册 - 使用者决定
 		fx.Invoke(func(r *gin.Engine) {
 			r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
@@ -248,8 +248,8 @@ func migrateDatabase(ctx context.Context, cmd *cli.Command) error {
 		fx.Supply(cfg),
 		fx.StartTimeout(5*time.Minute),
 		fx.StopTimeout(10*time.Second),
-		container.InfraModule,
-		fx.Invoke(container.RunMigration),
+		di.InfraModule,
+		fx.Invoke(di.RunMigration),
 		fx.WithLogger(func() fxevent.Logger { return nopLogger{} }),
 	)
 
@@ -275,8 +275,8 @@ func resetDatabase(ctx context.Context, cmd *cli.Command) error {
 		fx.Supply(cfg),
 		fx.StartTimeout(5*time.Minute),
 		fx.StopTimeout(10*time.Second),
-		container.InfraModule,
-		fx.Invoke(container.RunReset),
+		di.InfraModule,
+		fx.Invoke(di.RunReset),
 		fx.WithLogger(func() fxevent.Logger { return nopLogger{} }),
 	)
 
@@ -302,8 +302,8 @@ func seedDatabase(ctx context.Context, cmd *cli.Command) error {
 		fx.Supply(cfg),
 		fx.StartTimeout(5*time.Minute),
 		fx.StopTimeout(10*time.Second),
-		container.InfraModule,
-		fx.Invoke(container.RunSeed),
+		di.InfraModule,
+		fx.Invoke(di.RunSeed),
 		fx.WithLogger(func() fxevent.Logger { return nopLogger{} }),
 	)
 

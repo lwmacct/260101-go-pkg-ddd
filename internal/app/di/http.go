@@ -55,7 +55,6 @@ type HandlersResult struct {
 // HTTPModule 提供 HTTP 处理器、路由和服务器。
 var HTTPModule = fx.Module("http",
 	fx.Provide(
-		bootstrap.NewEngine,
 		health.NewSystemChecker,
 		newAllHandlers,
 		newRouter,
@@ -276,7 +275,6 @@ func newAllHandlers(p handlersParams) HandlersResult {
 type routerParams struct {
 	fx.In
 
-	GinEngine   *gin.Engine
 	Config      *config.Config
 	RedisClient *redis.Client
 
@@ -321,8 +319,8 @@ type routerParams struct {
 }
 
 func newRouter(p routerParams) *gin.Engine {
-	// Use the new modular router approach
-	engine := p.GinEngine
+	// Create Gin Engine using bootstrap
+	engine := bootstrap.NewEngine()
 
 	// Get all routes from modules using the new routes function
 	routes := AllRoutes(

@@ -6,8 +6,11 @@ import (
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/setting"
 	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+	infrastats "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/stats"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/domain/stats"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/user"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/captcha"
+	infracaptcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/captcha/infrastructure"
 
 	crmpersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/infrastructure/persistence"
 	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
@@ -48,8 +51,8 @@ var RepositoryModule = fx.Module("repository",
 		newUserSettingRepositoriesWithCache,
 
 		// 特殊仓储
-		// newCaptchaRepository, // TODO: implement captcha repository
-		// infrastats.NewQueryRepository,
+		newCaptchaRepository,
+		newStatsQueryRepository,
 	),
 )
 
@@ -145,11 +148,16 @@ type CaptchaRepositoryResult struct {
 	Query   captcha.QueryRepository
 }
 
-// TODO: implement captcha repository
-// func newCaptchaRepository() CaptchaRepositoryResult {
-// 	repo := infracaptcha.NewRepository()
-// 	return CaptchaRepositoryResult{
-// 		Command: repo,
-// 		Query:   repo,
-// 	}
-// }
+// newCaptchaRepository 创建验证码仓储
+func newCaptchaRepository() CaptchaRepositoryResult {
+	repo := infracaptcha.NewMemoryRepository()
+	return CaptchaRepositoryResult{
+		Command: repo,
+		Query:   repo,
+	}
+}
+
+// newStatsQueryRepository 创建统计查询仓储
+func newStatsQueryRepository(db *gorm.DB) stats.QueryRepository {
+	return infrastats.NewQueryRepository(db)
+}

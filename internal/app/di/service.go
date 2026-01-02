@@ -10,6 +10,7 @@ import (
 	domain_twofa "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/twofa"
 	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 	infra_twofa "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/twofa"
+	infracaptcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/captcha/infrastructure"
 
 	infra_auth "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/auth"
 )
@@ -29,7 +30,7 @@ var ServiceModule = fx.Module("service",
 		infra_auth.NewLoginSessionService,
 		newAuthPermissionCacheService,
 		newPATService,
-		// infra_captcha.NewService, // TODO: fix captcha service implementation
+		infracaptcha.NewService,
 		newTwoFAService,
 
 		// 领域服务
