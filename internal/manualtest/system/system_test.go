@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/lwmacct/260101-go-pkg-ddd/internal/manualtest"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/stats"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/stats"
 )
 
 // TestHealthCheck 测试健康检查端点。

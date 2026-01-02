@@ -10,11 +10,12 @@ import (
 	"github.com/redis/go-redis/v9"
 	"go.uber.org/fx"
 
+	"github.com/lwmacct/260101-go-pkg-ddd/internal/bootstrap"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/cache"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
-	ginhttp "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/transport/gin"
-	corehandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/transport/gin/handler"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/cache"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/infrastructure/persistence"
+	ginhttp "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/transport/gin"
+	corehandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/transport/gin/handler"
 	crmhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/transport/gin/handler"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/auth"
 	iamhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/transport/gin/handler"
@@ -318,41 +319,56 @@ type routerParams struct {
 }
 
 func newRouter(p routerParams) *gin.Engine {
-	deps := &ginhttp.RouterDependencies{
-		Config:                 p.Config,
-		RedisClient:            p.RedisClient,
-		CreateLogHandler:       p.Audit.CreateLog,
-		JWTManager:             p.JWTManager,
-		PATService:             p.PATService,
-		PermissionCacheService: p.PermissionCache,
-		OrgMemberQuery:         p.MemberRepos.Query,
-		TeamQuery:              p.TeamRepos.Query,
-		TeamMemberQuery:        p.TeamMemberRepos.Query,
-		HealthHandler:          p.Health,
-		AuthHandler:            p.Auth,
-		CaptchaHandler:         p.Captcha,
-		RoleHandler:            p.Role,
-		SettingHandler:         p.Setting,
-		UserSettingHandler:     p.UserSetting,
-		PATHandler:             p.PAT,
-		AuditHandler:           p.AuditH,
-		AdminUserHandler:       p.AdminUser,
-		UserProfileHandler:     p.UserProfile,
-		OverviewHandler:        p.Overview,
-		TwoFAHandler:           p.TwoFA,
-		CacheHandler:           p.Cache,
-		OperationHandler:       p.Operation,
-		OrgHandler:             p.Org,
-		OrgMemberHandler:       p.OrgMember,
-		TeamHandler:            p.Team,
-		TeamMemberHandler:      p.TeamMember,
-		UserOrgHandler:         p.UserOrg,
-		TaskHandler:            p.TaskHandler,
-		ContactHandler:         p.Contact,
-		CompanyHandler:         p.Company,
-		LeadHandler:            p.Lead,
-		OpportunityHandler:     p.Opportunity,
-	}
+	// Create Gin Engine using bootstrap
+	engine := bootstrap.NewEngine()
 
-	return ginhttp.SetupRouterWithDeps(deps)
+	// Get all routes from modules using the new routes function
+	allRoutes := AllRoutes(
+		// IAM Handlers
+		p.Auth,
+		p.TwoFA,
+		p.UserProfile,
+		p.UserOrg,
+		p.PAT,
+		// App Handlers (used in IAM)
+		p.AdminUser,
+		p.Role,
+		p.Captcha,
+		p.Setting,
+		p.UserSetting,
+		// App Handlers (Org/Team Management - used in IAM)
+		p.OrgMember,
+		p.Team,
+		p.TeamMember,
+		p.TaskHandler,
+		// App Handlers (system admin)
+		p.Health,
+		p.Org,
+		p.AuditH,
+		p.Cache,
+		p.Overview,
+		// CRM Handlers
+		p.Company,
+		p.Contact,
+		p.Lead,
+		p.Opportunity,
+	)
+
+	// Create MiddlewareInjector with all dependencies
+	injector := NewMiddlewareInjector(RouterDepsParams{
+		Config:             p.Config,
+		RedisClient:        p.RedisClient,
+		JWTManager:         p.JWTManager,
+		PATService:         p.PATService,
+		PermissionCache:    p.PermissionCache,
+		AuditCreateHandler: p.Audit.CreateLog,
+		MemberRepos:        p.MemberRepos,
+		TeamRepos:          p.TeamRepos,
+		TeamMemberRepos:    p.TeamMemberRepos,
+	})
+
+	// Register routes to engine with middleware injection
+	RegisterRoutes(engine, allRoutes, injector)
+
+	return engine
 }

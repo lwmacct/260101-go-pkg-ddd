@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	jsonlogic "github.com/diegoholiveira/jsonlogic/v3"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/domain/setting"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/domain/setting"
 )
 
 // JSONLogicValidator 基于 JSON Logic 的设置验证器。

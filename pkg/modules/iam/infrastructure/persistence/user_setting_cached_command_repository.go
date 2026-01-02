@@ -4,8 +4,8 @@ import (
 	"context"
 	"log/slog"
 
-	appsetting "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/setting"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/domain/setting"
+	appsetting "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/setting"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/domain/setting"
 )
 
 // cachedUserSettingCommandRepository 带缓存失效的 UserSetting 命令仓储装饰器。
@@ -46,19 +46,19 @@ func (r *cachedUserSettingCommandRepository) Upsert(ctx context.Context, us *set
 	// 失效 Application 层缓存（EffectiveUserSetting）
 	if err := r.effectiveCache.Delete(ctx, us.UserID, us.SettingKey); err != nil {
 		slog.Warn("failed to invalidate effective user setting cache after upsert",
-			"userID", us.UserID, "key", us.SettingKey, "err", err)
+			"userID", us.UserID, "key", us.SettingKey, "error", err.Error())
 	}
 
 	// 失效 Repository 层查询缓存（原始 UserSetting）
 	if err := r.queryCache.DeleteByUser(ctx, us.UserID); err != nil {
 		slog.Warn("failed to invalidate user setting query cache after upsert",
-			"userID", us.UserID, "err", err)
+			"userID", us.UserID, "error", err.Error())
 	}
 
 	// 失效 Schema 响应缓存
 	if err := r.settingsCache.DeleteUserSettingsAll(ctx, us.UserID); err != nil {
 		slog.Warn("failed to invalidate user schema cache after upsert",
-			"userID", us.UserID, "err", err)
+			"userID", us.UserID, "error", err.Error())
 	}
 
 	return nil
@@ -73,19 +73,19 @@ func (r *cachedUserSettingCommandRepository) Delete(ctx context.Context, userID 
 	// 失效 Application 层缓存
 	if err := r.effectiveCache.Delete(ctx, userID, key); err != nil {
 		slog.Warn("failed to invalidate effective user setting cache after delete",
-			"userID", userID, "key", key, "err", err)
+			"userID", userID, "key", key, "error", err.Error())
 	}
 
 	// 失效 Repository 层查询缓存
 	if err := r.queryCache.DeleteByUser(ctx, userID); err != nil {
 		slog.Warn("failed to invalidate user setting query cache after delete",
-			"userID", userID, "err", err)
+			"userID", userID, "error", err.Error())
 	}
 
 	// 失效 Schema 响应缓存
 	if err := r.settingsCache.DeleteUserSettingsAll(ctx, userID); err != nil {
 		slog.Warn("failed to invalidate user schema cache after delete",
-			"userID", userID, "err", err)
+			"userID", userID, "error", err.Error())
 	}
 
 	return nil
@@ -100,19 +100,19 @@ func (r *cachedUserSettingCommandRepository) DeleteByUser(ctx context.Context, u
 	// 失效 Application 层缓存
 	if err := r.effectiveCache.DeleteByUser(ctx, userID); err != nil {
 		slog.Warn("failed to invalidate all effective user setting cache after delete by user",
-			"userID", userID, "err", err)
+			"userID", userID, "error", err.Error())
 	}
 
 	// 失效 Repository 层查询缓存
 	if err := r.queryCache.DeleteByUser(ctx, userID); err != nil {
 		slog.Warn("failed to invalidate user setting query cache after delete by user",
-			"userID", userID, "err", err)
+			"userID", userID, "error", err.Error())
 	}
 
 	// 失效 Schema 响应缓存
 	if err := r.settingsCache.DeleteUserSettingsAll(ctx, userID); err != nil {
 		slog.Warn("failed to invalidate user schema cache after delete by user",
-			"userID", userID, "err", err)
+			"userID", userID, "error", err.Error())
 	}
 
 	return nil
@@ -135,19 +135,19 @@ func (r *cachedUserSettingCommandRepository) BatchUpsert(ctx context.Context, se
 		// 失效 Application 层缓存
 		if err := r.effectiveCache.DeleteByKeys(ctx, userID, keys); err != nil {
 			slog.Warn("failed to invalidate effective user setting cache after batch upsert",
-				"userID", userID, "count", len(keys), "err", err)
+				"userID", userID, "count", len(keys), "error", err.Error())
 		}
 
 		// 失效 Repository 层查询缓存
 		if err := r.queryCache.DeleteByUser(ctx, userID); err != nil {
 			slog.Warn("failed to invalidate user setting query cache after batch upsert",
-				"userID", userID, "err", err)
+				"userID", userID, "error", err.Error())
 		}
 
 		// 失效 Schema 响应缓存
 		if err := r.settingsCache.DeleteUserSettingsAll(ctx, userID); err != nil {
 			slog.Warn("failed to invalidate user schema cache after batch upsert",
-				"userID", userID, "err", err)
+				"userID", userID, "error", err.Error())
 		}
 	}
 

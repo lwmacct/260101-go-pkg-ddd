@@ -34,29 +34,29 @@ mkdir -p pkg/shared/event    # 从 core/domain/event 迁移
 echo "📦 创建 pkg/modules/ ..."
 
 # Core BC
-mkdir -p pkg/modules/core/domain/audit
-mkdir -p pkg/modules/core/domain/org
-mkdir -p pkg/modules/core/domain/setting
-mkdir -p pkg/modules/core/domain/stats
-mkdir -p pkg/modules/core/domain/task
+mkdir -p pkg/modules/app/domain/audit
+mkdir -p pkg/modules/app/domain/org
+mkdir -p pkg/modules/app/domain/setting
+mkdir -p pkg/modules/app/domain/stats
+mkdir -p pkg/modules/app/domain/task
 
-mkdir -p pkg/modules/core/application/audit
-mkdir -p pkg/modules/core/application/org
-mkdir -p pkg/modules/core/application/setting
-mkdir -p pkg/modules/core/application/stats
-mkdir -p pkg/modules/core/application/task
-mkdir -p pkg/modules/core/application/cache
-mkdir -p pkg/modules/core/application/captcha
-mkdir -p pkg/modules/core/application/health
+mkdir -p pkg/modules/app/application/audit
+mkdir -p pkg/modules/app/application/org
+mkdir -p pkg/modules/app/application/setting
+mkdir -p pkg/modules/app/application/stats
+mkdir -p pkg/modules/app/application/task
+mkdir -p pkg/modules/app/application/cache
+mkdir -p pkg/modules/app/application/captcha
+mkdir -p pkg/modules/app/application/health
 
-mkdir -p pkg/modules/core/infrastructure/persistence
-mkdir -p pkg/modules/core/infrastructure/integration
+mkdir -p pkg/modules/app/infrastructure/persistence
+mkdir -p pkg/modules/app/infrastructure/integration
 
-mkdir -p pkg/modules/core/transport/gin/handler
-mkdir -p pkg/modules/core/transport/gin/routes
-mkdir -p pkg/modules/core/transport/gin/middleware
+mkdir -p pkg/modules/app/transport/gin/handler
+mkdir -p pkg/modules/app/transport/gin/routes
+mkdir -p pkg/modules/app/transport/gin/middleware
 
-mkdir -p pkg/modules/core/migrations
+mkdir -p pkg/modules/app/migrations
 
 # IAM BC
 mkdir -p pkg/modules/iam/domain/auth

@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/domain/setting"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/domain/setting"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/validation"
 )
 

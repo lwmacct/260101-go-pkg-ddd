@@ -5,8 +5,8 @@ import (
 	"log/slog"
 	"time"
 
-	appsetting "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/setting"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/domain/setting"
+	appsetting "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/setting"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/domain/setting"
 )
 
 // cachedUserSettingQueryRepository 带缓存的 UserSetting 查询仓储装饰器。
@@ -39,7 +39,7 @@ func (r *cachedUserSettingQueryRepository) FindByUserAndKey(ctx context.Context,
 	// 1. 尝试从用户全量缓存中获取
 	cached, err := r.cache.GetByUser(ctx, userID)
 	if err != nil {
-		slog.Warn("user setting cache get failed, fallback to db", "userID", userID, "err", err)
+		slog.Warn("user setting cache get failed, fallback to db", "userID", userID, "error", err.Error())
 	}
 	if cached != nil {
 		if s, ok := cached[key]; ok {
@@ -64,7 +64,7 @@ func (r *cachedUserSettingQueryRepository) FindByUser(ctx context.Context, userI
 	// 1. 查缓存
 	cached, err := r.cache.GetByUser(ctx, userID)
 	if err != nil {
-		slog.Warn("user setting cache get failed, fallback to db", "userID", userID, "err", err)
+		slog.Warn("user setting cache get failed, fallback to db", "userID", userID, "error", err.Error())
 	}
 	if cached != nil {
 		// 缓存命中，转换为切片返回
@@ -86,7 +86,7 @@ func (r *cachedUserSettingQueryRepository) FindByUser(ctx context.Context, userI
 		cacheCtx, cancel := context.WithTimeout(context.WithoutCancel(ctx), 3*time.Second)
 		defer cancel()
 		if err := r.cache.SetByUser(cacheCtx, uid, settings); err != nil {
-			slog.Warn("user setting cache set failed", "userID", uid, "err", err)
+			slog.Warn("user setting cache set failed", "userID", uid, "error", err.Error())
 		}
 	}(result, userID)
 
@@ -102,7 +102,7 @@ func (r *cachedUserSettingQueryRepository) FindByUserAndKeys(ctx context.Context
 	// 1. 尝试从用户全量缓存中获取
 	cached, err := r.cache.GetByUser(ctx, userID)
 	if err != nil {
-		slog.Warn("user setting cache get failed, fallback to db", "userID", userID, "err", err)
+		slog.Warn("user setting cache get failed, fallback to db", "userID", userID, "error", err.Error())
 	}
 	if cached != nil {
 		// 从缓存中提取请求的 keys

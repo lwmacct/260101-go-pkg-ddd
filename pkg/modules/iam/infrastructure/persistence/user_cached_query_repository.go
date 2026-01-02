@@ -40,7 +40,7 @@ func (r *cachedUserQueryRepository) GetByIDWithRoles(ctx context.Context, id uin
 	// 1. 查缓存
 	cached, err := r.cache.GetUserWithRoles(ctx, id)
 	if err != nil {
-		slog.Warn("user cache get error, falling back to db", "user_id", id, "err", err)
+		slog.WarnContext(ctx, "user cache get error, falling back to db", "user_id", id, "error", err.Error())
 	}
 	if cached != nil {
 		return cached, nil // 缓存命中
@@ -54,7 +54,7 @@ func (r *cachedUserQueryRepository) GetByIDWithRoles(ctx context.Context, id uin
 
 	// 3. 同步回写缓存
 	if err := r.cache.SetUserWithRoles(ctx, result); err != nil {
-		slog.Warn("user cache set failed", "user_id", id, "err", err)
+		slog.WarnContext(ctx, "user cache set failed", "user_id", id, "error", err.Error())
 	}
 
 	return result, nil

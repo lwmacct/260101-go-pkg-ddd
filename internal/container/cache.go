@@ -7,8 +7,8 @@ import (
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/cache"
 
-	appcache "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/cache"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/setting"
+	appcache "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/cache"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/setting"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/auth"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/user"
 )

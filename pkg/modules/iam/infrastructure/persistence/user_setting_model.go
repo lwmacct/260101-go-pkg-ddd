@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/domain/setting"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/domain/setting"
 	"gorm.io/datatypes"
 )
 

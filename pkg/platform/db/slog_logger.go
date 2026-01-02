@@ -38,21 +38,24 @@ func (l *SlogLogger) LogMode(level logger.LogLevel) logger.Interface {
 // Info 输出 info 级别日志
 func (l *SlogLogger) Info(ctx context.Context, msg string, data ...any) {
 	if l.LogLevel >= logger.Info {
-		slog.InfoContext(ctx, fmt.Sprintf(msg, data...))
+		pc := logm.CallerPC("gorm.io/gorm", "pkg/platform/db")
+		logm.LogWithPC(ctx, slog.LevelInfo, pc, fmt.Sprintf(msg, data...))
 	}
 }
 
 // Warn 输出 warn 级别日志
 func (l *SlogLogger) Warn(ctx context.Context, msg string, data ...any) {
 	if l.LogLevel >= logger.Warn {
-		slog.WarnContext(ctx, fmt.Sprintf(msg, data...))
+		pc := logm.CallerPC("gorm.io/gorm", "pkg/platform/db")
+		logm.LogWithPC(ctx, slog.LevelWarn, pc, fmt.Sprintf(msg, data...))
 	}
 }
 
 // Error 输出 error 级别日志
 func (l *SlogLogger) Error(ctx context.Context, msg string, data ...any) {
 	if l.LogLevel >= logger.Error {
-		slog.ErrorContext(ctx, fmt.Sprintf(msg, data...))
+		pc := logm.CallerPC("gorm.io/gorm", "pkg/platform/db")
+		logm.LogWithPC(ctx, slog.LevelError, pc, fmt.Sprintf(msg, data...))
 	}
 }
 

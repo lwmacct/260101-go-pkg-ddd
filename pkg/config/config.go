@@ -2,6 +2,7 @@
 package config
 
 import (
+	"strings"
 	"time"
 )
 
@@ -53,12 +54,19 @@ type Config struct {
 	Telemetry Telemetry `koanf:"telemetry" desc:"OpenTelemetry 追踪配置"`
 }
 
-// GetBaseUrl
+// GetBaseUrl 返回服务的基础URL
+// 注意：当 Addr 为 0.0.0.0 时，自动替换为 localhost（客户端无法连接到0.0.0.0）
 func (c *Config) GetBaseUrl(https bool) string {
-	if https {
-		return "https://" + c.Server.Addr
+	addr := c.Server.Addr
+	// 0.0.0.0 是服务器监听地址，客户端应该连接到 localhost
+	if strings.HasPrefix(addr, "0.0.0.0:") {
+		addr = "localhost" + addr[7:] // 保留端口部分
 	}
-	return "http://" + c.Server.Addr
+
+	if https {
+		return "https://" + addr
+	}
+	return "http://" + addr
 }
 
 // DefaultConfig 返回默认配置

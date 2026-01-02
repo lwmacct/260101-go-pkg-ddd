@@ -4,8 +4,8 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/org"
-	orgDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/domain/org"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/org"
+	orgDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/domain/org"
 	authDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/auth"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )

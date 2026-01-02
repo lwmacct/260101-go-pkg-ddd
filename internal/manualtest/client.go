@@ -6,7 +6,7 @@ import (
 
 	"github.com/go-resty/resty/v2"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/captcha"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/captcha"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/auth"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
@@ -157,6 +157,10 @@ func Post[T any](c *Client, path string, body any) (*T, error) {
 		return nil, fmt.Errorf("请求失败: %w", err)
 	}
 	if resp.IsError() {
+		// 如果响应体解析失败，使用原始响应体
+		if result.Message == "" {
+			return nil, fmt.Errorf("状态码 %d: %s", resp.StatusCode(), string(resp.Body()))
+		}
 		return nil, fmt.Errorf("状态码 %d: %s", resp.StatusCode(), result.Message)
 	}
 

@@ -4,14 +4,16 @@ import (
 	"go.uber.org/fx"
 	"gorm.io/gorm"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/setting"
-	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/setting"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/domain/stats"
+	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/infrastructure/persistence"
+	infrastats "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/infrastructure/stats"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/user"
-	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/captcha"
+	infracaptcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/captcha/infrastructure"
 
-	infrastats "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/stats"
 	crmpersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/infrastructure/persistence"
+	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 )
 
 // RepositoryModule 提供所有仓储实现。
@@ -49,8 +51,8 @@ var RepositoryModule = fx.Module("repository",
 		newUserSettingRepositoriesWithCache,
 
 		// 特殊仓储
-		// newCaptchaRepository, // TODO: implement captcha repository
-		infrastats.NewQueryRepository,
+		newCaptchaRepository,
+		newStatsQueryRepository,
 	),
 )
 
@@ -146,11 +148,16 @@ type CaptchaRepositoryResult struct {
 	Query   captcha.QueryRepository
 }
 
-// TODO: implement captcha repository
-// func newCaptchaRepository() CaptchaRepositoryResult {
-// 	repo := infracaptcha.NewRepository()
-// 	return CaptchaRepositoryResult{
-// 		Command: repo,
-// 		Query:   repo,
-// 	}
-// }
+// newCaptchaRepository 创建验证码仓储
+func newCaptchaRepository() CaptchaRepositoryResult {
+	repo := infracaptcha.NewMemoryRepository()
+	return CaptchaRepositoryResult{
+		Command: repo,
+		Query:   repo,
+	}
+}
+
+// newStatsQueryRepository 创建统计查询仓储
+func newStatsQueryRepository(db *gorm.DB) stats.QueryRepository {
+	return infrastats.NewQueryRepository(db)
+}

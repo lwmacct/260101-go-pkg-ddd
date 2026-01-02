@@ -5,7 +5,7 @@ import (
 	"log/slog"
 	"time"
 
-	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/infrastructure/persistence"
 	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -77,7 +77,7 @@ func (s *OrganizationSeeder) Seed(ctx context.Context, db *gorm.DB) error {
 		// 1. 查找 admin 用户
 		var admin iampersistence.UserModel
 		if err := tx.Where("username = ?", "admin").First(&admin).Error; err != nil {
-			slog.Warn("admin user not found, skipping member seeding", "err", err)
+			slog.Warn("admin user not found, skipping member seeding", "error", err.Error())
 			return nil
 		}
 
@@ -108,7 +108,7 @@ func (s *OrganizationSeeder) Seed(ctx context.Context, db *gorm.DB) error {
 			// 3. 查找组织专属成员用户
 			var orgMember iampersistence.UserModel
 			if err := tx.Where("username = ?", orgCfg.memberUser).First(&orgMember).Error; err != nil {
-				slog.Warn("org member user not found", "user", orgCfg.memberUser, "err", err)
+				slog.Warn("org member user not found", "user", orgCfg.memberUser, "error", err.Error())
 				// 继续处理，不中断
 			}
 

@@ -7,7 +7,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/setting"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/setting"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/role"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/user"
 )

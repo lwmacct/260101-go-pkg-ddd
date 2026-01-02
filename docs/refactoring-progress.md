@@ -117,15 +117,15 @@
 
 ## Phase 3: 迁移 Core BC
 
-**目标**：将 `ddd/core` 迁移到 `pkg/modules/core`
+**目标**：将 `ddd/core` 迁移到 `pkg/modules/app`
 
 ### 3.1 Domain 层
 
-- [ ] 迁移 `ddd/core/domain/audit` → `pkg/modules/core/domain/audit`
-- [ ] 迁移 `ddd/core/domain/org` → `pkg/modules/core/domain/org`
-- [ ] 迁移 `ddd/core/domain/setting` → `pkg/modules/core/domain/setting`
-- [ ] 迁移 `ddd/core/domain/stats` → `pkg/modules/core/domain/stats`
-- [ ] 迁移 `ddd/core/domain/task` → `pkg/modules/core/domain/task`
+- [ ] 迁移 `ddd/core/domain/audit` → `pkg/modules/app/domain/audit`
+- [ ] 迁移 `ddd/core/domain/org` → `pkg/modules/app/domain/org`
+- [ ] 迁移 `ddd/core/domain/setting` → `pkg/modules/app/domain/setting`
+- [ ] 迁移 `ddd/core/domain/stats` → `pkg/modules/app/domain/stats`
+- [ ] 迁移 `ddd/core/domain/task` → `pkg/modules/app/domain/task`
 - [ ] 迁移 `ddd/core/domain/cache` → `pkg/shared/cache`
 - [ ] 迁移 `ddd/core/domain/captcha` → `pkg/shared/captcha`
 - [ ] 迁移 `ddd/core/domain/health` → `pkg/shared/health`
@@ -133,36 +133,36 @@
 
 ### 3.2 Application 层
 
-- [ ] 迁移 `ddd/core/application/audit` → `pkg/modules/core/application/audit`
-- [ ] 迁移 `ddd/core/application/org` → `pkg/modules/core/application/org`
-- [ ] 迁移 `ddd/core/application/setting` → `pkg/modules/core/application/setting`
-- [ ] 迁移 `ddd/core/application/stats` → `pkg/modules/core/application/stats`
-- [ ] 迁移 `ddd/core/application/task` → `pkg/modules/core/application/task`
-- [ ] 迁移 `ddd/core/application/cache` → `pkg/modules/core/application/cache`
-- [ ] 迁移 `ddd/core/application/captcha` → `pkg/modules/core/application/captcha`
-- [ ] 迁移 `ddd/core/application/health` → `pkg/modules/core/application/health`
+- [ ] 迁移 `ddd/core/application/audit` → `pkg/modules/app/application/audit`
+- [ ] 迁移 `ddd/core/application/org` → `pkg/modules/app/application/org`
+- [ ] 迁移 `ddd/core/application/setting` → `pkg/modules/app/application/setting`
+- [ ] 迁移 `ddd/core/application/stats` → `pkg/modules/app/application/stats`
+- [ ] 迁移 `ddd/core/application/task` → `pkg/modules/app/application/task`
+- [ ] 迁移 `ddd/core/application/cache` → `pkg/modules/app/application/cache`
+- [ ] 迁移 `ddd/core/application/captcha` → `pkg/modules/app/application/captcha`
+- [ ] 迁移 `ddd/core/application/health` → `pkg/modules/app/application/health`
 
 ### 3.3 Infrastructure 层
 
-- [ ] 迁移 `ddd/core/infrastructure/persistence` → `pkg/modules/core/infrastructure/persistence`
-- [ ] 迁移 `ddd/core/infrastructure/database/seeds` → `pkg/modules/core/migrations`
+- [ ] 迁移 `ddd/core/infrastructure/persistence` → `pkg/modules/app/infrastructure/persistence`
+- [ ] 迁移 `ddd/core/infrastructure/database/seeds` → `pkg/modules/app/migrations`
 
 ### 3.4 Transport 层
 
-- [ ] 迁移 `ddd/core/adapters/http/handler` → `pkg/modules/core/transport/gin/handler`
-- [ ] 迁移 `ddd/core/adapters/http/routes` → `pkg/modules/core/transport/gin/routes`
-- [ ] 迁移 `ddd/core/adapters/http/middleware` → `pkg/modules/core/transport/gin/middleware`
-- [ ] 迁移 `ddd/core/adapters/http/router.go` → `pkg/modules/core/transport/gin/router.go`
-- [ ] 迁移 `ddd/core/adapters/http/server.go` → `pkg/modules/core/transport/gin/server.go`
+- [ ] 迁移 `ddd/core/adapters/http/handler` → `pkg/modules/app/transport/gin/handler`
+- [ ] 迁移 `ddd/core/adapters/http/routes` → `pkg/modules/app/transport/gin/routes`
+- [ ] 迁移 `ddd/core/adapters/http/middleware` → `pkg/modules/app/transport/gin/middleware`
+- [ ] 迁移 `ddd/core/adapters/http/router.go` → `pkg/modules/app/transport/gin/router.go`
+- [ ] 迁移 `ddd/core/adapters/http/server.go` → `pkg/modules/app/transport/gin/server.go`
 
 ### 3.5 Module Entry
 
-- [ ] 创建 `pkg/modules/core/module.go`
+- [ ] 创建 `pkg/modules/app/module.go`
 
 **验证**：
 
 - [ ] `go build -o /dev/null ./...`
-- [ ] `go test ./pkg/modules/core/...`
+- [ ] `go test ./pkg/modules/app/...`
 
 ---
 
@@ -279,7 +279,7 @@
 - [ ] 创建 `pkg/kit/platform/db.go`
 - [ ] 创建 `pkg/kit/platform/cache.go`
 - [ ] 创建 `pkg/kit/platform/eventbus.go`
-- [ ] 创建 `pkg/kit/modules/core.go`
+- [ ] 创建 `pkg/kit/modules/app.go`
 - [ ] 创建 `pkg/kit/modules/iam.go`
 - [ ] 创建 `pkg/kit/modules/crm.go`
 

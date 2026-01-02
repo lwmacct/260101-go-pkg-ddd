@@ -11,8 +11,8 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/setting"
-	domainsetting "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/domain/setting"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/setting"
+	domainsetting "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/domain/setting"
 )
 
 const (
@@ -116,7 +116,7 @@ func (s *settingsCacheService) DeleteByCategoryKey(ctx context.Context, category
 	// 1. 删除管理员的指定 category 缓存
 	adminKey := s.buildAdminKey(categoryKey)
 	if err := s.client.Del(ctx, adminKey).Err(); err != nil {
-		slog.Warn("failed to delete admin settings cache", "categoryKey", categoryKey, "err", err)
+		slog.Warn("failed to delete admin settings cache", "categoryKey", categoryKey, "error", err.Error())
 	}
 
 	// 2. 删除所有用户的指定 category 缓存
@@ -129,13 +129,13 @@ func (s *settingsCacheService) DeleteByCategoryKey(ctx context.Context, category
 	if categoryKey != settingsCategoryAll {
 		allPattern := s.keyPrefix + settingsKeyPrefix + settingsUserPrefix + "*:" + settingsCategoryAll
 		if err := s.deleteByPattern(ctx, allPattern); err != nil {
-			slog.Warn("failed to delete user _all settings caches", "err", err)
+			slog.Warn("failed to delete user _all settings caches", "error", err.Error())
 		}
 
 		// 同时删除管理员的 _all 缓存
 		adminAllKey := s.buildAdminKey(settingsCategoryAll)
 		if err := s.client.Del(ctx, adminAllKey).Err(); err != nil {
-			slog.Warn("failed to delete admin _all settings cache", "err", err)
+			slog.Warn("failed to delete admin _all settings cache", "error", err.Error())
 		}
 	}
 
@@ -191,7 +191,7 @@ func (s *settingsCacheService) GetAllCategories(ctx context.Context) ([]*domains
 	var wrapper [][]*domainsetting.SettingCategory
 	if err := json.Unmarshal([]byte(data), &wrapper); err != nil {
 		_ = s.client.Del(ctx, key)
-		slog.Warn("corrupted category cache, deleted", "key", key, "err", err)
+		slog.Warn("corrupted category cache, deleted", "key", key, "error", err.Error())
 		return nil, nil // corrupted cache treated as miss
 	}
 
@@ -272,7 +272,7 @@ func (s *settingsCacheService) get(ctx context.Context, key string) ([]setting.S
 	if err := json.Unmarshal([]byte(data), &wrapper); err != nil {
 		// 缓存数据损坏，删除并返回未命中
 		_ = s.client.Del(ctx, key)
-		slog.Warn("corrupted settings cache, deleted", "key", key, "err", err)
+		slog.Warn("corrupted settings cache, deleted", "key", key, "error", err.Error())
 		return nil, nil // corrupted cache treated as miss
 	}
 
@@ -318,7 +318,7 @@ func (s *settingsCacheService) getCategories(ctx context.Context, key string) ([
 	var wrapper [][]setting.CategoryMetaDTO
 	if err := json.Unmarshal([]byte(data), &wrapper); err != nil {
 		_ = s.client.Del(ctx, key)
-		slog.Warn("corrupted categories cache, deleted", "key", key, "err", err)
+		slog.Warn("corrupted categories cache, deleted", "key", key, "error", err.Error())
 		return nil, nil
 	}
 

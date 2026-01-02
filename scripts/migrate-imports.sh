@@ -32,9 +32,9 @@ declare -A replacements=(
     ["github.com/lwmacct/260101-go-pkg-ddd/ddd/core/infrastructure/health"]="github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/health"
 
     # Modules - Core
-    ["github.com/lwmacct/260101-go-pkg-ddd/ddd/core/domain"]="github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/domain"
-    ["github.com/lwmacct/260101-go-pkg-ddd/ddd/core/application"]="github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application"
-    ["github.com/lwmacct/260101-go-pkg-ddd/ddd/core/adapters"]="github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/transport"
+    ["github.com/lwmacct/260101-go-pkg-ddd/ddd/core/domain"]="github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/domain"
+    ["github.com/lwmacct/260101-go-pkg-ddd/ddd/core/application"]="github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application"
+    ["github.com/lwmacct/260101-go-pkg-ddd/ddd/core/adapters"]="github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/transport"
 
     # Modules - IAM
     ["github.com/lwmacct/260101-go-pkg-ddd/ddd/iam/domain"]="github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain"

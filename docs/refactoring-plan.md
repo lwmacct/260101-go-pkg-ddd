@@ -185,12 +185,12 @@ github.com/lwmacct/260101-go-pkg-ddd/
 
 ### 2.2 关键变化
 
-| 变化点       | 当前路径                           | 目标路径                         |
-| ------------ | ---------------------------------- | -------------------------------- |
-| **技术组件** | `ddd/core/infrastructure/database` | `pkg/platform/db`                |
-| **BC 模块**  | `ddd/core`                         | `pkg/modules/core`               |
-| **适配器层** | `ddd/core/adapters/http`           | `pkg/modules/core/transport/gin` |
-| **DI 容器**  | `internal/container`               | `internal/app/di`                |
+| 变化点       | 当前路径                           | 目标路径                        |
+| ------------ | ---------------------------------- | ------------------------------- |
+| **技术组件** | `ddd/core/infrastructure/database` | `pkg/platform/db`               |
+| **BC 模块**  | `ddd/core`                         | `pkg/modules/app`               |
+| **适配器层** | `ddd/core/adapters/http`           | `pkg/modules/app/transport/gin` |
+| **DI 容器**  | `internal/container`               | `internal/app/di`               |
 
 ---
 
@@ -237,7 +237,7 @@ mkdir -p pkg/shared/{errors,utils,kernel}
 
 # 创建 modules 骨架
 mkdir -p pkg/modules/{core,iam,crm}/{domain,application,infrastructure,transport}
-mkdir -p pkg/modules/core/transport/gin
+mkdir -p pkg/modules/app/transport/gin
 mkdir -p pkg/modules/iam/transport/gin
 mkdir -p pkg/modules/crm/transport/gin
 
@@ -279,16 +279,16 @@ go test ./pkg/platform/...
 
 ### Phase 3: 迁移 Core BC
 
-**目标**：将 `ddd/core` 迁移到 `pkg/modules/core`
+**目标**：将 `ddd/core` 迁移到 `pkg/modules/app`
 
 #### 3.1 Domain 层
 
 ```bash
-mv ddd/core/domain/audit     pkg/modules/core/domain/audit
-mv ddd/core/domain/org       pkg/modules/core/domain/org
-mv ddd/core/domain/setting   pkg/modules/core/domain/setting
-mv ddd/core/domain/stats     pkg/modules/core/domain/stats
-mv ddd/core/domain/task      pkg/modules/core/domain/task
+mv ddd/core/domain/audit     pkg/modules/app/domain/audit
+mv ddd/core/domain/org       pkg/modules/app/domain/org
+mv ddd/core/domain/setting   pkg/modules/app/domain/setting
+mv ddd/core/domain/stats     pkg/modules/app/domain/stats
+mv ddd/core/domain/task      pkg/modules/app/domain/task
 mv ddd/core/domain/cache     pkg/shared/cache      # 技术通用
 mv ddd/core/domain/captcha   pkg/shared/captcha    # 技术通用
 mv ddd/core/domain/health    pkg/shared/health     # 技术通用
@@ -298,41 +298,41 @@ mv ddd/core/domain/event     pkg/shared/event       # 跨 BC
 #### 3.2 Application 层
 
 ```bash
-mv ddd/core/application/audit    pkg/modules/core/application/audit
-mv ddd/core/application/org      pkg/modules/core/application/org
-mv ddd/core/application/setting  pkg/modules/core/application/setting
-mv ddd/core/application/stats    pkg/modules/core/application/stats
-mv ddd/core/application/task     pkg/modules/core/application/task
-mv ddd/core/application/cache    pkg/modules/core/application/cache  # 保留
-mv ddd/core/application/captcha  pkg/modules/core/application/captcha # 保留
-mv ddd/core/application/health   pkg/modules/core/application/health  # 保留
+mv ddd/core/application/audit    pkg/modules/app/application/audit
+mv ddd/core/application/org      pkg/modules/app/application/org
+mv ddd/core/application/setting  pkg/modules/app/application/setting
+mv ddd/core/application/stats    pkg/modules/app/application/stats
+mv ddd/core/application/task     pkg/modules/app/application/task
+mv ddd/core/application/cache    pkg/modules/app/application/cache  # 保留
+mv ddd/core/application/captcha  pkg/modules/app/application/captcha # 保留
+mv ddd/core/application/health   pkg/modules/app/application/health  # 保留
 ```
 
 #### 3.3 Infrastructure 层
 
 ```bash
 # 只保留 BC 专属的仓储实现
-mv ddd/core/infrastructure/persistence/*  pkg/modules/core/infrastructure/persistence/
+mv ddd/core/infrastructure/persistence/*  pkg/modules/app/infrastructure/persistence/
 
 # Seeds 归属
-mv ddd/core/infrastructure/database/seeds  pkg/modules/core/migrations/
+mv ddd/core/infrastructure/database/seeds  pkg/modules/app/migrations/
 ```
 
 #### 3.4 Transport 层
 
 ```bash
 # Adapters → Transport
-mv ddd/core/adapters/http/handler/*  pkg/modules/core/transport/gin/handler/
-mv ddd/core/adapters/http/routes/*   pkg/modules/core/transport/gin/routes/
-mv ddd/core/adapters/http/middleware pkg/modules/core/transport/gin/middleware/
-mv ddd/core/adapters/http/router.go   pkg/modules/core/transport/gin/
-mv ddd/core/adapters/http/server.go   pkg/modules/core/transport/gin/
+mv ddd/core/adapters/http/handler/*  pkg/modules/app/transport/gin/handler/
+mv ddd/core/adapters/http/routes/*   pkg/modules/app/transport/gin/routes/
+mv ddd/core/adapters/http/middleware pkg/modules/app/transport/gin/middleware/
+mv ddd/core/adapters/http/router.go   pkg/modules/app/transport/gin/
+mv ddd/core/adapters/http/server.go   pkg/modules/app/transport/gin/
 ```
 
 #### 3.5 Module Entry
 
 ```go
-// pkg/modules/core/module.go
+// pkg/modules/app/module.go
 package core
 
 import "go.uber.org/fx"
@@ -439,7 +439,7 @@ var InfraModule = fx.Module("infra",
 package di
 
 import (
-    "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core"
+    "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app"
     "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam"
     "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm"
     "go.uber.org/fx"
@@ -527,10 +527,10 @@ func NewDatabase(dsn string) (*db.DB, error) {
     return db.New(dsn)
 }
 
-// pkg/kit/modules/core.go
+// pkg/kit/modules/app.go
 package modules
 
-import "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core"
+import "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app"
 
 // CoreModule 返回 Core BC 的 Fx 模块
 func CoreModule() core.Module {
@@ -549,7 +549,7 @@ func CoreModule() core.Module {
 sed -i 's|github.com/lwmacct/260101-go-pkg-ddd/ddd/core/infrastructure/database|github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/db|g' $(find . -name "*.go")
 
 # Modules
-sed -i 's|github.com/lwmacct/260101-go-pkg-ddd/ddd/core|github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core|g' $(find . -name "*.go")
+sed -i 's|github.com/lwmacct/260101-go-pkg-ddd/ddd/core|github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app|g' $(find . -name "*.go")
 sed -i 's|github.com/lwmacct/260101-go-pkg-ddd/ddd/iam|github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam|g' $(find . -name "*.go")
 sed -i 's|github.com/lwmacct/260101-go-pkg-ddd/ddd/crm|github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm|g' $(find . -name "*.go")
 
@@ -645,11 +645,11 @@ rm -rf internal/container  # 迁移到 internal/app/di
 
 ## 附录：关键文件对照表
 
-| 当前文件                                         | 目标文件                                   |
-| ------------------------------------------------ | ------------------------------------------ |
-| `ddd/core/infrastructure/database/connection.go` | `pkg/platform/db/connection.go`            |
-| `ddd/core/infrastructure/cache/redis_client.go`  | `pkg/platform/cache/client.go`             |
-| `ddd/core/infrastructure/eventbus/memory_bus.go` | `pkg/platform/eventbus/memory_bus.go`      |
-| `ddd/core/adapters/http/server.go`               | `pkg/modules/core/transport/gin/server.go` |
-| `internal/container/infra.go`                    | `internal/app/di/infra.go`                 |
-| `internal/container/usecase.go`                  | `internal/app/di/module.go`                |
+| 当前文件                                         | 目标文件                                  |
+| ------------------------------------------------ | ----------------------------------------- |
+| `ddd/core/infrastructure/database/connection.go` | `pkg/platform/db/connection.go`           |
+| `ddd/core/infrastructure/cache/redis_client.go`  | `pkg/platform/cache/client.go`            |
+| `ddd/core/infrastructure/eventbus/memory_bus.go` | `pkg/platform/eventbus/memory_bus.go`     |
+| `ddd/core/adapters/http/server.go`               | `pkg/modules/app/transport/gin/server.go` |
+| `internal/container/infra.go`                    | `internal/app/di/infra.go`                |
+| `internal/container/usecase.go`                  | `internal/app/di/module.go`               |

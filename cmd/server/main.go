@@ -10,6 +10,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"os"
 	"time"
 
@@ -24,13 +25,15 @@ import (
 
 	"github.com/lwmacct/251207-go-pkg-cfgm/pkg/cfgm"
 	"github.com/lwmacct/251219-go-pkg-logm/pkg/logm"
+	"github.com/lwmacct/251219-go-pkg-logm/pkg/logm/formatter"
+	"github.com/lwmacct/251219-go-pkg-logm/pkg/logm/writer"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
 	"github.com/urfave/cli/v3"
 	"go.uber.org/fx"
 	"go.uber.org/fx/fxevent"
 
-	// 本地 app/di 包（启动器组装代码）
-	"github.com/lwmacct/260101-go-pkg-ddd/internal/app/di"
+	// 启动器组装代码
+	"github.com/lwmacct/260101-go-pkg-ddd/internal/container"
 )
 
 // Swagger 总体配置 - 使用者自定义
@@ -60,8 +63,8 @@ var (
 )
 
 func main() {
-	// 初始化日志
-	logm.MustInit(logm.PresetAuto()...)
+	// 初始化日志 - 终端彩色 + 文件纯文本
+	initLogger()
 
 	app := &cli.Command{
 		Name:    "server",
@@ -214,13 +217,13 @@ func buildFxOptions(cfg *config.Config) []fx.Option {
 		fx.Supply(cfg),
 		fx.StartTimeout(30 * time.Second),
 		fx.StopTimeout(10 * time.Second),
-		di.InfraModule,
-		di.CacheModule,
-		di.RepositoryModule,
-		di.ServiceModule,
-		di.UseCaseModule,
-		di.HTTPModule,
-		di.HooksModule,
+		container.InfraModule,
+		container.CacheModule,
+		container.RepositoryModule,
+		container.ServiceModule,
+		container.UseCaseModule,
+		container.HTTPModule,
+		container.HooksModule,
 		// Swagger 端点注册 - 使用者决定
 		fx.Invoke(func(r *gin.Engine) {
 			r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
@@ -248,8 +251,8 @@ func migrateDatabase(ctx context.Context, cmd *cli.Command) error {
 		fx.Supply(cfg),
 		fx.StartTimeout(5*time.Minute),
 		fx.StopTimeout(10*time.Second),
-		di.InfraModule,
-		fx.Invoke(di.RunMigration),
+		container.InfraModule,
+		fx.Invoke(container.RunMigration),
 		fx.WithLogger(func() fxevent.Logger { return nopLogger{} }),
 	)
 
@@ -275,8 +278,8 @@ func resetDatabase(ctx context.Context, cmd *cli.Command) error {
 		fx.Supply(cfg),
 		fx.StartTimeout(5*time.Minute),
 		fx.StopTimeout(10*time.Second),
-		di.InfraModule,
-		fx.Invoke(di.RunReset),
+		container.InfraModule,
+		fx.Invoke(container.RunReset),
 		fx.WithLogger(func() fxevent.Logger { return nopLogger{} }),
 	)
 
@@ -302,8 +305,8 @@ func seedDatabase(ctx context.Context, cmd *cli.Command) error {
 		fx.Supply(cfg),
 		fx.StartTimeout(5*time.Minute),
 		fx.StopTimeout(10*time.Second),
-		di.InfraModule,
-		fx.Invoke(di.RunSeed),
+		container.InfraModule,
+		fx.Invoke(container.RunSeed),
 		fx.WithLogger(func() fxevent.Logger { return nopLogger{} }),
 	)
 
@@ -322,3 +325,67 @@ func seedDatabase(ctx context.Context, cmd *cli.Command) error {
 type nopLogger struct{}
 
 func (nopLogger) LogEvent(fxevent.Event) {}
+
+// initLogger 初始化日志系统：终端彩色 + 文件纯文本。
+func initLogger() {
+	// 使用 logm 的 Handler（兼容 slog.Handler 接口）
+	stdoutHandler := logm.NewHandler(&logm.HandlerConfig{
+		LevelVar:   logm.GetLevelVar(),
+		Formatter:  formatter.ColorText(),
+		Writers:    []logm.Writer{writer.Stdout()},
+		AddSource:  true,
+		TimeFormat: "15:04:05.000",
+	})
+
+	// 文件 Handler
+	fileHandler := logm.NewHandler(&logm.HandlerConfig{
+		LevelVar:   logm.GetLevelVar(),
+		Formatter:  formatter.Text(),
+		Writers:    []logm.Writer{writer.File("/tmp/app.log")},
+		AddSource:  true,
+		TimeFormat: "2006-01-02 15:04:05.000",
+	})
+
+	// 使用自定义 multiHandler 组合两个 Handler
+	logger := slog.New(&multiHandler{
+		handlers: []slog.Handler{stdoutHandler, fileHandler},
+	})
+	slog.SetDefault(logger)
+}
+
+// multiHandler 将日志记录到多个 Handler。
+type multiHandler struct {
+	handlers []slog.Handler
+}
+
+func (m *multiHandler) Enabled(ctx context.Context, level slog.Level) bool {
+	for _, h := range m.handlers {
+		if h.Enabled(ctx, level) {
+			return true
+		}
+	}
+	return false
+}
+
+func (m *multiHandler) Handle(ctx context.Context, r slog.Record) error {
+	for _, h := range m.handlers {
+		_ = h.Handle(ctx, r)
+	}
+	return nil
+}
+
+func (m *multiHandler) WithAttrs(attrs []slog.Attr) slog.Handler {
+	handlers := make([]slog.Handler, len(m.handlers))
+	for i, h := range m.handlers {
+		handlers[i] = h.WithAttrs(attrs)
+	}
+	return &multiHandler{handlers: handlers}
+}
+
+func (m *multiHandler) WithGroup(name string) slog.Handler {
+	handlers := make([]slog.Handler, len(m.handlers))
+	for i, h := range m.handlers {
+		handlers[i] = h.WithGroup(name)
+	}
+	return &multiHandler{handlers: handlers}
+}

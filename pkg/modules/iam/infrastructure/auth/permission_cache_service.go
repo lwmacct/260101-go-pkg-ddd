@@ -111,17 +111,17 @@ func (s *PermissionCacheService) GetUserPermissions(ctx context.Context, userID 
 
 	// 5. 同步写入权限缓存（Redis 写入 < 1ms，延迟可忽略）
 	if err := s.cache.SetUserPermissions(ctx, userID, roles, permissions); err != nil {
-		slog.Warn("Failed to cache user permissions",
+		slog.WarnContext(ctx, "Failed to cache user permissions",
 			"user_id", userID,
-			"error", err,
+			"error", err.Error(),
 		)
 	}
 
 	// 6. 同步写入用户实体缓存（关键！供后续 Handler 通过 Repository 装饰器命中）
 	if err := s.userCache.SetUserWithRoles(ctx, u); err != nil {
-		slog.Warn("Failed to cache user entity",
+		slog.WarnContext(ctx, "Failed to cache user entity",
 			"user_id", userID,
-			"error", err,
+			"error", err.Error(),
 		)
 	}
 

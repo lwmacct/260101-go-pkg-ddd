@@ -9,8 +9,8 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
-	appsetting "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/setting"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/domain/setting"
+	appsetting "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/setting"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/domain/setting"
 )
 
 const (

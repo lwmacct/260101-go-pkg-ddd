@@ -106,7 +106,7 @@ func (b *InMemoryEventBus) publishOne(ctx context.Context, e event.Event) error 
 	var lastErr error
 	for _, handler := range matchedHandlers {
 		if err := handler.Handle(ctx, e); err != nil {
-			slog.Error("event handler failed", "event", e.EventName(), "err", err)
+			slog.Error("event handler failed", "event", e.EventName(), "error", err.Error())
 			lastErr = err
 			// 继续执行后续处理器
 		}

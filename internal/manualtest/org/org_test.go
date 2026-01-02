@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/lwmacct/260101-go-pkg-ddd/internal/manualtest"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/org"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/org"
 )
 
 // TestMain 在所有测试完成后清理测试数据。

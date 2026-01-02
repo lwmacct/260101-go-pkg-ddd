@@ -39,7 +39,8 @@ func NewClient() *Client {
 		panic("加载配置失败: " + err.Error())
 	}
 
-	return newClient(cfg.GetBaseUrl(false), cfg.Auth.DevSecret)
+	baseURL := cfg.GetBaseUrl(false)
+	return newClient(baseURL, cfg.Auth.DevSecret)
 }
 
 // LoginAsAdmin 登录管理员账户，返回已认证的客户端。

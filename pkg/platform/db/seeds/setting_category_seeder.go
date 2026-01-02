@@ -4,7 +4,7 @@ import (
 	"context"
 	"log/slog"
 
-	_persistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+	_persistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/infrastructure/persistence"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )

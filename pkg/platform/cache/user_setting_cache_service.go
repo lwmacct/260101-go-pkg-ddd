@@ -10,7 +10,7 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
-	appsetting "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/setting"
+	appsetting "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/setting"
 )
 
 const userSettingCacheTTL = 30 * time.Minute
@@ -187,7 +187,7 @@ func (s *userSettingCacheService) DeleteBySettingKey(ctx context.Context, key st
 func (s *userSettingCacheService) DeleteBySettingKeys(ctx context.Context, keys []string) error {
 	for _, key := range keys {
 		if err := s.DeleteBySettingKey(ctx, key); err != nil {
-			slog.Warn("failed to delete user setting cache by key", "key", key, "err", err)
+			slog.Warn("failed to delete user setting cache by key", "key", key, "error", err.Error())
 		}
 	}
 	return nil

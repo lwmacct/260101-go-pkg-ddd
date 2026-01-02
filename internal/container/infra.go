@@ -18,7 +18,7 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
-	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/infrastructure/persistence"
 	crmpersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/cache"
 	dbpkg "github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/db"

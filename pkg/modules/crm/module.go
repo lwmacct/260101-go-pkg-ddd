@@ -12,10 +12,5 @@ import "go.uber.org/fx"
 // Module 返回 CRM BC 的 Fx 模块
 func Module() fx.Option {
 	return fx.Module("crm") // TODO: 添加 providers
-	// fx.Provide(
-	//     NewRepositories,
-	//     NewUseCases,
-	//     NewHandlers,
-	// ),
 
 }

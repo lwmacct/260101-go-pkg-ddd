@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/lwmacct/260101-go-pkg-ddd/internal/manualtest"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/setting"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/setting"
 )
 
 // extractSettingsFromSchema 从层级结构的 Schema 中提取扁平化的配置列表

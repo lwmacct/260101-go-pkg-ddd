@@ -22,5 +22,5 @@
 //   - 所有中间件都是并发安全的。
 //
 // 依赖注入：
-//   - Auth 和 RBAC 中间件需要通过工厂函数注入依赖（见 internal/app/di/）
+//   - Auth 和 RBAC 中间件需要通过工厂函数注入依赖（见 internal/container/）
 package middleware

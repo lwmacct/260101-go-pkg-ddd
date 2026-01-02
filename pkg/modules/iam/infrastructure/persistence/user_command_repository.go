@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 
-	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/infrastructure/persistence"
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/user"
 	"gorm.io/gorm"

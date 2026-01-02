@@ -8,7 +8,7 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
-	appcache "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/cache"
+	appcache "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/cache"
 )
 
 // adminCacheService AdminCacheService 的 Redis 实现。

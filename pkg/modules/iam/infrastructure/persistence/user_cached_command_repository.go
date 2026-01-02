@@ -92,7 +92,7 @@ func (r *cachedUserCommandRepository) UpdateStatus(ctx context.Context, userID u
 // invalidateUserCache 同步失效用户缓存。
 func (r *cachedUserCommandRepository) invalidateUserCache(ctx context.Context, userID uint) {
 	if err := r.cache.InvalidateUser(ctx, userID); err != nil {
-		slog.Warn("failed to invalidate user cache", "user_id", userID, "err", err)
+		slog.Warn("failed to invalidate user cache", "user_id", userID, "error", err.Error())
 	}
 }
 
