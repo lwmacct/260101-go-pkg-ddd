@@ -11,6 +11,7 @@ import (
 
 	infracaptcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/captcha"
 	infrastats "github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/stats"
+	crmpersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/crm/infrastructure/persistence"
 )
 
 // RepositoryModule 提供所有仓储实现。
@@ -37,10 +38,10 @@ var RepositoryModule = fx.Module("repository",
 		persistence.NewTaskRepositories,
 
 		// CRM 仓储
-		persistence.NewContactRepositories,
-		persistence.NewCompanyRepositories,
-		persistence.NewLeadRepositories,
-		persistence.NewOpportunityRepositories,
+		crmpersistence.NewContactRepositories,
+		crmpersistence.NewCompanyRepositories,
+		crmpersistence.NewLeadRepositories,
+		crmpersistence.NewOpportunityRepositories,
 
 		// 带缓存装饰的仓储
 		newUserRepositoriesWithCache,

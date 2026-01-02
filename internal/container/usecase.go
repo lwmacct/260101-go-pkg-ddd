@@ -19,6 +19,7 @@ import (
 	appContact "github.com/lwmacct/260101-go-pkg-ddd/pkg/crm/application/contact"
 	appLead "github.com/lwmacct/260101-go-pkg-ddd/pkg/crm/application/lead"
 	appOpp "github.com/lwmacct/260101-go-pkg-ddd/pkg/crm/application/opportunity"
+	crmpersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/crm/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/application/auth"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/application/pat"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/application/role"
@@ -454,7 +455,7 @@ func newTaskUseCases(repos persistence.TaskRepositories) *TaskUseCases {
 	}
 }
 
-func newContactUseCases(repos persistence.ContactRepositories) *ContactUseCases {
+func newContactUseCases(repos crmpersistence.ContactRepositories) *ContactUseCases {
 	return &ContactUseCases{
 		Create: appContact.NewCreateHandler(repos.Command, repos.Query),
 		Update: appContact.NewUpdateHandler(repos.Command, repos.Query),
@@ -464,7 +465,7 @@ func newContactUseCases(repos persistence.ContactRepositories) *ContactUseCases 
 	}
 }
 
-func newCompanyUseCases(repos persistence.CompanyRepositories) *CompanyUseCases {
+func newCompanyUseCases(repos crmpersistence.CompanyRepositories) *CompanyUseCases {
 	return &CompanyUseCases{
 		Create: appCompany.NewCreateHandler(repos.Command, repos.Query),
 		Update: appCompany.NewUpdateHandler(repos.Command, repos.Query),
@@ -474,7 +475,7 @@ func newCompanyUseCases(repos persistence.CompanyRepositories) *CompanyUseCases 
 	}
 }
 
-func newLeadUseCases(repos persistence.LeadRepositories) *LeadUseCases {
+func newLeadUseCases(repos crmpersistence.LeadRepositories) *LeadUseCases {
 	return &LeadUseCases{
 		Create:  appLead.NewCreateHandler(repos.Command, repos.Query),
 		Update:  appLead.NewUpdateHandler(repos.Command, repos.Query),
@@ -488,7 +489,7 @@ func newLeadUseCases(repos persistence.LeadRepositories) *LeadUseCases {
 	}
 }
 
-func newOpportunityUseCases(repos persistence.OpportunityRepositories) *OpportunityUseCases {
+func newOpportunityUseCases(repos crmpersistence.OpportunityRepositories) *OpportunityUseCases {
 	return &OpportunityUseCases{
 		Create:    appOpp.NewCreateHandler(repos.Command),
 		Update:    appOpp.NewUpdateHandler(repos.Command, repos.Query),

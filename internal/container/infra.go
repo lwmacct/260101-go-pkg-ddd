@@ -24,6 +24,7 @@ import (
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/eventbus"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/telemetry"
+	crmpersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/crm/infrastructure/persistence"
 )
 
 // InfraModule 提供基础设施组件。
@@ -142,6 +143,39 @@ func runAutoMigrate(db *gorm.DB) error {
 	// 为 TaskModel 创建复合索引
 	if err := database.CreateIndexes(db, &persistence.TaskModel{}, []string{
 		"idx_tasks_org_team",
+	}); err != nil {
+		return err
+	}
+
+	// 为 LeadModel 创建索引
+	if err := database.CreateIndexes(db, &crmpersistence.LeadModel{}, []string{
+		"idx_leads_owner_id",
+		"idx_leads_contact_id",
+	}); err != nil {
+		return err
+	}
+
+	// 为 OpportunityModel 创建索引
+	if err := database.CreateIndexes(db, &crmpersistence.OpportunityModel{}, []string{
+		"idx_opportunities_contact_id",
+		"idx_opportunities_company_id",
+		"idx_opportunities_lead_id",
+		"idx_opportunities_owner_id",
+	}); err != nil {
+		return err
+	}
+
+	// 为 ContactModel 创建索引
+	if err := database.CreateIndexes(db, &crmpersistence.ContactModel{}, []string{
+		"idx_contacts_owner_id",
+		"idx_contacts_company_id",
+	}); err != nil {
+		return err
+	}
+
+	// 为 CompanyModel 创建索引
+	if err := database.CreateIndexes(db, &crmpersistence.CompanyModel{}, []string{
+		"idx_companies_owner_id",
 	}); err != nil {
 		return err
 	}
