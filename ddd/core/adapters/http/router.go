@@ -51,7 +51,7 @@ import (
 	"github.com/redis/go-redis/v9"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/ddd/config"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
 
 	// 引入处理器和中间件包
 	corehandler "github.com/lwmacct/260101-go-pkg-ddd/ddd/core/adapters/http/handler"
