@@ -10,6 +10,7 @@ import (
 	appContact "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/contact"
 	appInvoice "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/invoice"
 	appLead "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/lead"
+	appOpp "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/opportunity"
 	appOrder "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/order"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/org"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/pat"
@@ -217,6 +218,18 @@ type LeadUseCases struct {
 	List    *appLead.ListHandler
 }
 
+// OpportunityUseCases 商机相关用例处理器
+type OpportunityUseCases struct {
+	Create    *appOpp.CreateHandler
+	Update    *appOpp.UpdateHandler
+	Delete    *appOpp.DeleteHandler
+	Advance   *appOpp.AdvanceHandler
+	CloseWon  *appOpp.CloseWonHandler
+	CloseLost *appOpp.CloseLostHandler
+	Get       *appOpp.GetHandler
+	List      *appOpp.ListHandler
+}
+
 // --- Fx 模块 ---
 
 // UseCaseModule 提供按领域组织的所有用例处理器。
@@ -240,6 +253,7 @@ var UseCaseModule = fx.Module("usecase",
 		newContactUseCases,
 		newCompanyUseCases,
 		newLeadUseCases,
+		newOpportunityUseCases,
 	),
 )
 
@@ -538,5 +552,18 @@ func newLeadUseCases(repos persistence.LeadRepositories) *LeadUseCases {
 		Lose:    appLead.NewLoseHandler(repos.Command, repos.Query),
 		Get:     appLead.NewGetHandler(repos.Query),
 		List:    appLead.NewListHandler(repos.Query),
+	}
+}
+
+func newOpportunityUseCases(repos persistence.OpportunityRepositories) *OpportunityUseCases {
+	return &OpportunityUseCases{
+		Create:    appOpp.NewCreateHandler(repos.Command),
+		Update:    appOpp.NewUpdateHandler(repos.Command, repos.Query),
+		Delete:    appOpp.NewDeleteHandler(repos.Command, repos.Query),
+		Advance:   appOpp.NewAdvanceHandler(repos.Command, repos.Query),
+		CloseWon:  appOpp.NewCloseWonHandler(repos.Command, repos.Query),
+		CloseLost: appOpp.NewCloseLostHandler(repos.Command, repos.Query),
+		Get:       appOpp.NewGetHandler(repos.Query),
+		List:      appOpp.NewListHandler(repos.Query),
 	}
 }

@@ -49,6 +49,7 @@ type HandlersResult struct {
 	Contact          *handler.ContactHandler
 	Company          *handler.CompanyHandler
 	Lead             *handler.LeadHandler
+	Opportunity      *handler.OpportunityHandler
 }
 
 // HTTPModule 提供 HTTP 处理器、路由和服务器。
@@ -113,6 +114,7 @@ type handlersParams struct {
 	Contact       *ContactUseCases
 	Company       *CompanyUseCases
 	Lead          *LeadUseCases
+	Opportunity   *OpportunityUseCases
 }
 
 func newAllHandlers(p handlersParams) HandlersResult {
@@ -282,6 +284,16 @@ func newAllHandlers(p handlersParams) HandlersResult {
 			p.Lead.Get,
 			p.Lead.List,
 		),
+		Opportunity: handler.NewOpportunityHandler(
+			p.Opportunity.Create,
+			p.Opportunity.Update,
+			p.Opportunity.Delete,
+			p.Opportunity.Advance,
+			p.Opportunity.CloseWon,
+			p.Opportunity.CloseLost,
+			p.Opportunity.Get,
+			p.Opportunity.List,
+		),
 	}
 }
 
@@ -332,6 +344,7 @@ type routerParams struct {
 	Contact     *handler.ContactHandler
 	Company     *handler.CompanyHandler
 	Lead        *handler.LeadHandler
+	Opportunity *handler.OpportunityHandler
 }
 
 func newRouter(p routerParams) *gin.Engine {
@@ -371,6 +384,7 @@ func newRouter(p routerParams) *gin.Engine {
 		ContactHandler:         p.Contact,
 		CompanyHandler:         p.Company,
 		LeadHandler:            p.Lead,
+		OpportunityHandler:     p.Opportunity,
 	}
 
 	return ginhttp.SetupRouterWithDeps(deps)
