@@ -3,15 +3,15 @@ package routes
 import (
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/routes"
 
-	corehandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/transport/gin/handler"
 	iamhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/transport/gin/handler"
 )
 
-// Admin
+// Admin 管理员路由
 func Admin(
-	adminUserHandler *corehandler.AdminUserHandler,
+	adminUserHandler *iamhandler.AdminUserHandler,
 	roleHandler *iamhandler.RoleHandler,
-	settingHandler *corehandler.SettingHandler,
+	auditHandler *iamhandler.AuditHandler,
+	orgHandler *iamhandler.OrgHandler,
 ) []routes.Route {
 	var allRoutes []routes.Route
 
@@ -140,106 +140,74 @@ func Admin(
 		},
 	}...)
 
-	// Setting management routes
+	// Audit log routes
 	allRoutes = append(allRoutes, []routes.Route{
 		{
 			Method:      routes.GET,
-			Path:        "/api/admin/settings",
-			Handler:     settingHandler.GetSettings,
-			Operation:   "admin:settings:list",
-			Tags:        "Admin - Settings",
-			Summary:     "设置列表",
-			Description: "获取系统设置列表（Schema + 值）",
+			Path:        "/api/admin/audit",
+			Handler:     auditHandler.ListLogs,
+			Operation:   "admin:audit:list",
+			Tags:        "Admin - Audit",
+			Summary:     "审计日志列表",
+			Description: "获取审计日志列表",
 		},
 		{
 			Method:      routes.GET,
-			Path:        "/api/admin/settings/:key",
-			Handler:     settingHandler.GetSetting,
-			Operation:   "admin:settings:get",
-			Tags:        "Admin - Settings",
-			Summary:     "设置详情",
-			Description: "获取单个设置详情",
+			Path:        "/api/admin/audit/:id",
+			Handler:     auditHandler.GetLog,
+			Operation:   "admin:audit:get",
+			Tags:        "Admin - Audit",
+			Summary:     "审计日志详情",
+			Description: "获取审计日志详情",
+		},
+	}...)
+
+	// Organization management routes (admin level)
+	allRoutes = append(allRoutes, []routes.Route{
+		{
+			Method:      routes.GET,
+			Path:        "/api/admin/orgs",
+			Handler:     orgHandler.List,
+			Operation:   "admin:orgs:list",
+			Tags:        "Admin - Organizations",
+			Summary:     "组织列表",
+			Description: "获取组织列表",
 		},
 		{
 			Method:      routes.POST,
-			Path:        "/api/admin/settings",
-			Handler:     settingHandler.CreateSetting,
-			Operation:   "admin:settings:create",
-			Tags:        "Admin - Settings",
-			Summary:     "创建设置",
-			Description: "创建新设置",
+			Path:        "/api/admin/orgs",
+			Handler:     orgHandler.Create,
+			Operation:   "admin:orgs:create",
+			Tags:        "Admin - Organizations",
+			Summary:     "创建组织",
+			Description: "创建新组织",
+		},
+		{
+			Method:      routes.GET,
+			Path:        "/api/admin/orgs/:id",
+			Handler:     orgHandler.Get,
+			Operation:   "admin:orgs:get",
+			Tags:        "Admin - Organizations",
+			Summary:     "组织详情",
+			Description: "获取组织详细信息",
 		},
 		{
 			Method:      routes.PUT,
-			Path:        "/api/admin/settings/:key",
-			Handler:     settingHandler.UpdateSetting,
-			Operation:   "admin:settings:update",
-			Tags:        "Admin - Settings",
-			Summary:     "更新设置",
-			Description: "更新设置值",
+			Path:        "/api/admin/orgs/:id",
+			Handler:     orgHandler.Update,
+			Operation:   "admin:orgs:update",
+			Tags:        "Admin - Organizations",
+			Summary:     "更新组织",
+			Description: "更新组织信息",
 		},
 		{
 			Method:      routes.DELETE,
-			Path:        "/api/admin/settings/:key",
-			Handler:     settingHandler.DeleteSetting,
-			Operation:   "admin:settings:delete",
-			Tags:        "Admin - Settings",
-			Summary:     "删除设置",
-			Description: "删除设置",
-		},
-		{
-			Method:      routes.POST,
-			Path:        "/api/admin/settings/batch",
-			Handler:     settingHandler.BatchUpdateSettings,
-			Operation:   "admin:settings:batch_update",
-			Tags:        "Admin - Settings",
-			Summary:     "批量更新设置",
-			Description: "批量更新多个设置值",
-		},
-		{
-			Method:      routes.GET,
-			Path:        "/api/admin/settings/categories",
-			Handler:     settingHandler.GetCategories,
-			Operation:   "admin:settings:categories:list",
-			Tags:        "Admin - Settings",
-			Summary:     "设置分类列表",
-			Description: "获取设置分类列表",
-		},
-		{
-			Method:      routes.GET,
-			Path:        "/api/admin/settings/categories/:id",
-			Handler:     settingHandler.GetCategory,
-			Operation:   "admin:settings:categories:get",
-			Tags:        "Admin - Settings",
-			Summary:     "设置分类详情",
-			Description: "获取设置分类详情",
-		},
-		{
-			Method:      routes.POST,
-			Path:        "/api/admin/settings/categories",
-			Handler:     settingHandler.CreateCategory,
-			Operation:   "admin:settings:categories:create",
-			Tags:        "Admin - Settings",
-			Summary:     "创建设置分类",
-			Description: "创建设置分类",
-		},
-		{
-			Method:      routes.PUT,
-			Path:        "/api/admin/settings/categories/:id",
-			Handler:     settingHandler.UpdateCategory,
-			Operation:   "admin:settings:categories:update",
-			Tags:        "Admin - Settings",
-			Summary:     "更新设置分类",
-			Description: "更新设置分类",
-		},
-		{
-			Method:      routes.DELETE,
-			Path:        "/api/admin/settings/categories/:id",
-			Handler:     settingHandler.DeleteCategory,
-			Operation:   "admin:settings:categories:delete",
-			Tags:        "Admin - Settings",
-			Summary:     "删除设置分类",
-			Description: "删除设置分类",
+			Path:        "/api/admin/orgs/:id",
+			Handler:     orgHandler.Delete,
+			Operation:   "admin:orgs:delete",
+			Tags:        "Admin - Organizations",
+			Summary:     "删除组织",
+			Description: "删除组织",
 		},
 	}...)
 

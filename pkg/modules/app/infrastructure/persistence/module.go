@@ -18,11 +18,6 @@ import (
 var RepositoryModule = fx.Module("app.repository",
 	fx.Provide(
 		// 直接使用 persistence 构造函数（无需包装）
-		NewAuditRepositories,
-		NewOrganizationRepositories,
-		NewTeamRepositories,
-		NewOrgMemberRepositories,
-		NewTeamMemberRepositories,
 		NewTaskRepositories,
 
 		// 带缓存装饰的仓储

@@ -8,9 +8,9 @@ import (
 	"go.uber.org/fx"
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/audit"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/infrastructure/persistence"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/audit"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/auth"
+	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/permission"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/routes"
@@ -35,9 +35,9 @@ type RouterDepsParams struct {
 	AuditCreateHandler *audit.CreateHandler
 
 	// Domain Repositories (for middleware)
-	MemberRepos     persistence.OrgMemberRepositories
-	TeamRepos       persistence.TeamRepositories
-	TeamMemberRepos persistence.TeamMemberRepositories
+	MemberRepos     iampersistence.OrgMemberRepositories
+	TeamRepos       iampersistence.TeamRepositories
+	TeamMemberRepos iampersistence.TeamMemberRepositories
 }
 
 // MiddlewareInjector 中间件注入器。

@@ -12,12 +12,11 @@ import (
 
 	"github.com/lwmacct/260101-go-pkg-ddd/internal/bootstrap"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/health"
 
-	// Application UseCases
-	appapplication "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application"
+	// Application UseCases and Handlers
+	appApp "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/cache"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/infrastructure/persistence"
-	ginhttp "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/transport/gin"
 	corehandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/transport/gin/handler"
 
 	// CRM UseCases and Handlers
@@ -27,8 +26,10 @@ import (
 	// IAM UseCases and Handlers
 	iamapplication "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/auth"
+	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 	iamhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/transport/gin/handler"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/health"
+
+	ginHttp "github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/http/gin"
 )
 
 // HandlersResult 使用 fx.Out 批量返回所有 HTTP 处理器。
@@ -37,22 +38,22 @@ type HandlersResult struct {
 
 	Health           *corehandler.HealthHandler
 	Auth             *iamhandler.AuthHandler
-	Captcha          *corehandler.CaptchaHandler
-	AdminUser        *corehandler.AdminUserHandler
+	Captcha          *iamhandler.CaptchaHandler
+	AdminUser        *iamhandler.AdminUserHandler
 	UserProfile      *iamhandler.UserProfileHandler
 	Role             *iamhandler.RoleHandler
 	Setting          *corehandler.SettingHandler
 	UserSetting      *corehandler.UserSettingHandler
 	PAT              *iamhandler.PATHandler
-	Audit            *corehandler.AuditHandler
+	Audit            *iamhandler.AuditHandler
 	Overview         *corehandler.OverviewHandler
 	TwoFA            *iamhandler.TwoFAHandler
 	Cache            *corehandler.CacheHandler
 	Operation        *corehandler.OperationHandler
-	Organization     *corehandler.OrgHandler
-	OrgMember        *corehandler.OrgMemberHandler
-	Team             *corehandler.TeamHandler
-	TeamMember       *corehandler.TeamMemberHandler
+	Organization     *iamhandler.OrgHandler
+	OrgMember        *iamhandler.OrgMemberHandler
+	Team             *iamhandler.TeamHandler
+	TeamMember       *iamhandler.TeamMemberHandler
 	UserOrganization *iamhandler.UserOrgHandler
 	Task             *corehandler.TaskHandler
 	Contact          *crmhandler.ContactHandler
@@ -73,12 +74,12 @@ var HTTPModule = fx.Module("http",
 )
 
 // newHTTPServer 创建 HTTP 服务器实例。
-func newHTTPServer(router *gin.Engine, cfg *config.Config) *ginhttp.Server {
-	return ginhttp.NewServer(router, cfg.Server.Addr)
+func newHTTPServer(router *gin.Engine, cfg *config.Config) *ginHttp.Server {
+	return ginHttp.NewServer(router, cfg.Server.Addr)
 }
 
 // startHTTPServer 注册 HTTP 服务器启动和关闭钩子。
-func startHTTPServer(lc fx.Lifecycle, server *ginhttp.Server, cfg *config.Config) {
+func startHTTPServer(lc fx.Lifecycle, server *ginHttp.Server, cfg *config.Config) {
 	lc.Append(fx.Hook{
 		OnStart: func(ctx context.Context) error {
 			slog.Info("Starting HTTP server", "addr", cfg.Server.Addr, "env", cfg.Server.Env)
@@ -108,15 +109,15 @@ type handlersParams struct {
 	Auth          *iamapplication.AuthUseCases
 	User          *iamapplication.UserUseCases
 	Role          *iamapplication.RoleUseCases
-	Setting       *appapplication.SettingUseCases
-	UserSetting   *appapplication.UserSettingUseCases
+	Setting       *appApp.SettingUseCases
+	UserSetting   *appApp.UserSettingUseCases
 	PAT           *iamapplication.PATUseCases
-	Audit         *appapplication.AuditUseCases
-	Stats         *appapplication.StatsUseCases
-	Captcha       *appapplication.CaptchaUseCases
+	Audit         *appApp.AuditUseCases
+	Stats         *appApp.StatsUseCases
+	Captcha       *appApp.CaptchaUseCases
 	TwoFA         *iamapplication.TwoFAUseCases
-	Organization  *appapplication.OrganizationUseCases
-	Task          *appapplication.TaskUseCases
+	Organization  *appApp.OrganizationUseCases
+	Task          *appApp.TaskUseCases
 	Contact       *crmapplication.ContactUseCases
 	Company       *crmapplication.CompanyUseCases
 	Lead          *crmapplication.LeadUseCases
@@ -132,8 +133,8 @@ func newAllHandlers(p handlersParams) HandlersResult {
 			p.Auth.Register,
 			p.Auth.RefreshToken,
 		),
-		Captcha: corehandler.NewCaptchaHandler(p.Captcha.Generate, p.Config.Auth.DevSecret),
-		AdminUser: corehandler.NewAdminUserHandler(
+		Captcha: iamhandler.NewCaptchaHandler(p.Captcha.Generate, p.Config.Auth.DevSecret),
+		AdminUser: iamhandler.NewAdminUserHandler(
 			p.User.Create,
 			p.User.Update,
 			p.User.Delete,
@@ -188,7 +189,7 @@ func newAllHandlers(p handlersParams) HandlersResult {
 			p.PAT.Get,
 			p.PAT.List,
 		),
-		Audit: corehandler.NewAuditHandler(
+		Audit: iamhandler.NewAuditHandler(
 			p.Audit.List,
 			p.Audit.Get,
 		),
@@ -206,27 +207,27 @@ func newAllHandlers(p handlersParams) HandlersResult {
 			cache.NewDeleteHandler(p.AdminCacheSvc),
 		),
 		Operation: corehandler.NewOperationHandler(),
-		Organization: corehandler.NewOrgHandler(
+		Organization: iamhandler.NewOrgHandler(
 			p.Organization.Create,
 			p.Organization.Update,
 			p.Organization.Delete,
 			p.Organization.Get,
 			p.Organization.List,
 		),
-		OrgMember: corehandler.NewOrgMemberHandler(
+		OrgMember: iamhandler.NewOrgMemberHandler(
 			p.Organization.MemberAdd,
 			p.Organization.MemberRemove,
 			p.Organization.MemberUpdateRole,
 			p.Organization.MemberList,
 		),
-		Team: corehandler.NewTeamHandler(
+		Team: iamhandler.NewTeamHandler(
 			p.Organization.TeamCreate,
 			p.Organization.TeamUpdate,
 			p.Organization.TeamDelete,
 			p.Organization.TeamGet,
 			p.Organization.TeamList,
 		),
-		TeamMember: corehandler.NewTeamMemberHandler(
+		TeamMember: iamhandler.NewTeamMemberHandler(
 			p.Organization.TeamMemberAdd,
 			p.Organization.TeamMemberRemove,
 			p.Organization.TeamMemberList,
@@ -293,32 +294,32 @@ type routerParams struct {
 	PermissionCache *auth.PermissionCacheService
 
 	// UseCases
-	Audit *appapplication.AuditUseCases
+	Audit *iamapplication.AuditUseCases
 
 	// Repositories (for middleware)
-	MemberRepos     persistence.OrgMemberRepositories
-	TeamRepos       persistence.TeamRepositories
-	TeamMemberRepos persistence.TeamMemberRepositories
+	MemberRepos     iampersistence.OrgMemberRepositories
+	TeamRepos       iampersistence.TeamRepositories
+	TeamMemberRepos iampersistence.TeamMemberRepositories
 
 	// Handlers
 	Health      *corehandler.HealthHandler
 	Auth        *iamhandler.AuthHandler
-	Captcha     *corehandler.CaptchaHandler
-	AdminUser   *corehandler.AdminUserHandler
+	Captcha     *iamhandler.CaptchaHandler
+	AdminUser   *iamhandler.AdminUserHandler
 	UserProfile *iamhandler.UserProfileHandler
 	Role        *iamhandler.RoleHandler
 	Setting     *corehandler.SettingHandler
 	UserSetting *corehandler.UserSettingHandler
 	PAT         *iamhandler.PATHandler
-	AuditH      *corehandler.AuditHandler
+	AuditH      *iamhandler.AuditHandler
 	Overview    *corehandler.OverviewHandler
 	TwoFA       *iamhandler.TwoFAHandler
 	Cache       *corehandler.CacheHandler
 	Operation   *corehandler.OperationHandler
-	Org         *corehandler.OrgHandler
-	OrgMember   *corehandler.OrgMemberHandler
-	Team        *corehandler.TeamHandler
-	TeamMember  *corehandler.TeamMemberHandler
+	Org         *iamhandler.OrgHandler
+	OrgMember   *iamhandler.OrgMemberHandler
+	Team        *iamhandler.TeamHandler
+	TeamMember  *iamhandler.TeamMemberHandler
 	UserOrg     *iamhandler.UserOrgHandler
 	TaskHandler *corehandler.TaskHandler
 	Contact     *crmhandler.ContactHandler
@@ -339,21 +340,20 @@ func newRouter(p routerParams) *gin.Engine {
 		p.UserProfile,
 		p.UserOrg,
 		p.PAT,
-		// App Handlers (used in IAM)
+		// Migrated to IAM
 		p.AdminUser,
 		p.Role,
 		p.Captcha,
-		p.Setting,
-		p.UserSetting,
-		// App Handlers (Org/Team Management - used in IAM)
+		p.AuditH,
+		p.Org,
 		p.OrgMember,
 		p.Team,
 		p.TeamMember,
+		// App Handlers
+		p.Setting,
+		p.UserSetting,
 		p.TaskHandler,
-		// App Handlers (system admin)
 		p.Health,
-		p.Org,
-		p.AuditH,
 		p.Cache,
 		p.Overview,
 		// CRM Handlers

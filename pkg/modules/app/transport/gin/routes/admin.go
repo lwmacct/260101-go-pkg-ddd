@@ -5,67 +5,13 @@ import (
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/routes"
 )
 
-// Admin Core 域管理员路由（组织、团队、任务、审计等）
+// Admin App 域管理员路由（任务、缓存管理、系统概览）
 func Admin(
-	orgHandler *corehandler.OrgHandler,
-	orgMemberHandler *corehandler.OrgMemberHandler,
-	teamHandler *corehandler.TeamHandler,
-	teamMemberHandler *corehandler.TeamMemberHandler,
 	taskHandler *corehandler.TaskHandler,
-	auditHandler *corehandler.AuditHandler,
 	cacheHandler *corehandler.CacheHandler,
 	overviewHandler *corehandler.OverviewHandler,
 ) []routes.Route {
 	var allRoutes []routes.Route
-
-	// Organization routes
-	allRoutes = append(allRoutes, []routes.Route{
-		{
-			Method:      routes.GET,
-			Path:        "/api/admin/orgs",
-			Handler:     orgHandler.List,
-			Operation:   "admin:orgs:list",
-			Tags:        "Admin - Organizations",
-			Summary:     "组织列表",
-			Description: "获取组织列表",
-		},
-		{
-			Method:      routes.POST,
-			Path:        "/api/admin/orgs",
-			Handler:     orgHandler.Create,
-			Operation:   "admin:orgs:create",
-			Tags:        "Admin - Organizations",
-			Summary:     "创建组织",
-			Description: "创建新组织",
-		},
-		{
-			Method:      routes.GET,
-			Path:        "/api/admin/orgs/:id",
-			Handler:     orgHandler.Get,
-			Operation:   "admin:orgs:get",
-			Tags:        "Admin - Organizations",
-			Summary:     "组织详情",
-			Description: "获取组织详细信息",
-		},
-		{
-			Method:      routes.PUT,
-			Path:        "/api/admin/orgs/:id",
-			Handler:     orgHandler.Update,
-			Operation:   "admin:orgs:update",
-			Tags:        "Admin - Organizations",
-			Summary:     "更新组织",
-			Description: "更新组织信息",
-		},
-		{
-			Method:      routes.DELETE,
-			Path:        "/api/admin/orgs/:id",
-			Handler:     orgHandler.Delete,
-			Operation:   "admin:orgs:delete",
-			Tags:        "Admin - Organizations",
-			Summary:     "删除组织",
-			Description: "删除组织",
-		},
-	}...)
 
 	// Task routes
 	allRoutes = append(allRoutes, []routes.Route{
@@ -113,37 +59,6 @@ func Admin(
 			Tags:        "Admin - Tasks",
 			Summary:     "删除任务",
 			Description: "删除任务",
-		},
-	}...)
-
-	// Audit log routes
-	allRoutes = append(allRoutes, []routes.Route{
-		{
-			Method:      routes.GET,
-			Path:        "/api/admin/audit",
-			Handler:     auditHandler.ListLogs,
-			Operation:   "admin:audit:list",
-			Tags:        "Admin - Audit",
-			Summary:     "审计日志列表",
-			Description: "获取审计日志列表",
-		},
-		{
-			Method:      routes.GET,
-			Path:        "/api/admin/audit/:id",
-			Handler:     auditHandler.GetLog,
-			Operation:   "admin:audit:get",
-			Tags:        "Admin - Audit",
-			Summary:     "审计日志详情",
-			Description: "获取审计日志详情",
-		},
-		{
-			Method:      routes.GET,
-			Path:        "/api/admin/audit/actions",
-			Handler:     auditHandler.GetActions,
-			Operation:   "admin:audit:actions",
-			Tags:        "Admin - Audit",
-			Summary:     "审计操作列表",
-			Description: "获取可审计的操作列表",
 		},
 	}...)
 

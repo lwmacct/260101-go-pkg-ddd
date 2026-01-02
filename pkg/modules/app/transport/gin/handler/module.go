@@ -13,19 +13,13 @@ import (
 type HandlersResult struct {
 	fx.Out
 
-	Health       *HealthHandler
-	Captcha      *CaptchaHandler
-	Setting      *SettingHandler
-	UserSetting  *UserSettingHandler
-	Audit        *AuditHandler
-	Overview     *OverviewHandler
-	Cache        *CacheHandler
-	Operation    *OperationHandler
-	Organization *OrgHandler
-	OrgMember    *OrgMemberHandler
-	Team         *TeamHandler
-	TeamMember   *TeamMemberHandler
-	Task         *TaskHandler
+	Health      *HealthHandler
+	Setting     *SettingHandler
+	UserSetting *UserSettingHandler
+	Overview    *OverviewHandler
+	Cache       *CacheHandler
+	Operation   *OperationHandler
+	Task        *TaskHandler
 }
 
 // HandlerModule 提供 App 模块的所有 HTTP 处理器。
@@ -44,19 +38,15 @@ type handlersParams struct {
 	HealthChecker *health.SystemChecker
 
 	// App 模块用例
-	Audit        *appapplication.AuditUseCases
-	Setting      *appapplication.SettingUseCases
-	UserSetting  *appapplication.UserSettingUseCases
-	Stats        *appapplication.StatsUseCases
-	Captcha      *appapplication.CaptchaUseCases
-	Organization *appapplication.OrganizationUseCases
-	Task         *appapplication.TaskUseCases
+	Setting     *appapplication.SettingUseCases
+	UserSetting *appapplication.UserSettingUseCases
+	Stats       *appapplication.StatsUseCases
+	Task        *appapplication.TaskUseCases
 }
 
 func newAllHandlers(p handlersParams) HandlersResult {
 	return HandlersResult{
-		Health:  NewHealthHandler(p.HealthChecker),
-		Captcha: NewCaptchaHandler(p.Captcha.Generate, p.Config.Auth.DevSecret),
+		Health: NewHealthHandler(p.HealthChecker),
 		Setting: NewSettingHandler(
 			p.Setting.Create,
 			p.Setting.Update,
@@ -81,10 +71,6 @@ func newAllHandlers(p handlersParams) HandlersResult {
 			p.UserSetting.ListSettings,
 			p.UserSetting.ListCategories,
 		),
-		Audit: NewAuditHandler(
-			p.Audit.List,
-			p.Audit.Get,
-		),
 		Overview: NewOverviewHandler(p.Stats.GetStats),
 		Cache: NewCacheHandler(
 			cache.NewInfoHandler(p.AdminCacheSvc),
@@ -93,31 +79,6 @@ func newAllHandlers(p handlersParams) HandlersResult {
 			cache.NewDeleteHandler(p.AdminCacheSvc),
 		),
 		Operation: NewOperationHandler(),
-		Organization: NewOrgHandler(
-			p.Organization.Create,
-			p.Organization.Update,
-			p.Organization.Delete,
-			p.Organization.Get,
-			p.Organization.List,
-		),
-		OrgMember: NewOrgMemberHandler(
-			p.Organization.MemberAdd,
-			p.Organization.MemberRemove,
-			p.Organization.MemberUpdateRole,
-			p.Organization.MemberList,
-		),
-		Team: NewTeamHandler(
-			p.Organization.TeamCreate,
-			p.Organization.TeamUpdate,
-			p.Organization.TeamDelete,
-			p.Organization.TeamGet,
-			p.Organization.TeamList,
-		),
-		TeamMember: NewTeamMemberHandler(
-			p.Organization.TeamMemberAdd,
-			p.Organization.TeamMemberRemove,
-			p.Organization.TeamMemberList,
-		),
 		Task: NewTaskHandler(
 			p.Task.Create,
 			p.Task.Update,

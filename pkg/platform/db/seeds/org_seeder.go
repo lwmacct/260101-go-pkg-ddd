@@ -5,7 +5,6 @@ import (
 	"log/slog"
 	"time"
 
-	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/infrastructure/persistence"
 	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -83,7 +82,7 @@ func (s *OrganizationSeeder) Seed(ctx context.Context, db *gorm.DB) error {
 
 		// 2. 创建组织和团队
 		for _, orgCfg := range orgs {
-			org := &corepersistence.OrgModel{
+			org := &iampersistence.OrgModel{
 				Name:        orgCfg.name,
 				DisplayName: orgCfg.displayName,
 				Description: orgCfg.description,
@@ -127,7 +126,7 @@ func (s *OrganizationSeeder) Seed(ctx context.Context, db *gorm.DB) error {
 			}
 
 			for _, m := range members {
-				member := &corepersistence.OrgMemberModel{
+				member := &iampersistence.OrgMemberModel{
 					OrgID:    org.ID,
 					UserID:   m.userID,
 					Role:     m.role,
@@ -148,7 +147,7 @@ func (s *OrganizationSeeder) Seed(ctx context.Context, db *gorm.DB) error {
 
 			// 5. 为每个组织创建 2 个团队
 			for _, teamCfg := range teams {
-				team := &corepersistence.TeamModel{
+				team := &iampersistence.TeamModel{
 					OrgID:       org.ID,
 					Name:        teamCfg.name,
 					DisplayName: teamCfg.displayName,
@@ -189,7 +188,7 @@ func (s *OrganizationSeeder) Seed(ctx context.Context, db *gorm.DB) error {
 				}
 
 				for _, tm := range teamMembers {
-					teamMember := &corepersistence.TeamMemberModel{
+					teamMember := &iampersistence.TeamMemberModel{
 						TeamID:   team.ID,
 						UserID:   tm.userID,
 						Role:     tm.role,

@@ -3,14 +3,14 @@ package application
 import (
 	"go.uber.org/fx"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/audit"
-	app_captcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/captcha"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/org"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/setting"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/stats"
 	app_task "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/task"
 	domain_stats "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/domain/stats"
 	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/infrastructure/persistence"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/audit"
+	app_captcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/captcha"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/org"
 	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/validation"
 	infra_captcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/captcha"
@@ -121,7 +121,7 @@ var UseCaseModule = fx.Module("app.usecase",
 
 // --- 构造函数 ---
 
-func newAuditUseCases(repos corepersistence.AuditRepositories) *AuditUseCases {
+func newAuditUseCases(repos iampersistence.AuditRepositories) *AuditUseCases {
 	return &AuditUseCases{
 		CreateLog: audit.NewCreateHandler(repos.Command),
 		Get:       audit.NewGetHandler(repos.Query),
@@ -201,7 +201,7 @@ func newCaptchaUseCases(
 type organizationUseCasesParams struct {
 	fx.In
 
-	OrgRepos corepersistence.OrganizationRepositories
+	OrgRepos iampersistence.OrganizationRepositories
 }
 
 func newOrganizationUseCases(p organizationUseCasesParams) *OrganizationUseCases {

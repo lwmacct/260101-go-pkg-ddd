@@ -3,7 +3,7 @@ package handler
 import (
 	"go.uber.org/fx"
 
-	appapplication "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
 	iamapplication "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application"
 )
 
@@ -13,10 +13,17 @@ type HandlersResult struct {
 
 	Auth        *AuthHandler
 	UserProfile *UserProfileHandler
+	AdminUser   *AdminUserHandler
 	Role        *RoleHandler
 	PAT         *PATHandler
 	TwoFA       *TwoFAHandler
 	UserOrg     *UserOrgHandler
+	Audit       *AuditHandler
+	Captcha     *CaptchaHandler
+	Org         *OrgHandler
+	OrgMember   *OrgMemberHandler
+	Team        *TeamHandler
+	TeamMember  *TeamMemberHandler
 }
 
 // HandlerModule 提供 IAM 模块的所有 HTTP 处理器。
@@ -28,15 +35,17 @@ var HandlerModule = fx.Module("iam.handler",
 type handlersParams struct {
 	fx.In
 
-	// IAM 模块用例
-	Auth  *iamapplication.AuthUseCases
-	User  *iamapplication.UserUseCases
-	Role  *iamapplication.RoleUseCases
-	PAT   *iamapplication.PATUseCases
-	TwoFA *iamapplication.TwoFAUseCases
+	Config *config.Config
 
-	// App 模块用例（跨模块依赖）
-	Organization *appapplication.OrganizationUseCases
+	// IAM 模块用例
+	Auth         *iamapplication.AuthUseCases
+	User         *iamapplication.UserUseCases
+	Role         *iamapplication.RoleUseCases
+	PAT          *iamapplication.PATUseCases
+	TwoFA        *iamapplication.TwoFAUseCases
+	Audit        *iamapplication.AuditUseCases
+	Captcha      *iamapplication.CaptchaUseCases
+	Organization *iamapplication.OrganizationUseCases
 }
 
 func newAllHandlers(p handlersParams) HandlersResult {
@@ -52,6 +61,15 @@ func newAllHandlers(p handlersParams) HandlersResult {
 			p.User.Update,
 			p.User.ChangePassword,
 			p.User.Delete,
+		),
+		AdminUser: NewAdminUserHandler(
+			p.User.Create,
+			p.User.Update,
+			p.User.Delete,
+			p.User.AssignRoles,
+			p.User.BatchCreate,
+			p.User.Get,
+			p.User.List,
 		),
 		Role: NewRoleHandler(
 			p.Role.Create,
@@ -78,6 +96,39 @@ func newAllHandlers(p handlersParams) HandlersResult {
 		UserOrg: NewUserOrgHandler(
 			p.Organization.UserOrgs,
 			p.Organization.UserTeams,
+		),
+		Audit: NewAuditHandler(
+			p.Audit.List,
+			p.Audit.Get,
+		),
+		Captcha: NewCaptchaHandler(
+			p.Captcha.Generate,
+			p.Config.Auth.DevSecret,
+		),
+		Org: NewOrgHandler(
+			p.Organization.Create,
+			p.Organization.Update,
+			p.Organization.Delete,
+			p.Organization.Get,
+			p.Organization.List,
+		),
+		OrgMember: NewOrgMemberHandler(
+			p.Organization.MemberAdd,
+			p.Organization.MemberRemove,
+			p.Organization.MemberUpdateRole,
+			p.Organization.MemberList,
+		),
+		Team: NewTeamHandler(
+			p.Organization.TeamCreate,
+			p.Organization.TeamUpdate,
+			p.Organization.TeamDelete,
+			p.Organization.TeamGet,
+			p.Organization.TeamList,
+		),
+		TeamMember: NewTeamMemberHandler(
+			p.Organization.TeamMemberAdd,
+			p.Organization.TeamMemberRemove,
+			p.Organization.TeamMemberList,
 		),
 	}
 }

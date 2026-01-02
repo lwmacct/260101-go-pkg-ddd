@@ -7,9 +7,9 @@
 //
 //   - [Public]: 公开路由（登录、注册、验证码）
 //   - [Auth]: 认证路由（双因素认证）
-//   - [Self]: 用户自服务路由（个人资料、PAT、设置）
-//   - [Admin]: 管理员路由（用户管理、角色管理）
-//   - [Org]: 组织管理路由（成员、团队、任务）
+//   - [Self]: 用户自服务路由（个人资料、PAT）
+//   - [Admin]: 管理员路由（用户管理、角色管理、审计日志、组织管理）
+//   - [Org]: 组织管理路由（成员、团队）
 //   - [UserOrg]: 用户组织视图路由
 //
 // # 使用方式
@@ -22,7 +22,6 @@ package routes
 import (
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/routes"
 
-	corehandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/transport/gin/handler"
 	iamhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/transport/gin/handler"
 )
 
@@ -33,26 +32,23 @@ func All(
 	// Auth handlers
 	authHandler *iamhandler.AuthHandler,
 	twoFAHandler *iamhandler.TwoFAHandler,
+	captchaHandler *iamhandler.CaptchaHandler,
 
 	// User handlers
 	userProfileHandler *iamhandler.UserProfileHandler,
 	userOrgHandler *iamhandler.UserOrgHandler,
 
 	// Admin handlers
-	adminUserHandler *corehandler.AdminUserHandler,
+	adminUserHandler *iamhandler.AdminUserHandler,
 	roleHandler *iamhandler.RoleHandler,
 	patHandler *iamhandler.PATHandler,
+	auditHandler *iamhandler.AuditHandler,
+	orgHandler *iamhandler.OrgHandler,
 
 	// Org handlers (organization/team management)
-	orgMemberHandler *corehandler.OrgMemberHandler,
-	teamHandler *corehandler.TeamHandler,
-	teamMemberHandler *corehandler.TeamMemberHandler,
-	taskHandler *corehandler.TaskHandler,
-
-	// Core handlers (IAM uses some core handlers)
-	captchaHandler *corehandler.CaptchaHandler,
-	settingHandler *corehandler.SettingHandler,
-	userSettingHandler *corehandler.UserSettingHandler,
+	orgMemberHandler *iamhandler.OrgMemberHandler,
+	teamHandler *iamhandler.TeamHandler,
+	teamMemberHandler *iamhandler.TeamMemberHandler,
 ) []routes.Route {
 	var allRoutes []routes.Route
 
@@ -65,27 +61,25 @@ func All(
 	// Auth routes (2FA)
 	allRoutes = append(allRoutes, Auth(twoFAHandler)...)
 
-	// Self routes (user profile, PAT, settings)
+	// Self routes (user profile, PAT)
 	allRoutes = append(allRoutes, Self(
 		userProfileHandler,
 		patHandler,
-		settingHandler,
-		userSettingHandler,
 	)...)
 
-	// Admin routes (user/role/setting management)
+	// Admin routes (user/role/audit/org management)
 	allRoutes = append(allRoutes, Admin(
 		adminUserHandler,
 		roleHandler,
-		settingHandler,
+		auditHandler,
+		orgHandler,
 	)...)
 
-	// Org routes (organization/team/task management)
+	// Org routes (organization/team management)
 	allRoutes = append(allRoutes, Org(
 		orgMemberHandler,
 		teamHandler,
 		teamMemberHandler,
-		taskHandler,
 	)...)
 
 	// Org routes (user's org view)

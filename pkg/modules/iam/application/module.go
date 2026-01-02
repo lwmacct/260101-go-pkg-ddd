@@ -3,8 +3,11 @@ package application
 import (
 	"go.uber.org/fx"
 
-	appaaudit "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/audit"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/auth"
+	iamcaptcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/captcha"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/org"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/pat"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/role"
 	app_twofa "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/twofa"
@@ -13,11 +16,23 @@ import (
 	domain_twofa "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/twofa"
 	infra_auth "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/auth"
 	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/captcha"
+	infra_captcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/captcha"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/event"
 )
 
 // --- 用例模块结构体 ---
+
+// AuditUseCases 审计日志用例处理器
+type AuditUseCases struct {
+	CreateLog *audit.CreateHandler
+	Get       *audit.GetHandler
+	List      *audit.ListHandler
+}
+
+// CaptchaUseCases 验证码用例处理器
+type CaptchaUseCases struct {
+	Generate *iamcaptcha.GenerateHandler
+}
 
 // AuthUseCases 认证用例处理器
 type AuthUseCases struct {
@@ -67,32 +82,89 @@ type TwoFAUseCases struct {
 	GetStatus    *app_twofa.GetStatusHandler
 }
 
+// OrganizationUseCases 组织相关用例处理器
+type OrganizationUseCases struct {
+	// Organization
+	Create *org.CreateHandler
+	Update *org.UpdateHandler
+	Delete *org.DeleteHandler
+	Get    *org.GetHandler
+	List   *org.ListHandler
+
+	// Member
+	MemberAdd        *org.MemberAddHandler
+	MemberRemove     *org.MemberRemoveHandler
+	MemberUpdateRole *org.MemberUpdateRoleHandler
+	MemberList       *org.MemberListHandler
+
+	// Team
+	TeamCreate *org.TeamCreateHandler
+	TeamUpdate *org.TeamUpdateHandler
+	TeamDelete *org.TeamDeleteHandler
+	TeamGet    *org.TeamGetHandler
+	TeamList   *org.TeamListHandler
+
+	// Team Member
+	TeamMemberAdd    *org.TeamMemberAddHandler
+	TeamMemberRemove *org.TeamMemberRemoveHandler
+	TeamMemberList   *org.TeamMemberListHandler
+
+	// User View
+	UserOrgs  *org.UserOrgsHandler
+	UserTeams *org.UserTeamsHandler
+}
+
 // --- Fx 模块 ---
 
 // UseCaseModule 提供按领域组织的 IAM 模块用例处理器。
 var UseCaseModule = fx.Module("iam.usecase",
 	fx.Provide(
+		newAuditUseCases,
+		newCaptchaUseCases,
 		newAuthUseCases,
 		newUserUseCases,
 		newRoleUseCases,
 		newPATUseCases,
 		newTwoFAUseCases,
+		newOrganizationUseCases,
 	),
 )
 
 // --- 构造函数 ---
+
+func newAuditUseCases(repos iampersistence.AuditRepositories) *AuditUseCases {
+	return &AuditUseCases{
+		CreateLog: audit.NewCreateHandler(repos.Command),
+		Get:       audit.NewGetHandler(repos.Query),
+		List:      audit.NewListHandler(repos.Query),
+	}
+}
+
+type captchaUseCasesParams struct {
+	fx.In
+
+	Config         *config.Config
+	CaptchaCommand infra_captcha.CommandRepository
+	CaptchaSvc     infra_captcha.Service
+}
+
+func newCaptchaUseCases(p captchaUseCasesParams) *CaptchaUseCases {
+	return &CaptchaUseCases{
+		Generate: iamcaptcha.NewGenerateHandler(p.CaptchaCommand, p.CaptchaSvc),
+	}
+}
 
 // authUseCasesParams 聚合 Auth 用例所需的依赖。
 type authUseCasesParams struct {
 	fx.In
 
 	UserRepos      iampersistence.UserRepositories
-	CaptchaCommand captcha.CommandRepository
+	CaptchaCommand infra_captcha.CommandRepository
 	TwoFARepos     iampersistence.TwoFARepositories
 	AuthSvc        domain_auth.Service
 	LoginSession   domain_auth.SessionService
 	TwoFASvc       domain_twofa.Service
-	Audit          *appaaudit.AuditUseCases // 来自 App 模块
+	Audit          *AuditUseCases // IAM 内部依赖
 }
 
 func newAuthUseCases(p authUseCasesParams) *AuthUseCases {
@@ -171,5 +243,59 @@ func newTwoFAUseCases(twofaSvc domain_twofa.Service) *TwoFAUseCases {
 		VerifyEnable: app_twofa.NewVerifyEnableHandler(twofaSvc),
 		Disable:      app_twofa.NewDisableHandler(twofaSvc),
 		GetStatus:    app_twofa.NewGetStatusHandler(twofaSvc),
+	}
+}
+
+// organizationUseCasesParams 聚合 Organization 用例所需的依赖。
+type organizationUseCasesParams struct {
+	fx.In
+
+	OrgRepos iampersistence.OrganizationRepositories
+}
+
+func newOrganizationUseCases(p organizationUseCasesParams) *OrganizationUseCases {
+	return &OrganizationUseCases{
+		// Organization
+		Create: org.NewCreateHandler(p.OrgRepos.Command, p.OrgRepos.Query, p.OrgRepos.MemberCommand),
+		Update: org.NewUpdateHandler(p.OrgRepos.Command, p.OrgRepos.Query),
+		Delete: org.NewDeleteHandler(
+			p.OrgRepos.Command,
+			p.OrgRepos.Query,
+			p.OrgRepos.MemberQuery,
+			p.OrgRepos.MemberCommand,
+			p.OrgRepos.TeamQuery,
+			p.OrgRepos.TeamCommand,
+			p.OrgRepos.TeamMemberQuery,
+			p.OrgRepos.TeamMemberCommand,
+		),
+		Get:  org.NewGetHandler(p.OrgRepos.Query),
+		List: org.NewListHandler(p.OrgRepos.Query),
+
+		// Member
+		MemberAdd:        org.NewMemberAddHandler(p.OrgRepos.MemberCommand, p.OrgRepos.MemberQuery, p.OrgRepos.Query),
+		MemberRemove:     org.NewMemberRemoveHandler(p.OrgRepos.MemberCommand, p.OrgRepos.MemberQuery),
+		MemberUpdateRole: org.NewMemberUpdateRoleHandler(p.OrgRepos.MemberCommand, p.OrgRepos.MemberQuery),
+		MemberList:       org.NewMemberListHandler(p.OrgRepos.MemberQuery),
+
+		// Team
+		TeamCreate: org.NewTeamCreateHandler(p.OrgRepos.TeamCommand, p.OrgRepos.TeamQuery, p.OrgRepos.Query, p.OrgRepos.TeamMemberCommand),
+		TeamUpdate: org.NewTeamUpdateHandler(p.OrgRepos.TeamCommand, p.OrgRepos.TeamQuery),
+		TeamDelete: org.NewTeamDeleteHandler(
+			p.OrgRepos.TeamCommand,
+			p.OrgRepos.TeamQuery,
+			p.OrgRepos.TeamMemberQuery,
+			p.OrgRepos.TeamMemberCommand,
+		),
+		TeamGet:  org.NewTeamGetHandler(p.OrgRepos.TeamQuery),
+		TeamList: org.NewTeamListHandler(p.OrgRepos.TeamQuery),
+
+		// Team Member
+		TeamMemberAdd:    org.NewTeamMemberAddHandler(p.OrgRepos.TeamMemberCommand, p.OrgRepos.TeamMemberQuery, p.OrgRepos.TeamQuery, p.OrgRepos.MemberQuery),
+		TeamMemberRemove: org.NewTeamMemberRemoveHandler(p.OrgRepos.TeamMemberCommand, p.OrgRepos.TeamQuery),
+		TeamMemberList:   org.NewTeamMemberListHandler(p.OrgRepos.TeamMemberQuery, p.OrgRepos.TeamQuery),
+
+		// User View
+		UserOrgs:  org.NewUserOrgsHandler(p.OrgRepos.MemberQuery, p.OrgRepos.Query),
+		UserTeams: org.NewUserTeamsHandler(p.OrgRepos.TeamMemberQuery, p.OrgRepos.TeamQuery, p.OrgRepos.Query),
 	}
 }

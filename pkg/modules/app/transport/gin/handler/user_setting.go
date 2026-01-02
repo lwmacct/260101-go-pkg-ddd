@@ -7,7 +7,7 @@ import (
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/setting"
 	settingDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/domain/setting"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/transport/gin/ginutil"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/ginutil"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 

@@ -6,9 +6,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/transport/gin/ginutil"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/application/opportunity"
 	opportunityDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/domain/opportunity"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/ginutil"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 

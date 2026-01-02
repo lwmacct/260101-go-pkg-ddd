@@ -24,21 +24,20 @@ func AllRoutes(
 	userProfileHandler *iamhandler.UserProfileHandler,
 	userOrgHandler *iamhandler.UserOrgHandler,
 	patHandler *iamhandler.PATHandler,
-	// App Handlers (used in IAM)
-	adminUserHandler *apphandler.AdminUserHandler,
+	// Migrated to IAM
+	adminUserHandler *iamhandler.AdminUserHandler,
 	roleHandler *iamhandler.RoleHandler,
-	captchaHandler *apphandler.CaptchaHandler,
+	captchaHandler *iamhandler.CaptchaHandler,
+	auditHandler *iamhandler.AuditHandler,
+	orgHandler *iamhandler.OrgHandler,
+	orgMemberHandler *iamhandler.OrgMemberHandler,
+	teamHandler *iamhandler.TeamHandler,
+	teamMemberHandler *iamhandler.TeamMemberHandler,
+	// App Handlers
 	settingHandler *apphandler.SettingHandler,
 	userSettingHandler *apphandler.UserSettingHandler,
-	// App Handlers (Org/Team Management - used in IAM)
-	orgMemberHandler *apphandler.OrgMemberHandler,
-	teamHandler *apphandler.TeamHandler,
-	teamMemberHandler *apphandler.TeamMemberHandler,
 	taskHandler *apphandler.TaskHandler,
-	// App Handlers (system admin)
 	healthHandler *apphandler.HealthHandler,
-	orgHandler *apphandler.OrgHandler,
-	auditHandler *apphandler.AuditHandler,
 	cacheHandler *apphandler.CacheHandler,
 	overviewHandler *apphandler.OverviewHandler,
 	// CRM Handlers
@@ -53,29 +52,23 @@ func AllRoutes(
 	allRoutes = append(allRoutes, iamroutes.All(
 		authHandler,
 		twoFAHandler,
+		captchaHandler,
 		userProfileHandler,
 		userOrgHandler,
 		adminUserHandler,
 		roleHandler,
 		patHandler,
+		auditHandler,
+		orgHandler,
 		orgMemberHandler,
 		teamHandler,
 		teamMemberHandler,
-		taskHandler,
-		captchaHandler,
-		settingHandler,
-		userSettingHandler,
 	)...)
 
 	// App 域路由
 	allRoutes = append(allRoutes, approutes.All(
 		healthHandler,
-		orgHandler,
-		orgMemberHandler,
-		teamHandler,
-		teamMemberHandler,
 		taskHandler,
-		auditHandler,
 		cacheHandler,
 		overviewHandler,
 	)...)

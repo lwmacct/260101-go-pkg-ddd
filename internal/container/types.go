@@ -25,16 +25,16 @@ func GetAllModels() []any {
 		&iampersistence.UserModel{},
 		&iampersistence.RoleModel{},
 		&iampersistence.PersonalAccessTokenModel{},
-		&corepersistence.AuditModel{},
+		&iampersistence.AuditModel{},
 		&iampersistence.TwoFAModel{},
 		&corepersistence.SettingModel{},
 		&corepersistence.SettingCategoryModel{},
 		&iampersistence.UserSettingModel{},
 		// 组织和团队
-		&corepersistence.OrgModel{},
-		&corepersistence.TeamModel{},
-		&corepersistence.OrgMemberModel{},
-		&corepersistence.TeamMemberModel{},
+		&iampersistence.OrgModel{},
+		&iampersistence.TeamModel{},
+		&iampersistence.OrgMemberModel{},
+		&iampersistence.TeamMemberModel{},
 		// 任务
 		&corepersistence.TaskModel{},
 		// CRM

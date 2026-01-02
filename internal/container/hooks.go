@@ -8,8 +8,9 @@ import (
 	"go.uber.org/fx"
 	"gorm.io/gorm"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/infrastructure/eventhandler"
-	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/infrastructure/persistence"
+	apppersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/infrastructure/persistence"
+	iameventhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/eventhandler"
+	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 	dbpkg "github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/db"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/db/seeds"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/event"
@@ -25,7 +26,7 @@ type eventHandlersParams struct {
 	fx.In
 
 	EventBus   event.EventBus
-	AuditRepos corepersistence.AuditRepositories
+	AuditRepos iampersistence.AuditRepositories
 }
 
 // RegisterEventHandlers 设置审计日志的事件订阅。
@@ -34,7 +35,7 @@ type eventHandlersParams struct {
 //   - *（所有事件）→ 审计日志
 func RegisterEventHandlers(p eventHandlersParams) {
 	// 审计日志处理器
-	auditHandler := eventhandler.NewAuditEventHandler(p.AuditRepos.Command)
+	auditHandler := iameventhandler.NewAuditEventHandler(p.AuditRepos.Command)
 
 	// 订阅所有事件用于审计日志
 	p.EventBus.Subscribe("*", auditHandler)
@@ -141,7 +142,7 @@ func createAllIndexes(db *gorm.DB) error {
 func getIndexMigrations() []dbpkg.IndexMigration {
 	return []dbpkg.IndexMigration{
 		{
-			Model:   &corepersistence.SettingModel{},
+			Model:   &apppersistence.SettingModel{},
 			Indexes: []string{"idx_settings_category_sort"},
 		},
 	}

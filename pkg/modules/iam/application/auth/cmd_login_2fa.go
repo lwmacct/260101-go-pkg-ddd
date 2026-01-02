@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/audit"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/audit"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/auth"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/twofa"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/user"

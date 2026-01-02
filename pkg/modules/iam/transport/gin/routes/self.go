@@ -3,16 +3,13 @@ package routes
 import (
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/routes"
 
-	corehandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/transport/gin/handler"
 	iamhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/transport/gin/handler"
 )
 
-// Self 用户自服务路由（资料、令牌、配置）
+// Self 用户自服务路由（资料、令牌）
 func Self(
 	userProfileHandler *iamhandler.UserProfileHandler,
 	patHandler *iamhandler.PATHandler,
-	settingHandler *corehandler.SettingHandler,
-	userSettingHandler *corehandler.UserSettingHandler,
 ) []routes.Route {
 	var allRoutes []routes.Route
 
@@ -120,64 +117,6 @@ func Self(
 			Tags:        "User - PAT",
 			Summary:     "启用令牌",
 			Description: "启用禁用的个人访问令牌",
-		},
-	}...)
-
-	// User Settings routes
-	allRoutes = append(allRoutes, []routes.Route{
-		{
-			Method:      routes.GET,
-			Path:        "/api/user/settings",
-			Handler:     userSettingHandler.GetUserSettings,
-			Operation:   "self:settings:list",
-			Tags:        "User - Settings",
-			Summary:     "配置列表",
-			Description: "获取用户配置列表",
-		},
-		{
-			Method:      routes.GET,
-			Path:        "/api/user/settings/:key",
-			Handler:     userSettingHandler.GetUserSetting,
-			Operation:   "self:settings:get",
-			Tags:        "User - Settings",
-			Summary:     "配置详情",
-			Description: "获取单个用户配置详情",
-		},
-		{
-			Method:      routes.GET,
-			Path:        "/api/user/settings/categories",
-			Handler:     userSettingHandler.ListUserSettingCategories,
-			Operation:   "self:settings:categories",
-			Tags:        "User - Settings",
-			Summary:     "配置分类",
-			Description: "获取配置分类",
-		},
-		{
-			Method:      routes.PUT,
-			Path:        "/api/user/settings/:key",
-			Handler:     userSettingHandler.SetUserSetting,
-			Operation:   "self:settings:set",
-			Tags:        "User - Settings",
-			Summary:     "设置配置",
-			Description: "设置用户配置值",
-		},
-		{
-			Method:      routes.POST,
-			Path:        "/api/user/settings/batch",
-			Handler:     userSettingHandler.BatchSetUserSettings,
-			Operation:   "self:settings:batch_set",
-			Tags:        "User - Settings",
-			Summary:     "批量设置",
-			Description: "批量设置用户配置",
-		},
-		{
-			Method:      routes.DELETE,
-			Path:        "/api/user/settings/:key",
-			Handler:     userSettingHandler.ResetUserSetting,
-			Operation:   "self:settings:reset",
-			Tags:        "User - Settings",
-			Summary:     "重置配置",
-			Description: "重置用户配置为默认值",
 		},
 	}...)
 

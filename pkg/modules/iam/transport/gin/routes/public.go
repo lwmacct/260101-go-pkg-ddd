@@ -3,7 +3,6 @@ package routes
 import (
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/routes"
 
-	corehandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/transport/gin/handler"
 	iamhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/transport/gin/handler"
 )
 
@@ -12,7 +11,7 @@ import (
 // 中间件由应用层注入：RequestID, OperationID, Logger
 func Public(
 	authHandler *iamhandler.AuthHandler,
-	captchaHandler *corehandler.CaptchaHandler,
+	captchaHandler *iamhandler.CaptchaHandler,
 ) []routes.Route {
 	return []routes.Route{
 		{
