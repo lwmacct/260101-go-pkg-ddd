@@ -12,11 +12,14 @@ import (
 
 	"github.com/lwmacct/260101-go-pkg-ddd/internal/bootstrap"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
+	appapplication "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/cache"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/infrastructure/persistence"
 	ginhttp "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/transport/gin"
 	corehandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/transport/gin/handler"
+	crmapplication "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/application"
 	crmhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/transport/gin/handler"
+	iamapplication "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/auth"
 	iamhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/transport/gin/handler"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/health"
@@ -96,22 +99,22 @@ type handlersParams struct {
 	Config        *config.Config
 	AdminCacheSvc cache.AdminCacheService
 	HealthChecker *health.SystemChecker
-	Auth          *AuthUseCases
-	User          *UserUseCases
-	Role          *RoleUseCases
-	Setting       *SettingUseCases
-	UserSetting   *UserSettingUseCases
-	PAT           *PATUseCases
-	Audit         *AuditUseCases
-	Stats         *StatsUseCases
-	Captcha       *CaptchaUseCases
-	TwoFA         *TwoFAUseCases
-	Organization  *OrganizationUseCases
-	Task          *TaskUseCases
-	Contact       *ContactUseCases
-	Company       *CompanyUseCases
-	Lead          *LeadUseCases
-	Opportunity   *OpportunityUseCases
+	Auth          *iamapplication.AuthUseCases
+	User          *iamapplication.UserUseCases
+	Role          *iamapplication.RoleUseCases
+	Setting       *appapplication.SettingUseCases
+	UserSetting   *appapplication.UserSettingUseCases
+	PAT           *iamapplication.PATUseCases
+	Audit         *appapplication.AuditUseCases
+	Stats         *appapplication.StatsUseCases
+	Captcha       *appapplication.CaptchaUseCases
+	TwoFA         *iamapplication.TwoFAUseCases
+	Organization  *appapplication.OrganizationUseCases
+	Task          *appapplication.TaskUseCases
+	Contact       *crmapplication.ContactUseCases
+	Company       *crmapplication.CompanyUseCases
+	Lead          *crmapplication.LeadUseCases
+	Opportunity   *crmapplication.OpportunityUseCases
 }
 
 func newAllHandlers(p handlersParams) HandlersResult {
@@ -284,7 +287,7 @@ type routerParams struct {
 	PermissionCache *auth.PermissionCacheService
 
 	// UseCases
-	Audit *AuditUseCases
+	Audit *appapplication.AuditUseCases
 
 	// Repositories (for middleware)
 	MemberRepos     persistence.OrgMemberRepositories

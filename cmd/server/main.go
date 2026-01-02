@@ -34,6 +34,11 @@ import (
 
 	// 启动器组装代码
 	"github.com/lwmacct/260101-go-pkg-ddd/internal/container"
+
+	// 业务模块 (Bounded Contexts)
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam"
 )
 
 // Swagger 总体配置 - 使用者自定义
@@ -217,11 +222,15 @@ func buildFxOptions(cfg *config.Config) []fx.Option {
 		fx.Supply(cfg),
 		fx.StartTimeout(30 * time.Second),
 		fx.StopTimeout(10 * time.Second),
+		// Platform 层 (基础设施)
 		container.InfraModule,
 		container.CacheModule,
-		container.RepositoryModule,
 		container.ServiceModule,
-		container.UseCaseModule,
+		// 业务模块 (Bounded Contexts)
+		app.Module(),
+		iam.Module(),
+		crm.Module(),
+		// HTTP 层 (跨模块handler + 路由)
 		container.HTTPModule,
 		container.HooksModule,
 		// Swagger 端点注册 - 使用者决定
