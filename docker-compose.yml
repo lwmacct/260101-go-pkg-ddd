@@ -1,7 +1,7 @@
 #
 # Docker Compose file for PostgreSQL and Redis services.
 # docker compose -f deployments/docker/docker-compose.yml up -d
-#
+# .env file COMPOSE_PROJECT_NAME=srv
 ---
 services:
   postgres:
@@ -20,6 +20,9 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    labels:
+      service.name: "postgres"
+      emoji: "🐘"
 
   redis:
     image: redis:7-alpine
@@ -33,6 +36,9 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    labels:
+      service.name: "redis"
+      emoji: "🔴"
 
 volumes:
   postgres_data:
