@@ -70,7 +70,7 @@ func (s *Service) generateRandomCode(length int) (string, error) {
 	const digits = "0123456789"
 
 	code := make([]byte, length)
-	for i := 0; i < length; i++ {
+	for i := range length {
 		num, err := rand.Int(rand.Reader, big.NewInt(int64(len(digits))))
 		if err != nil {
 			return "", err
@@ -96,7 +96,7 @@ func (s *Service) generateImageBase64(code string) (string, error) {
 	// TODO: 实现真实的图片生成
 	// 当前返回纯文本的Base64，前端可直接显示
 	// 生产环境应使用 github.com/mojocn/base64Captcha 或类似库
-	text := fmt.Sprintf("CAPTCHA:%s", code)
+	text := "CAPTCHA:" + code
 	return base64.StdEncoding.EncodeToString([]byte(text)), nil
 }
 
