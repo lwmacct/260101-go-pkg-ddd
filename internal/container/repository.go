@@ -47,6 +47,7 @@ var RepositoryModule = fx.Module("repository",
 
 		// CRM 仓储
 		persistence.NewContactRepositories,
+		persistence.NewCompanyRepositories,
 
 		// 带缓存装饰的仓储
 		newUserRepositoriesWithCache,

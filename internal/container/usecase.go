@@ -7,6 +7,7 @@ import (
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/auth"
 	app_captcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/captcha"
 	appContact "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/contact"
+	appCompany "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/company"
 	appInvoice "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/invoice"
 	appOrder "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/order"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/org"
@@ -193,6 +194,15 @@ type ContactUseCases struct {
 	List   *appContact.ListHandler
 }
 
+// CompanyUseCases 公司相关用例处理器
+type CompanyUseCases struct {
+	Create *appCompany.CreateHandler
+	Update *appCompany.UpdateHandler
+	Delete *appCompany.DeleteHandler
+	Get    *appCompany.GetHandler
+	List   *appCompany.ListHandler
+}
+
 // --- Fx 模块 ---
 
 // UseCaseModule 提供按领域组织的所有用例处理器。
@@ -214,6 +224,7 @@ var UseCaseModule = fx.Module("usecase",
 		newOrderUseCases,
 		newInvoiceUseCases,
 		newContactUseCases,
+		newCompanyUseCases,
 	),
 )
 
@@ -488,5 +499,15 @@ func newContactUseCases(repos persistence.ContactRepositories) *ContactUseCases 
 		Delete: appContact.NewDeleteHandler(repos.Command, repos.Query),
 		Get:    appContact.NewGetHandler(repos.Query),
 		List:   appContact.NewListHandler(repos.Query),
+	}
+}
+
+func newCompanyUseCases(repos persistence.CompanyRepositories) *CompanyUseCases {
+	return &CompanyUseCases{
+		Create: appCompany.NewCreateHandler(repos.Command, repos.Query),
+		Update: appCompany.NewUpdateHandler(repos.Command, repos.Query),
+		Delete: appCompany.NewDeleteHandler(repos.Command, repos.Query),
+		Get:    appCompany.NewGetHandler(repos.Query),
+		List:   appCompany.NewListHandler(repos.Query),
 	}
 }

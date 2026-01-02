@@ -47,6 +47,7 @@ type HandlersResult struct {
 	Order            *handler.OrderHandler
 	Invoice          *handler.InvoiceHandler
 	Contact          *handler.ContactHandler
+	Company          *handler.CompanyHandler
 }
 
 // HTTPModule 提供 HTTP 处理器、路由和服务器。
@@ -109,6 +110,7 @@ type handlersParams struct {
 	Order         *OrderUseCases
 	Invoice       *InvoiceUseCases
 	Contact       *ContactUseCases
+	Company       *CompanyUseCases
 }
 
 func newAllHandlers(p handlersParams) HandlersResult {
@@ -260,6 +262,13 @@ func newAllHandlers(p handlersParams) HandlersResult {
 			p.Contact.Get,
 			p.Contact.List,
 		),
+		Company: handler.NewCompanyHandler(
+			p.Company.Create,
+			p.Company.Update,
+			p.Company.Delete,
+			p.Company.Get,
+			p.Company.List,
+		),
 	}
 }
 
@@ -308,6 +317,7 @@ type routerParams struct {
 	Order       *handler.OrderHandler
 	Invoice     *handler.InvoiceHandler
 	Contact     *handler.ContactHandler
+	Company     *handler.CompanyHandler
 }
 
 func newRouter(p routerParams) *gin.Engine {
@@ -345,6 +355,7 @@ func newRouter(p routerParams) *gin.Engine {
 		OrderHandler:           p.Order,
 		InvoiceHandler:         p.Invoice,
 		ContactHandler:         p.Contact,
+		CompanyHandler:         p.Company,
 	}
 
 	return ginhttp.SetupRouterWithDeps(deps)
