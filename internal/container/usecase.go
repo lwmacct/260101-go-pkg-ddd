@@ -3,6 +3,8 @@ package container
 import (
 	"go.uber.org/fx"
 
+	appOrder "github.com/lwmacct/260101-go-pkg-ddd/internal/application/order"
+	internalPersistence "github.com/lwmacct/260101-go-pkg-ddd/internal/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/audit"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/auth"
 	app_captcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/captcha"
@@ -161,6 +163,16 @@ type TaskUseCases struct {
 	List   *app_task.ListHandler
 }
 
+// OrderUseCases 订单相关用例处理器（internal 模块）
+type OrderUseCases struct {
+	Create       *appOrder.CreateHandler
+	Update       *appOrder.UpdateHandler
+	UpdateStatus *appOrder.UpdateStatusHandler
+	Delete       *appOrder.DeleteHandler
+	Get          *appOrder.GetHandler
+	List         *appOrder.ListHandler
+}
+
 // --- Fx 模块 ---
 
 // UseCaseModule 提供按领域组织的所有用例处理器。
@@ -179,6 +191,7 @@ var UseCaseModule = fx.Module("usecase",
 		newOrganizationUseCases,
 		newProductUseCases,
 		newTaskUseCases,
+		newOrderUseCases,
 	),
 )
 
@@ -421,5 +434,16 @@ func newTaskUseCases(repos persistence.TaskRepositories) *TaskUseCases {
 		Delete: app_task.NewDeleteHandler(repos.Command, repos.Query),
 		Get:    app_task.NewGetHandler(repos.Query),
 		List:   app_task.NewListHandler(repos.Query),
+	}
+}
+
+func newOrderUseCases(repos internalPersistence.OrderRepositories, productRepos persistence.ProductRepositories) *OrderUseCases {
+	return &OrderUseCases{
+		Create:       appOrder.NewCreateHandler(repos.Command, productRepos.Query),
+		Update:       appOrder.NewUpdateHandler(repos.Command, repos.Query),
+		UpdateStatus: appOrder.NewUpdateStatusHandler(repos.Command, repos.Query),
+		Delete:       appOrder.NewDeleteHandler(repos.Command, repos.Query),
+		Get:          appOrder.NewGetHandler(repos.Query),
+		List:         appOrder.NewListHandler(repos.Query),
 	}
 }

@@ -25,10 +25,12 @@ import (
 	"github.com/lwmacct/251207-go-pkg-cfgm/pkg/cfgm"
 	"github.com/lwmacct/251219-go-pkg-logm/pkg/logm"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
-	starterfx "github.com/lwmacct/260101-go-pkg-ddd/starter/fx"
 	"github.com/urfave/cli/v3"
 	"go.uber.org/fx"
 	"go.uber.org/fx/fxevent"
+
+	// 本地 container 包（启动器组装代码）
+	"github.com/lwmacct/260101-go-pkg-ddd/internal/container"
 )
 
 // Swagger 总体配置 - 使用者自定义
@@ -212,13 +214,13 @@ func buildFxOptions(cfg *config.Config) []fx.Option {
 		fx.Supply(cfg),
 		fx.StartTimeout(30 * time.Second),
 		fx.StopTimeout(10 * time.Second),
-		starterfx.InfraModule,
-		starterfx.CacheModule,
-		starterfx.RepositoryModule,
-		starterfx.ServiceModule,
-		starterfx.UseCaseModule,
-		starterfx.HTTPModule,
-		starterfx.HooksModule,
+		container.InfraModule,
+		container.CacheModule,
+		container.RepositoryModule,
+		container.ServiceModule,
+		container.UseCaseModule,
+		container.HTTPModule,
+		container.HooksModule,
 		// Swagger 端点注册 - 使用者决定
 		fx.Invoke(func(r *gin.Engine) {
 			r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
@@ -246,8 +248,8 @@ func migrateDatabase(ctx context.Context, cmd *cli.Command) error {
 		fx.Supply(cfg),
 		fx.StartTimeout(5*time.Minute),
 		fx.StopTimeout(10*time.Second),
-		starterfx.InfraModule,
-		fx.Invoke(starterfx.RunMigration),
+		container.InfraModule,
+		fx.Invoke(container.RunMigration),
 		fx.WithLogger(func() fxevent.Logger { return nopLogger{} }),
 	)
 
@@ -273,8 +275,8 @@ func resetDatabase(ctx context.Context, cmd *cli.Command) error {
 		fx.Supply(cfg),
 		fx.StartTimeout(5*time.Minute),
 		fx.StopTimeout(10*time.Second),
-		starterfx.InfraModule,
-		fx.Invoke(starterfx.RunReset),
+		container.InfraModule,
+		fx.Invoke(container.RunReset),
 		fx.WithLogger(func() fxevent.Logger { return nopLogger{} }),
 	)
 
@@ -300,8 +302,8 @@ func seedDatabase(ctx context.Context, cmd *cli.Command) error {
 		fx.Supply(cfg),
 		fx.StartTimeout(5*time.Minute),
 		fx.StopTimeout(10*time.Second),
-		starterfx.InfraModule,
-		fx.Invoke(starterfx.RunSeed),
+		container.InfraModule,
+		fx.Invoke(container.RunSeed),
 		fx.WithLogger(func() fxevent.Logger { return nopLogger{} }),
 	)
 

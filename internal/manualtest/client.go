@@ -182,6 +182,25 @@ func Put[T any](c *Client, path string, body any) (*T, error) {
 	return &result.Data, nil
 }
 
+// Patch 发送 PATCH 请求并解析响应。
+func Patch[T any](c *Client, path string, body any) (*T, error) {
+	var result response.DataResponse[T]
+
+	resp, err := c.resty.R().
+		SetBody(body).
+		SetResult(&result).
+		Patch(path)
+
+	if err != nil {
+		return nil, fmt.Errorf("请求失败: %w", err)
+	}
+	if resp.IsError() {
+		return nil, fmt.Errorf("状态码 %d: %s", resp.StatusCode(), result.Message)
+	}
+
+	return &result.Data, nil
+}
+
 // Delete 发送 DELETE 请求。
 func (c *Client) Delete(path string) error {
 	var result response.DataResponse[any]

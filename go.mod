@@ -13,6 +13,7 @@ require (
 	github.com/lwmacct/251219-go-pkg-logm v0.1.8
 	github.com/lwmacct/260101-go-pkg-gin v0.0.5
 	github.com/mojocn/base64Captcha v1.3.8
+	github.com/oklog/ulid/v2 v2.1.1
 	github.com/pquerna/otp v1.5.0
 	github.com/redis/go-redis/extra/redisotel/v9 v9.17.2
 	github.com/redis/go-redis/v9 v9.17.2

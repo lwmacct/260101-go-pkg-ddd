@@ -4,6 +4,7 @@ import (
 	"go.uber.org/fx"
 	"gorm.io/gorm"
 
+	internalPersistence "github.com/lwmacct/260101-go-pkg-ddd/internal/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/setting"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/user"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/captcha"
@@ -38,6 +39,9 @@ var RepositoryModule = fx.Module("repository",
 
 		// 任务仓储
 		persistence.NewTaskRepositories,
+
+		// 订单仓储（internal 模块）
+		internalPersistence.NewOrderRepositories,
 
 		// 带缓存装饰的仓储
 		newUserRepositoriesWithCache,
