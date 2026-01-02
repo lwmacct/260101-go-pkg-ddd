@@ -115,6 +115,7 @@ type RouterDependencies struct {
 	InvoiceHandler     *handler.InvoiceHandler
 	ContactHandler     *handler.ContactHandler
 	CompanyHandler     *handler.CompanyHandler
+	LeadHandler        *handler.LeadHandler
 }
 
 // SetupRouterWithDeps 使用依赖对象配置路由（推荐方式）

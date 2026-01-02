@@ -6,9 +6,10 @@ import (
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/audit"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/auth"
 	app_captcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/captcha"
-	appContact "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/contact"
 	appCompany "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/company"
+	appContact "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/contact"
 	appInvoice "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/invoice"
+	appLead "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/lead"
 	appOrder "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/order"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/org"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/pat"
@@ -203,6 +204,19 @@ type CompanyUseCases struct {
 	List   *appCompany.ListHandler
 }
 
+// LeadUseCases 线索相关用例处理器
+type LeadUseCases struct {
+	Create  *appLead.CreateHandler
+	Update  *appLead.UpdateHandler
+	Delete  *appLead.DeleteHandler
+	Contact *appLead.ContactHandler
+	Qualify *appLead.QualifyHandler
+	Convert *appLead.ConvertHandler
+	Lose    *appLead.LoseHandler
+	Get     *appLead.GetHandler
+	List    *appLead.ListHandler
+}
+
 // --- Fx 模块 ---
 
 // UseCaseModule 提供按领域组织的所有用例处理器。
@@ -225,6 +239,7 @@ var UseCaseModule = fx.Module("usecase",
 		newInvoiceUseCases,
 		newContactUseCases,
 		newCompanyUseCases,
+		newLeadUseCases,
 	),
 )
 
@@ -509,5 +524,19 @@ func newCompanyUseCases(repos persistence.CompanyRepositories) *CompanyUseCases 
 		Delete: appCompany.NewDeleteHandler(repos.Command, repos.Query),
 		Get:    appCompany.NewGetHandler(repos.Query),
 		List:   appCompany.NewListHandler(repos.Query),
+	}
+}
+
+func newLeadUseCases(repos persistence.LeadRepositories) *LeadUseCases {
+	return &LeadUseCases{
+		Create:  appLead.NewCreateHandler(repos.Command, repos.Query),
+		Update:  appLead.NewUpdateHandler(repos.Command, repos.Query),
+		Delete:  appLead.NewDeleteHandler(repos.Command, repos.Query),
+		Contact: appLead.NewContactHandler(repos.Command, repos.Query),
+		Qualify: appLead.NewQualifyHandler(repos.Command, repos.Query),
+		Convert: appLead.NewConvertHandler(repos.Command, repos.Query),
+		Lose:    appLead.NewLoseHandler(repos.Command, repos.Query),
+		Get:     appLead.NewGetHandler(repos.Query),
+		List:    appLead.NewListHandler(repos.Query),
 	}
 }
