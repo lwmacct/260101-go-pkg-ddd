@@ -7,9 +7,9 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/application/setting"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/application/role"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/application/user"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/application/setting"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/iam/application/role"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/iam/application/user"
 )
 
 // CreateTestUser 创建测试用户并自动注册清理。

@@ -4,14 +4,14 @@ import (
 	"go.uber.org/fx"
 	"gorm.io/gorm"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/application/setting"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/domain/captcha"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/persistence"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/application/user"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/application/setting"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/domain/captcha"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/infrastructure/persistence"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/iam/application/user"
 
-	infracaptcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/captcha"
-	infrastats "github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/stats"
-	crmpersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/crm/infrastructure/persistence"
+	infracaptcha "github.com/lwmacct/260101-go-pkg-ddd/ddd/core/infrastructure/captcha"
+	infrastats "github.com/lwmacct/260101-go-pkg-ddd/ddd/core/infrastructure/stats"
+	crmpersistence "github.com/lwmacct/260101-go-pkg-ddd/ddd/crm/infrastructure/persistence"
 )
 
 // RepositoryModule 提供所有仓储实现。

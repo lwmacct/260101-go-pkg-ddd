@@ -17,14 +17,14 @@ import (
 	"go.uber.org/fx"
 	"gorm.io/gorm"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/domain/event"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/cache"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/database"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/eventbus"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/persistence"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/telemetry"
-	crmpersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/crm/infrastructure/persistence"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/config"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/domain/event"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/infrastructure/cache"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/infrastructure/database"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/infrastructure/eventbus"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/infrastructure/persistence"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/infrastructure/telemetry"
+	crmpersistence "github.com/lwmacct/260101-go-pkg-ddd/ddd/crm/infrastructure/persistence"
 )
 
 // InfraModule 提供基础设施组件。

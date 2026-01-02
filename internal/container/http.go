@@ -10,15 +10,15 @@ import (
 	"github.com/redis/go-redis/v9"
 	"go.uber.org/fx"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
-	ginhttp "github.com/lwmacct/260101-go-pkg-ddd/pkg/core/adapters/http"
-	corehandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/core/adapters/http/handler"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/application/cache"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/health"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/persistence"
-	crmhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/crm/adapters/http/handler"
-	iamhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/adapters/http/handler"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/infrastructure/auth"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/config"
+	ginhttp "github.com/lwmacct/260101-go-pkg-ddd/ddd/core/adapters/http"
+	corehandler "github.com/lwmacct/260101-go-pkg-ddd/ddd/core/adapters/http/handler"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/application/cache"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/infrastructure/health"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/infrastructure/persistence"
+	crmhandler "github.com/lwmacct/260101-go-pkg-ddd/ddd/crm/adapters/http/handler"
+	iamhandler "github.com/lwmacct/260101-go-pkg-ddd/ddd/iam/adapters/http/handler"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/iam/infrastructure/auth"
 )
 
 // HandlersResult 使用 fx.Out 批量返回所有 HTTP 处理器。

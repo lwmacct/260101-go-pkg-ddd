@@ -7,8 +7,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/application/task"
 	"github.com/lwmacct/260101-go-pkg-ddd/internal/manualtest"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/application/task"
 )
 
 // 种子数据: acme org (ID=1), engineering team (ID=1), admin 是 owner 和 team lead

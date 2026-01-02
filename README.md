@@ -26,7 +26,7 @@
 ## 架构概览
 
 ```
-pkg/                          # 可复用的 DDD 原子能力（垂直切分）
+ddd/                          # 可复用的 DDD 原子能力（垂直切分）
 ├── core/                     # 核心域（Org、Setting、Task、Audit...）
 │   ├── domain/               # 领域层
 │   ├── application/          # 应用层（UseCase Handlers）
@@ -106,7 +106,7 @@ Container 文件结构：
 
 **步骤 2：添加自定义模块**
 
-以 `Invoice` 模块为例，建议在项目中创建独立的域（如 `pkg/invoice/` 或 `internal/domain/invoice/`）：
+以 `Invoice` 模块为例，建议在项目中创建独立的域（如 `ddd/invoice/` 或 `internal/domain/invoice/`）：
 
 ```go
 // 1. 创建领域层 internal/domain/invoice/entity.go
@@ -227,9 +227,9 @@ MANUAL=1 go test -v ./internal/manualtest/...
 
 **业务域划分**：
 
-- `pkg/core/` - 核心域（组织、设置、任务、审计日志等）
-- `pkg/iam/` - 身份管理域（用户、认证、角色、PAT、2FA）
-- `pkg/crm/` - CRM 域（线索、商机、联系人、公司）
+- `ddd/core/` - 核心域（组织、设置、任务、审计日志等）
+- `ddd/iam/` - 身份管理域（用户、认证、角色、PAT、2FA）
+- `ddd/crm/` - CRM 域（线索、商机、联系人、公司）
 
 **依赖注入组装**：
 

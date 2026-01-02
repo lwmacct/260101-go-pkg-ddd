@@ -3,16 +3,16 @@ package container
 import (
 	"go.uber.org/fx"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/persistence"
-	appauth "github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/application/auth"
-	appuser "github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/application/user"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/domain/auth"
-	domain_twofa "github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/domain/twofa"
-	infra_twofa "github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/infrastructure/twofa"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/config"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/infrastructure/persistence"
+	appauth "github.com/lwmacct/260101-go-pkg-ddd/ddd/iam/application/auth"
+	appuser "github.com/lwmacct/260101-go-pkg-ddd/ddd/iam/application/user"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/iam/domain/auth"
+	domain_twofa "github.com/lwmacct/260101-go-pkg-ddd/ddd/iam/domain/twofa"
+	infra_twofa "github.com/lwmacct/260101-go-pkg-ddd/ddd/iam/infrastructure/twofa"
 
-	infra_captcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/captcha"
-	infra_auth "github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/infrastructure/auth"
+	infra_captcha "github.com/lwmacct/260101-go-pkg-ddd/ddd/core/infrastructure/captcha"
+	infra_auth "github.com/lwmacct/260101-go-pkg-ddd/ddd/iam/infrastructure/auth"
 )
 
 // ServiceModule 提供所有领域服务和基础设施服务。

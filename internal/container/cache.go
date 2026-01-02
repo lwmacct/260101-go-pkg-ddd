@@ -4,13 +4,13 @@ import (
 	"github.com/redis/go-redis/v9"
 	"go.uber.org/fx"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/cache"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/config"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/infrastructure/cache"
 
-	appcache "github.com/lwmacct/260101-go-pkg-ddd/pkg/core/application/cache"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/application/setting"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/application/auth"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/application/user"
+	appcache "github.com/lwmacct/260101-go-pkg-ddd/ddd/core/application/cache"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/application/setting"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/iam/application/auth"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/iam/application/user"
 )
 
 // CacheServicesResult 使用 fx.Out 批量返回所有缓存服务。

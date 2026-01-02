@@ -1,8 +1,8 @@
 package container
 
 import (
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/persistence"
-	crmpersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/crm/infrastructure/persistence"
+	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/infrastructure/persistence"
+	crmpersistence "github.com/lwmacct/260101-go-pkg-ddd/ddd/crm/infrastructure/persistence"
 )
 
 // ContainerOptions 容器初始化选项。
