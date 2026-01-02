@@ -6,8 +6,8 @@ import (
 
 	"github.com/go-resty/resty/v2"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/application/captcha"
-	"github.com/lwmacct/260101-go-pkg-ddd/ddd/iam/application/auth"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/captcha"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/auth"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 

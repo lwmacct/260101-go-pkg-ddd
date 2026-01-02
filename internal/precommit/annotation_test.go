@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/adapters/http/routes"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/transport/gin/routes"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/permission"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

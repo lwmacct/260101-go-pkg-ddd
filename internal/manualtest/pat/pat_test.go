@@ -10,9 +10,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/ddd/iam/application/pat"
-	"github.com/lwmacct/260101-go-pkg-ddd/ddd/iam/application/role"
-	"github.com/lwmacct/260101-go-pkg-ddd/ddd/iam/application/user"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/pat"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/role"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/user"
 	"github.com/lwmacct/260101-go-pkg-ddd/internal/manualtest"
 )
 

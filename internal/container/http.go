@@ -10,14 +10,14 @@ import (
 	"github.com/redis/go-redis/v9"
 	"go.uber.org/fx"
 
-	ginhttp "github.com/lwmacct/260101-go-pkg-ddd/ddd/core/adapters/http"
-	corehandler "github.com/lwmacct/260101-go-pkg-ddd/ddd/core/adapters/http/handler"
-	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/application/cache"
-	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/infrastructure/health"
-	"github.com/lwmacct/260101-go-pkg-ddd/ddd/core/infrastructure/persistence"
-	crmhandler "github.com/lwmacct/260101-go-pkg-ddd/ddd/crm/adapters/http/handler"
-	iamhandler "github.com/lwmacct/260101-go-pkg-ddd/ddd/iam/adapters/http/handler"
-	"github.com/lwmacct/260101-go-pkg-ddd/ddd/iam/infrastructure/auth"
+	ginhttp "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/transport/gin"
+	corehandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/transport/gin/handler"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/cache"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/health"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+	crmhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/transport/gin/handler"
+	iamhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/transport/gin/handler"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/auth"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
 )
 

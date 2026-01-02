@@ -30,7 +30,7 @@ import (
 	"go.uber.org/fx/fxevent"
 
 	// 本地 container 包（启动器组装代码）
-	"github.com/lwmacct/260101-go-pkg-ddd/internal/container"
+	"github.com/lwmacct/260101-go-pkg-ddd/internal/app/di"
 )
 
 // Swagger 总体配置 - 使用者自定义
