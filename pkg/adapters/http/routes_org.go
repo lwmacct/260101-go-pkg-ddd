@@ -160,6 +160,58 @@ func (deps *RouterDependencies) orgRoutes() []routes.Route {
 			Summary:     "移除团队成员",
 			Description: "移除团队成员",
 		},
+
+		// ==================== Org 域 - 任务管理 ====================
+		{
+			Method:      routes.POST,
+			Path:        "/api/org/:org_id/teams/:team_id/tasks",
+			Handler:     deps.TaskHandler.Create,
+			Op:          "org:tasks:create",
+			Middlewares: orgTeamAuditMiddlewares,
+			Tags:        "Org - Tasks",
+			Summary:     "创建任务",
+			Description: "创建任务",
+		},
+		{
+			Method:      routes.GET,
+			Path:        "/api/org/:org_id/teams/:team_id/tasks",
+			Handler:     deps.TaskHandler.List,
+			Op:          "org:tasks:list",
+			Middlewares: orgTeamGetMiddlewares,
+			Tags:        "Org - Tasks",
+			Summary:     "任务列表",
+			Description: "获取任务列表",
+		},
+		{
+			Method:      routes.GET,
+			Path:        "/api/org/:org_id/teams/:team_id/tasks/:id",
+			Handler:     deps.TaskHandler.Get,
+			Op:          "org:tasks:get",
+			Middlewares: orgTeamGetMiddlewares,
+			Tags:        "Org - Tasks",
+			Summary:     "任务详情",
+			Description: "获取任务详情",
+		},
+		{
+			Method:      routes.PUT,
+			Path:        "/api/org/:org_id/teams/:team_id/tasks/:id",
+			Handler:     deps.TaskHandler.Update,
+			Op:          "org:tasks:update",
+			Middlewares: orgTeamAuditMiddlewares,
+			Tags:        "Org - Tasks",
+			Summary:     "更新任务",
+			Description: "更新任务",
+		},
+		{
+			Method:      routes.DELETE,
+			Path:        "/api/org/:org_id/teams/:team_id/tasks/:id",
+			Handler:     deps.TaskHandler.Delete,
+			Op:          "org:tasks:delete",
+			Middlewares: orgTeamAuditMiddlewares,
+			Tags:        "Org - Tasks",
+			Summary:     "删除任务",
+			Description: "删除任务",
+		},
 	}
 }
 
