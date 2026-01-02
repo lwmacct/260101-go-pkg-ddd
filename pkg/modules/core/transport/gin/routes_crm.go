@@ -6,20 +6,38 @@ import (
 
 // crmRoutes 返回 CRM 域路由配置。
 func (deps *RouterDependencies) crmRoutes() []routes.Route {
-	// 基础中间件：认证 + RBAC
-	baseMiddlewares := []routes.MiddlewareConfig{
+	baseMiddlewares := deps.baseMiddlewares()
+	auditMiddlewares := deps.auditMiddlewares(baseMiddlewares)
+
+	routes := []routes.Route{}
+	routes = append(routes, deps.contactRoutes(baseMiddlewares, auditMiddlewares)...)
+	routes = append(routes, deps.companyRoutes(baseMiddlewares, auditMiddlewares)...)
+	routes = append(routes, deps.leadRoutes(baseMiddlewares, auditMiddlewares)...)
+	routes = append(routes, deps.opportunityRoutes(baseMiddlewares, auditMiddlewares)...)
+	return routes
+}
+
+// baseMiddlewares 返回基础中间件配置。
+func (deps *RouterDependencies) baseMiddlewares() []routes.MiddlewareConfig {
+	return []routes.MiddlewareConfig{
 		{Name: routes.MiddlewareRequestID},
 		{Name: routes.MiddlewareOperationID},
 		{Name: routes.MiddlewareAuth},
 		{Name: routes.MiddlewareRBAC},
 	}
+}
 
-	// 审计中间件：需要记录操作日志
-	auditMiddlewares := append(cloneMiddlewares(baseMiddlewares),
+// auditMiddlewares 返回包含审计的中间件配置。
+func (deps *RouterDependencies) auditMiddlewares(base []routes.MiddlewareConfig) []routes.MiddlewareConfig {
+	return append(cloneMiddlewares(base),
 		routes.MiddlewareConfig{Name: routes.MiddlewareAudit})
+}
 
+// contactRoutes 返回联系人路由配置。
+func (deps *RouterDependencies) contactRoutes(
+	baseMiddlewares, auditMiddlewares []routes.MiddlewareConfig,
+) []routes.Route {
 	return []routes.Route{
-		// ==================== 联系人 CRUD ====================
 		{
 			Method:      routes.POST,
 			Path:        "/api/crm/contacts",
@@ -70,8 +88,14 @@ func (deps *RouterDependencies) crmRoutes() []routes.Route {
 			Summary:     "删除联系人",
 			Description: "删除联系人",
 		},
+	}
+}
 
-		// ==================== 公司 CRUD ====================
+// companyRoutes 返回公司路由配置。
+func (deps *RouterDependencies) companyRoutes(
+	baseMiddlewares, auditMiddlewares []routes.MiddlewareConfig,
+) []routes.Route {
+	return []routes.Route{
 		{
 			Method:      routes.POST,
 			Path:        "/api/crm/companies",
@@ -122,8 +146,14 @@ func (deps *RouterDependencies) crmRoutes() []routes.Route {
 			Summary:     "删除公司",
 			Description: "删除公司",
 		},
+	}
+}
 
-		// ==================== 线索 CRUD ====================
+// leadRoutes 返回线索路由配置。
+func (deps *RouterDependencies) leadRoutes(
+	baseMiddlewares, auditMiddlewares []routes.MiddlewareConfig,
+) []routes.Route {
+	return []routes.Route{
 		{
 			Method:      routes.POST,
 			Path:        "/api/crm/leads",
@@ -174,8 +204,6 @@ func (deps *RouterDependencies) crmRoutes() []routes.Route {
 			Summary:     "删除线索",
 			Description: "删除线索",
 		},
-
-		// ==================== 线索状态转换 ====================
 		{
 			Method:      routes.POST,
 			Path:        "/api/crm/leads/:id/contact",
@@ -216,8 +244,14 @@ func (deps *RouterDependencies) crmRoutes() []routes.Route {
 			Summary:     "标记为丢失",
 			Description: "将线索标记为丢失（需要线索处于新建、已联系或已确认状态）",
 		},
+	}
+}
 
-		// ==================== 商机 CRUD ====================
+// opportunityRoutes 返回商机路由配置。
+func (deps *RouterDependencies) opportunityRoutes(
+	baseMiddlewares, auditMiddlewares []routes.MiddlewareConfig,
+) []routes.Route {
+	return []routes.Route{
 		{
 			Method:      routes.POST,
 			Path:        "/api/crm/opportunities",
@@ -268,8 +302,6 @@ func (deps *RouterDependencies) crmRoutes() []routes.Route {
 			Summary:     "删除商机",
 			Description: "删除商机",
 		},
-
-		// ==================== 商机阶段管理 ====================
 		{
 			Method:      routes.POST,
 			Path:        "/api/crm/opportunities/:id/advance",

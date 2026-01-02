@@ -9,11 +9,11 @@ type Stage string
 
 // 商机阶段常量。
 const (
-	StageProspecting Stage = "prospecting"  // 初步接触
-	StageProposal    Stage = "proposal"     // 提案阶段
-	StageNegotiation Stage = "negotiation"  // 谈判阶段
-	StageClosedWon   Stage = "closed_won"   // 成交
-	StageClosedLost  Stage = "closed_lost"  // 丢单
+	StageProspecting Stage = "prospecting" // 初步接触
+	StageProposal    Stage = "proposal"    // 提案阶段
+	StageNegotiation Stage = "negotiation" // 谈判阶段
+	StageClosedWon   Stage = "closed_won"  // 成交
+	StageClosedLost  Stage = "closed_lost" // 丢单
 )
 
 // Opportunity 商机实体。
@@ -57,6 +57,8 @@ func (o *Opportunity) CanAdvanceTo(stage Stage) bool {
 		return stage == StageNegotiation
 	case StageNegotiation:
 		return false // 不能通过 Advance 到 closed_*, 必须用 CloseWon/CloseLost
+	case StageClosedWon, StageClosedLost:
+		return false // 已关闭的商机不能推进
 	}
 	return false
 }

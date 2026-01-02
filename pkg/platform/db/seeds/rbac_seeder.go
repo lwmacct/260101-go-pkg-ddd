@@ -6,8 +6,8 @@ import (
 	"errors"
 	"log/slog"
 
-	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/user"
+	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -129,7 +129,7 @@ func (s *RBACSeeder) seedAdminUser(ctx context.Context, db *gorm.DB) error {
 		email    string
 		realName string
 		avatar   string
-		userType string                 // "human" | "service" | "system"
+		userType string                    // "human" | "service" | "system"
 		role     *iampersistence.RoleModel // nil 表示不分配角色（root 用户硬编码权限）
 	}
 

@@ -10,15 +10,15 @@ import (
 	"github.com/redis/go-redis/v9"
 	"go.uber.org/fx"
 
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/cache"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
 	ginhttp "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/transport/gin"
 	corehandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/transport/gin/handler"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/cache"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/health"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
 	crmhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/transport/gin/handler"
-	iamhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/transport/gin/handler"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/auth"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
+	iamhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/transport/gin/handler"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/health"
 )
 
 // HandlersResult 使用 fx.Out 批量返回所有 HTTP 处理器。

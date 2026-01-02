@@ -15,6 +15,7 @@ import (
 // ListOpportunitiesQuery 商机列表查询参数。
 type ListOpportunitiesQuery struct {
 	response.PaginationQueryDTO
+
 	Stage   *string `form:"stage"`
 	OwnerID *uint   `form:"owner_id"`
 }
@@ -284,7 +285,7 @@ func (h *OpportunityHandler) Advance(c *gin.Context) {
 	}
 
 	var req opportunity.AdvanceStageDTO
-	if err := c.ShouldBindJSON(&req); err != nil {
+	if err = c.ShouldBindJSON(&req); err != nil {
 		response.ValidationError(c, err.Error())
 		return
 	}

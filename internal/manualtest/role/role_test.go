@@ -8,8 +8,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/role"
 	"github.com/lwmacct/260101-go-pkg-ddd/internal/manualtest"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/role"
 )
 
 // TestMain 在所有测试完成后清理测试数据。

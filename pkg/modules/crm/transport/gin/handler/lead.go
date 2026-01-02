@@ -15,6 +15,7 @@ import (
 // ListLeadsQuery 线索列表查询参数。
 type ListLeadsQuery struct {
 	response.PaginationQueryDTO
+
 	Status  *string `form:"status"`
 	OwnerID *uint   `form:"owner_id"`
 }

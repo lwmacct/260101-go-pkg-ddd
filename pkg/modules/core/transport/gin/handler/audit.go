@@ -6,9 +6,9 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/transport/gin/routes"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/audit"
 	auditDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/domain/audit"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/transport/gin/routes"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 

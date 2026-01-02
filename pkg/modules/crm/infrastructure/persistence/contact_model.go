@@ -24,7 +24,7 @@ type ContactModel struct {
 }
 
 // TableName 返回表名。
-func (ContactModel) TableName() string {
+func (m *ContactModel) TableName() string {
 	return "contacts"
 }
 

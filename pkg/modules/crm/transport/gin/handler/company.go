@@ -15,6 +15,7 @@ import (
 // ListCompaniesQuery 公司列表查询参数。
 type ListCompaniesQuery struct {
 	response.PaginationQueryDTO
+
 	Industry *string `form:"industry"`
 	OwnerID  *uint   `form:"owner_id"`
 }

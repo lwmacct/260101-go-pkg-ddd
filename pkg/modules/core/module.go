@@ -11,12 +11,11 @@ import "go.uber.org/fx"
 
 // Module 返回 Core BC 的 Fx 模块
 func Module() fx.Option {
-	return fx.Module("core",
-		// TODO: 添加 providers
-		// fx.Provide(
-		//     NewRepositories,
-		//     NewUseCases,
-		//     NewHandlers,
-		// ),
-	)
+	return fx.Module("core") // TODO: 添加 providers
+	// fx.Provide(
+	//     NewRepositories,
+	//     NewUseCases,
+	//     NewHandlers,
+	// ),
+
 }

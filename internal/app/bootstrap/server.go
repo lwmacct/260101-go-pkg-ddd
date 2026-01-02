@@ -3,6 +3,7 @@ package bootstrap
 import (
 	"context"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
@@ -25,8 +26,9 @@ func NewServer(engine *gin.Engine, cfg *config.Config) *Server {
 // Start 启动 HTTP Server
 func (s *Server) Start() error {
 	srv := &http.Server{
-		Addr:    s.addr,
-		Handler: s.engine,
+		Addr:              s.addr,
+		Handler:           s.engine,
+		ReadHeaderTimeout: 10 * time.Second, // 防止 Slowloris 攻击
 	}
 	return srv.ListenAndServe()
 }

@@ -15,6 +15,7 @@ import (
 // ListContactsQuery 联系人列表查询参数。
 type ListContactsQuery struct {
 	response.PaginationQueryDTO
+
 	CompanyID *uint `form:"company_id"`
 	OwnerID   *uint `form:"owner_id"`
 }

@@ -5,9 +5,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/transport/gin/ginutil"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/setting"
 	settingDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/domain/setting"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/transport/gin/ginutil"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 

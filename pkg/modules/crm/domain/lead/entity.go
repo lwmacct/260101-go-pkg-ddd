@@ -1,6 +1,9 @@
 package lead
 
-import "time"
+import (
+	"slices"
+	"time"
+)
 
 // Status 线索状态。
 type Status string
@@ -19,12 +22,7 @@ var ValidStatuses = []Status{StatusNew, StatusContacted, StatusQualified, Status
 
 // IsValidStatus 检查状态值是否有效。
 func IsValidStatus(s Status) bool {
-	for _, v := range ValidStatuses {
-		if v == s {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(ValidStatuses, s)
 }
 
 // Lead 线索实体。

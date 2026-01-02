@@ -8,15 +8,15 @@ import (
 
 // LeadModel GORM 线索模型。
 type LeadModel struct {
-	ID          uint       `gorm:"primaryKey"`
-	Title       string     `gorm:"size:200;not null"`
-	ContactID   *uint      `gorm:"index"`
-	CompanyName string     `gorm:"size:200"`
-	Source      string     `gorm:"size:50"`
-	Status      string     `gorm:"size:20;index;not null;default:'new'"`
-	Score       int        `gorm:"default:0"`
-	OwnerID     uint       `gorm:"index;not null"`
-	Notes       string     `gorm:"type:text"`
+	ID          uint   `gorm:"primaryKey"`
+	Title       string `gorm:"size:200;not null"`
+	ContactID   *uint  `gorm:"index"`
+	CompanyName string `gorm:"size:200"`
+	Source      string `gorm:"size:50"`
+	Status      string `gorm:"size:20;index;not null;default:'new'"`
+	Score       int    `gorm:"default:0"`
+	OwnerID     uint   `gorm:"index;not null"`
+	Notes       string `gorm:"type:text"`
 	ConvertedAt *time.Time
 	CreatedAt   time.Time `gorm:"autoCreateTime"`
 	UpdatedAt   time.Time `gorm:"autoUpdateTime"`

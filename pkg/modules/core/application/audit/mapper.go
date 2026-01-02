@@ -56,10 +56,7 @@ func ToAuditActionDTOs(actions []AuditActionDefinition) []AuditActionDTO {
 func ToCategoryOptionDTOs(options []CategoryOption) []CategoryOptionDTO {
 	result := make([]CategoryOptionDTO, len(options))
 	for i, o := range options {
-		result[i] = CategoryOptionDTO{
-			Value: o.Value,
-			Label: o.Label,
-		}
+		result[i] = CategoryOptionDTO(o)
 	}
 	return result
 }
@@ -68,10 +65,7 @@ func ToCategoryOptionDTOs(options []CategoryOption) []CategoryOptionDTO {
 func ToOperationTypeDTOs(options []OperationTypeOption) []OperationTypeDTO {
 	result := make([]OperationTypeDTO, len(options))
 	for i, o := range options {
-		result[i] = OperationTypeDTO{
-			Value: o.Value,
-			Label: o.Label,
-		}
+		result[i] = OperationTypeDTO(o)
 	}
 	return result
 }

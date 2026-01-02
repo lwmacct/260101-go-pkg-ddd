@@ -4,8 +4,8 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/event"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/auth"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/event"
 )
 
 // CacheInvalidationHandler 缓存失效处理器

@@ -8,20 +8,20 @@ import (
 
 // OpportunityModel GORM 商机模型。
 type OpportunityModel struct {
-	ID            uint       `gorm:"primaryKey"`
-	Name          string     `gorm:"size:200;not null"`
-	ContactID     uint       `gorm:"index;not null"`
-	CompanyID     *uint      `gorm:"index"`
-	LeadID        *uint      `gorm:"index"`
-	Stage         string     `gorm:"size:20;index;not null;default:'prospecting'"`
-	Amount        float64    `gorm:"default:0"`
-	Probability   int        `gorm:"default:0"`
+	ID            uint    `gorm:"primaryKey"`
+	Name          string  `gorm:"size:200;not null"`
+	ContactID     uint    `gorm:"index;not null"`
+	CompanyID     *uint   `gorm:"index"`
+	LeadID        *uint   `gorm:"index"`
+	Stage         string  `gorm:"size:20;index;not null;default:'prospecting'"`
+	Amount        float64 `gorm:"default:0"`
+	Probability   int     `gorm:"default:0"`
 	ExpectedClose *time.Time
-	OwnerID       uint       `gorm:"index;not null"`
-	Notes         string     `gorm:"type:text"`
+	OwnerID       uint   `gorm:"index;not null"`
+	Notes         string `gorm:"type:text"`
 	ClosedAt      *time.Time
-	CreatedAt     time.Time  `gorm:"autoCreateTime"`
-	UpdatedAt     time.Time  `gorm:"autoUpdateTime"`
+	CreatedAt     time.Time `gorm:"autoCreateTime"`
+	UpdatedAt     time.Time `gorm:"autoUpdateTime"`
 }
 
 // TableName 返回表名。
