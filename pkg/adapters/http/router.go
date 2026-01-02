@@ -111,6 +111,8 @@ type RouterDependencies struct {
 	UserOrgHandler     *handler.UserOrgHandler
 	ProductHandler     *handler.ProductHandler
 	TaskHandler        *handler.TaskHandler
+	OrderHandler       *handler.OrderHandler
+	InvoiceHandler     *handler.InvoiceHandler
 }
 
 // SetupRouterWithDeps 使用依赖对象配置路由（推荐方式）

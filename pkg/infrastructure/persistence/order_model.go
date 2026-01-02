@@ -3,7 +3,7 @@ package persistence
 import (
 	"time"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/internal/domain/order"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/order"
 	"gorm.io/gorm"
 )
 

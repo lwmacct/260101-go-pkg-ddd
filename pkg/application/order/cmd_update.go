@@ -3,7 +3,7 @@ package order
 import (
 	"context"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/internal/domain/order"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/order"
 )
 
 // UpdateHandler 更新订单处理器。

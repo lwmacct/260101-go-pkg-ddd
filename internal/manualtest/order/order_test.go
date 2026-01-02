@@ -8,8 +8,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	appOrder "github.com/lwmacct/260101-go-pkg-ddd/internal/application/order"
 	"github.com/lwmacct/260101-go-pkg-ddd/internal/manualtest"
+	appOrder "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/order"
 )
 
 // TestMain 在所有测试完成后清理测试数据。
@@ -43,7 +43,7 @@ func cleanupTestOrders() {
 
 // orderBasePath 返回订单 API 基础路径
 func orderBasePath() string {
-	return "/api/orders"
+	return "/api/admin/orders"
 }
 
 // orderPath 返回单个订单 API 路径

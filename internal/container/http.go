@@ -10,10 +10,8 @@ import (
 	"github.com/redis/go-redis/v9"
 	"go.uber.org/fx"
 
-	internalHandler "github.com/lwmacct/260101-go-pkg-ddd/internal/adapters/http/handler"
 	ginhttp "github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/handler"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/middleware"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/cache"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/auth"
@@ -46,7 +44,8 @@ type HandlersResult struct {
 	UserOrganization *handler.UserOrgHandler
 	Product          *handler.ProductHandler
 	Task             *handler.TaskHandler
-	Order            *internalHandler.OrderHandler
+	Order            *handler.OrderHandler
+	Invoice          *handler.InvoiceHandler
 }
 
 // HTTPModule 提供 HTTP 处理器、路由和服务器。
@@ -107,6 +106,7 @@ type handlersParams struct {
 	Product       *ProductUseCases
 	Task          *TaskUseCases
 	Order         *OrderUseCases
+	Invoice       *InvoiceUseCases
 }
 
 func newAllHandlers(p handlersParams) HandlersResult {
@@ -235,13 +235,21 @@ func newAllHandlers(p handlersParams) HandlersResult {
 			p.Task.Get,
 			p.Task.List,
 		),
-		Order: internalHandler.NewOrderHandler(
+		Order: handler.NewOrderHandler(
 			p.Order.Create,
 			p.Order.Update,
 			p.Order.UpdateStatus,
 			p.Order.Delete,
 			p.Order.Get,
 			p.Order.List,
+		),
+		Invoice: handler.NewInvoiceHandler(
+			p.Invoice.Create,
+			p.Invoice.Pay,
+			p.Invoice.Cancel,
+			p.Invoice.Refund,
+			p.Invoice.Get,
+			p.Invoice.List,
 		),
 	}
 }
@@ -288,7 +296,8 @@ type routerParams struct {
 	UserOrg     *handler.UserOrgHandler
 	Product     *handler.ProductHandler
 	TaskHandler *handler.TaskHandler
-	Order       *internalHandler.OrderHandler
+	Order       *handler.OrderHandler
+	Invoice     *handler.InvoiceHandler
 }
 
 func newRouter(p routerParams) *gin.Engine {
@@ -323,30 +332,9 @@ func newRouter(p routerParams) *gin.Engine {
 		UserOrgHandler:         p.UserOrg,
 		ProductHandler:         p.Product,
 		TaskHandler:            p.TaskHandler,
+		OrderHandler:           p.Order,
+		InvoiceHandler:         p.Invoice,
 	}
 
-	router := ginhttp.SetupRouterWithDeps(deps)
-
-	// 注册 internal 模块的路由（订单模块）
-	registerOrderRoutes(router, p)
-
-	return router
-}
-
-// registerOrderRoutes 注册订单模块的路由
-func registerOrderRoutes(router *gin.Engine, p routerParams) {
-	// 获取认证中间件
-	authMw := middleware.Auth(p.JWTManager, p.PATService, p.PermissionCache)
-
-	// 订单路由组
-	orders := router.Group("/api/orders")
-	orders.Use(authMw)
-	{
-		orders.POST("", p.Order.Create)
-		orders.GET("", p.Order.List)
-		orders.GET("/:id", p.Order.Get)
-		orders.PUT("/:id", p.Order.Update)
-		orders.PATCH("/:id/status", p.Order.UpdateStatus)
-		orders.DELETE("/:id", p.Order.Delete)
-	}
+	return ginhttp.SetupRouterWithDeps(deps)
 }

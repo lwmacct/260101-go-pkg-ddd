@@ -1,7 +1,7 @@
 package order
 
 import (
-	"github.com/lwmacct/260101-go-pkg-ddd/internal/domain/order"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/order"
 )
 
 // ToOrderDTO 将实体转换为 DTO。

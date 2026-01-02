@@ -3,8 +3,8 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/ginutil"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/twofa"
-	authDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/auth"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
@@ -46,7 +46,7 @@ func NewTwoFAHandler(
 func (h *TwoFAHandler) Setup(c *gin.Context) {
 	ctx := c.Request.Context()
 
-	userID, ok := getUserID(c)
+	userID, ok := ginutil.GetUserID(c)
 	if !ok {
 		return
 	}
@@ -84,7 +84,7 @@ func (h *TwoFAHandler) Setup(c *gin.Context) {
 func (h *TwoFAHandler) VerifyAndEnable(c *gin.Context) {
 	ctx := c.Request.Context()
 
-	userID, ok := getUserID(c)
+	userID, ok := ginutil.GetUserID(c)
 	if !ok {
 		return
 	}
@@ -126,7 +126,7 @@ func (h *TwoFAHandler) VerifyAndEnable(c *gin.Context) {
 func (h *TwoFAHandler) Disable(c *gin.Context) {
 	ctx := c.Request.Context()
 
-	userID, ok := getUserID(c)
+	userID, ok := ginutil.GetUserID(c)
 	if !ok {
 		return
 	}
@@ -156,7 +156,7 @@ func (h *TwoFAHandler) Disable(c *gin.Context) {
 func (h *TwoFAHandler) GetStatus(c *gin.Context) {
 	ctx := c.Request.Context()
 
-	userID, ok := getUserID(c)
+	userID, ok := ginutil.GetUserID(c)
 	if !ok {
 		return
 	}
@@ -174,21 +174,4 @@ func (h *TwoFAHandler) GetStatus(c *gin.Context) {
 		RecoveryCodesCount: result.RecoveryCodesCount,
 	}
 	response.OK(c, resp)
-}
-
-// getUserID 从上下文获取用户ID，并输出统一未认证响应
-func getUserID(c *gin.Context) (uint, bool) {
-	userID, exists := c.Get("user_id")
-	if !exists {
-		response.Unauthorized(c, "")
-		return 0, false
-	}
-
-	id, ok := userID.(uint)
-	if !ok {
-		response.Unauthorized(c, authDomain.ErrInvalidUserContext.Error())
-		return 0, false
-	}
-
-	return id, true
 }

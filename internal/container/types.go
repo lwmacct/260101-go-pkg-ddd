@@ -1,7 +1,6 @@
 package container
 
 import (
-	internalPersistence "github.com/lwmacct/260101-go-pkg-ddd/internal/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/persistence"
 )
 
@@ -38,7 +37,9 @@ func GetAllModels() []any {
 		&persistence.ProductModel{},
 		// 任务
 		&persistence.TaskModel{},
-		// 订单（internal 模块）
-		&internalPersistence.OrderModel{},
+		// 订单
+		&persistence.OrderModel{},
+		// 发票
+		&persistence.InvoiceModel{},
 	}
 }

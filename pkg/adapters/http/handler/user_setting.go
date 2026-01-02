@@ -4,6 +4,8 @@ import (
 	"errors"
 
 	"github.com/gin-gonic/gin"
+
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/ginutil"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/setting"
 	settingDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/setting"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
@@ -60,7 +62,7 @@ func NewUserSettingHandler(
 //	@Failure		500	{object}	response.ErrorResponse								"服务器内部错误"
 //	@Router			/api/user/settings/categories [get]
 func (h *UserSettingHandler) ListUserSettingCategories(c *gin.Context) {
-	userID, ok := getUserID(c)
+	userID, ok := ginutil.GetUserID(c)
 	if !ok {
 		return
 	}
@@ -91,7 +93,7 @@ func (h *UserSettingHandler) ListUserSettingCategories(c *gin.Context) {
 //	@Failure		500			{object}	response.ErrorResponse									"服务器内部错误"
 //	@Router			/api/user/settings [get]
 func (h *UserSettingHandler) GetUserSettings(c *gin.Context) {
-	userID, ok := getUserID(c)
+	userID, ok := ginutil.GetUserID(c)
 	if !ok {
 		return
 	}
@@ -130,7 +132,7 @@ func (h *UserSettingHandler) GetUserSettings(c *gin.Context) {
 //	@Failure		404	{object}	response.ErrorResponse							"配置不存在"
 //	@Router			/api/user/settings/{key} [get]
 func (h *UserSettingHandler) GetUserSetting(c *gin.Context) {
-	userID, ok := getUserID(c)
+	userID, ok := ginutil.GetUserID(c)
 	if !ok {
 		return
 	}
@@ -170,7 +172,7 @@ type SetUserSettingRequest struct {
 //	@Failure		500		{object}	response.ErrorResponse							"服务器内部错误"
 //	@Router			/api/user/settings/{key} [put]
 func (h *UserSettingHandler) SetUserSetting(c *gin.Context) {
-	userID, ok := getUserID(c)
+	userID, ok := ginutil.GetUserID(c)
 	if !ok {
 		return
 	}
@@ -213,7 +215,7 @@ func (h *UserSettingHandler) SetUserSetting(c *gin.Context) {
 //	@Failure		500	{object}	response.ErrorResponse	"服务器内部错误"
 //	@Router			/api/user/settings/{key} [delete]
 func (h *UserSettingHandler) ResetUserSetting(c *gin.Context) {
-	userID, ok := getUserID(c)
+	userID, ok := ginutil.GetUserID(c)
 	if !ok {
 		return
 	}
@@ -254,7 +256,7 @@ type BatchSetUserSettingsRequest struct {
 //	@Failure		500		{object}	response.ErrorResponse		"服务器内部错误"
 //	@Router			/api/user/settings/batch [post]
 func (h *UserSettingHandler) BatchSetUserSettings(c *gin.Context) {
-	userID, ok := getUserID(c)
+	userID, ok := ginutil.GetUserID(c)
 	if !ok {
 		return
 	}

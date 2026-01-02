@@ -8,7 +8,7 @@ import (
 
 	"github.com/oklog/ulid/v2"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/internal/domain/order"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/order"
 	productDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/product"
 )
 

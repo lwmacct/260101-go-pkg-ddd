@@ -3,11 +3,11 @@ package container
 import (
 	"go.uber.org/fx"
 
-	appOrder "github.com/lwmacct/260101-go-pkg-ddd/internal/application/order"
-	internalPersistence "github.com/lwmacct/260101-go-pkg-ddd/internal/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/audit"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/auth"
 	app_captcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/captcha"
+	appInvoice "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/invoice"
+	appOrder "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/order"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/org"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/pat"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/product"
@@ -163,7 +163,7 @@ type TaskUseCases struct {
 	List   *app_task.ListHandler
 }
 
-// OrderUseCases 订单相关用例处理器（internal 模块）
+// OrderUseCases 订单相关用例处理器
 type OrderUseCases struct {
 	Create       *appOrder.CreateHandler
 	Update       *appOrder.UpdateHandler
@@ -171,6 +171,16 @@ type OrderUseCases struct {
 	Delete       *appOrder.DeleteHandler
 	Get          *appOrder.GetHandler
 	List         *appOrder.ListHandler
+}
+
+// InvoiceUseCases 发票相关用例处理器
+type InvoiceUseCases struct {
+	Create *appInvoice.CreateHandler
+	Pay    *appInvoice.PayHandler
+	Cancel *appInvoice.CancelHandler
+	Refund *appInvoice.RefundHandler
+	Get    *appInvoice.GetHandler
+	List   *appInvoice.ListHandler
 }
 
 // --- Fx 模块 ---
@@ -192,6 +202,7 @@ var UseCaseModule = fx.Module("usecase",
 		newProductUseCases,
 		newTaskUseCases,
 		newOrderUseCases,
+		newInvoiceUseCases,
 	),
 )
 
@@ -437,7 +448,7 @@ func newTaskUseCases(repos persistence.TaskRepositories) *TaskUseCases {
 	}
 }
 
-func newOrderUseCases(repos internalPersistence.OrderRepositories, productRepos persistence.ProductRepositories) *OrderUseCases {
+func newOrderUseCases(repos persistence.OrderRepositories, productRepos persistence.ProductRepositories) *OrderUseCases {
 	return &OrderUseCases{
 		Create:       appOrder.NewCreateHandler(repos.Command, productRepos.Query),
 		Update:       appOrder.NewUpdateHandler(repos.Command, repos.Query),
@@ -445,5 +456,16 @@ func newOrderUseCases(repos internalPersistence.OrderRepositories, productRepos 
 		Delete:       appOrder.NewDeleteHandler(repos.Command, repos.Query),
 		Get:          appOrder.NewGetHandler(repos.Query),
 		List:         appOrder.NewListHandler(repos.Query),
+	}
+}
+
+func newInvoiceUseCases(repos persistence.InvoiceRepositories) *InvoiceUseCases {
+	return &InvoiceUseCases{
+		Create: appInvoice.NewCreateHandler(repos.Command, repos.Query),
+		Pay:    appInvoice.NewPayHandler(repos.Command, repos.Query),
+		Cancel: appInvoice.NewCancelHandler(repos.Command, repos.Query),
+		Refund: appInvoice.NewRefundHandler(repos.Command, repos.Query),
+		Get:    appInvoice.NewGetHandler(repos.Query),
+		List:   appInvoice.NewListHandler(repos.Query),
 	}
 }

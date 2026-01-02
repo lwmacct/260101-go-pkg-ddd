@@ -5,8 +5,10 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/lwmacct/260101-go-pkg-ddd/internal/application/order"
-	orderDomain "github.com/lwmacct/260101-go-pkg-ddd/internal/domain/order"
+
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/ginutil"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/order"
+	orderDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/order"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
@@ -70,14 +72,13 @@ func NewOrderHandler(
 //	@Failure		500		{object}	response.ErrorResponse					"服务器内部错误"
 //	@Router			/api/orders [post]
 func (h *OrderHandler) Create(c *gin.Context) {
-	userID, err := getUserID(c)
-	if err != nil {
-		response.Unauthorized(c, err.Error())
-		return
+	userID, ok := ginutil.GetUserID(c)
+	if !ok {
+		return // getUserID 已处理未授权响应
 	}
 
 	var req order.CreateOrderDTO
-	if err = c.ShouldBindJSON(&req); err != nil {
+	if err := c.ShouldBindJSON(&req); err != nil {
 		response.ValidationError(c, err.Error())
 		return
 	}
@@ -291,13 +292,4 @@ func (h *OrderHandler) Delete(c *gin.Context) {
 	}
 
 	response.OK(c, nil)
-}
-
-// getUserID 从上下文中提取用户 ID
-func getUserID(c *gin.Context) (uint, error) {
-	userID, exists := c.Get("user_id")
-	if !exists {
-		return 0, errors.New("user_id not found in context")
-	}
-	return userID.(uint), nil
 }
