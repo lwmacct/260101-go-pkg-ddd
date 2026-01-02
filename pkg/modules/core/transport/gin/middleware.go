@@ -48,7 +48,7 @@ var MiddlewareRegistry = map[routes.MiddlewareType]Factory{
 	// RequestID - 无依赖
 	routes.MiddlewareRequestID: {
 		Factory: MiddlewareFactory(func(_ *RouterDependencies) gin.HandlerFunc {
-			return middleware.RequestID()
+			return RequestID()
 		}),
 		NeedsRoute: false,
 		NeedsDeps:  false,
@@ -57,7 +57,7 @@ var MiddlewareRegistry = map[routes.MiddlewareType]Factory{
 	// OperationID - 需要 Route.Op
 	routes.MiddlewareOperationID: {
 		Factory: MiddlewareFactoryWithRoute(func(_ *RouterDependencies, route routes.Route) gin.HandlerFunc {
-			return middleware.SetOperationID(route.Op.Identifier())
+			return SetOperationID(route.Op.Identifier())
 		}),
 		NeedsRoute: true,
 		NeedsDeps:  false,
@@ -66,7 +66,7 @@ var MiddlewareRegistry = map[routes.MiddlewareType]Factory{
 	// Auth - 需要 JWTManager, PATService, PermissionCacheService
 	routes.MiddlewareAuth: {
 		Factory: MiddlewareFactory(func(deps *RouterDependencies) gin.HandlerFunc {
-			return middleware.Auth(
+			return Auth(
 				deps.JWTManager,
 				deps.PATService,
 				deps.PermissionCacheService,
@@ -79,7 +79,7 @@ var MiddlewareRegistry = map[routes.MiddlewareType]Factory{
 	// OrgContext - 需要 OrgMemberQuery
 	routes.MiddlewareOrgContext: {
 		Factory: MiddlewareFactory(func(deps *RouterDependencies) gin.HandlerFunc {
-			return middleware.OrgContext(deps.OrgMemberQuery)
+			return OrgContext(deps.OrgMemberQuery)
 		}),
 		NeedsRoute: false,
 		NeedsDeps:  true,
@@ -95,9 +95,9 @@ var MiddlewareRegistry = map[routes.MiddlewareType]Factory{
 			}
 
 			if optional {
-				return middleware.TeamContextOptional(deps.TeamQuery, deps.TeamMemberQuery)
+				return TeamContextOptional(deps.TeamQuery, deps.TeamMemberQuery)
 			}
-			return middleware.TeamContext(deps.TeamQuery, deps.TeamMemberQuery)
+			return TeamContext(deps.TeamQuery, deps.TeamMemberQuery)
 		}),
 		NeedsRoute: false,
 		NeedsDeps:  true,
@@ -107,7 +107,7 @@ var MiddlewareRegistry = map[routes.MiddlewareType]Factory{
 	// RBAC - 需要 Route.Op
 	routes.MiddlewareRBAC: {
 		Factory: MiddlewareFactoryWithRoute(func(_ *RouterDependencies, route routes.Route) gin.HandlerFunc {
-			return middleware.RequireOperation(route.Op)
+			return RequireOperation(route.Op)
 		}),
 		NeedsRoute: true,
 		NeedsDeps:  false,
@@ -116,7 +116,7 @@ var MiddlewareRegistry = map[routes.MiddlewareType]Factory{
 	// Audit - 需要 CreateLogHandler 和 Route.Op
 	routes.MiddlewareAudit: {
 		Factory: MiddlewareFactoryWithRoute(func(deps *RouterDependencies, route routes.Route) gin.HandlerFunc {
-			return middleware.AuditMiddlewareWithOp(deps.CreateLogHandler, route.Op)
+			return AuditMiddlewareWithOp(deps.CreateLogHandler, route.Op)
 		}),
 		NeedsRoute: true,
 		NeedsDeps:  true,
@@ -125,7 +125,7 @@ var MiddlewareRegistry = map[routes.MiddlewareType]Factory{
 	// CORS - 无依赖
 	routes.MiddlewareCORS: {
 		Factory: MiddlewareFactory(func(_ *RouterDependencies) gin.HandlerFunc {
-			return middleware.CORS()
+			return CORS()
 		}),
 		NeedsRoute: false,
 		NeedsDeps:  false,
@@ -134,7 +134,7 @@ var MiddlewareRegistry = map[routes.MiddlewareType]Factory{
 	// Logger - 无依赖
 	routes.MiddlewareLogger: {
 		Factory: MiddlewareFactory(func(_ *RouterDependencies) gin.HandlerFunc {
-			return middleware.LoggerSkipPaths("/health")
+			return LoggerSkipPaths("/health")
 		}),
 		NeedsRoute: false,
 		NeedsDeps:  false,

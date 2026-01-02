@@ -1,7 +1,8 @@
 package container
 
 import (
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 	crmpersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/infrastructure/persistence"
 )
 
@@ -21,21 +22,21 @@ func DefaultOptions() *ContainerOptions {
 // 新增领域模型时，需在此处注册。
 func GetAllModels() []any {
 	return []any{
-		&persistence.UserModel{},
-		&persistence.RoleModel{},
-		&persistence.PersonalAccessTokenModel{},
-		&persistence.AuditModel{},
-		&persistence.TwoFAModel{},
-		&persistence.SettingModel{},
-		&persistence.SettingCategoryModel{},
-		&persistence.UserSettingModel{},
+		&iampersistence.UserModel{},
+		&iampersistence.RoleModel{},
+		&iampersistence.PersonalAccessTokenModel{},
+		&corepersistence.AuditModel{},
+		&iampersistence.TwoFAModel{},
+		&corepersistence.SettingModel{},
+		&corepersistence.SettingCategoryModel{},
+		&iampersistence.UserSettingModel{},
 		// 组织和团队
-		&persistence.OrgModel{},
-		&persistence.TeamModel{},
-		&persistence.OrgMemberModel{},
-		&persistence.TeamMemberModel{},
+		&corepersistence.OrgModel{},
+		&corepersistence.TeamModel{},
+		&corepersistence.OrgMemberModel{},
+		&corepersistence.TeamMemberModel{},
 		// 任务
-		&persistence.TaskModel{},
+		&corepersistence.TaskModel{},
 		// CRM
 		&crmpersistence.ContactModel{},
 		&crmpersistence.CompanyModel{},

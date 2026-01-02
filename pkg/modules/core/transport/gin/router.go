@@ -178,9 +178,9 @@ func SetupRouterWithDeps(deps *RouterDependencies) *gin.Engine {
 		}
 		c.Abort()
 	}))
-	r.Use(middleware.CORS())
+	r.Use(CORS())
 	// 使用基于 slog 的日志中间件，跳过健康检查端点
-	r.Use(middleware.LoggerSkipPaths("/health"))
+	r.Use(LoggerSkipPaths("/health"))
 
 	// 健康检查
 	r.GET("/health", deps.HealthHandler.Check)

@@ -1,21 +1,22 @@
 // Package seeds 提供各种领域模型的种子数据
 package seeds
-package seeds
 
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log/slog"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
-	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
 	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/user"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
+// UserSeeder 用户种子数据
+type UserSeeder struct{}
+
+// Seed 执行用户种子数据填充
+func (s *UserSeeder) Seed(ctx context.Context, db *gorm.DB) error {
+	db = db.WithContext(ctx)
 
 	// 生成密码哈希 (默认密码：password123)
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte("password123"), bcrypt.DefaultCost)

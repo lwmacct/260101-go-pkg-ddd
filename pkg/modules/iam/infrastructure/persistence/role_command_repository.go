@@ -2,6 +2,7 @@ package persistence
 
 import (
 	"context"
+	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
 	"errors"
 	"fmt"
 
@@ -12,13 +13,13 @@ import (
 // roleCommandRepository 角色命令仓储的 GORM 实现
 // 嵌入 GenericCommandRepository 以复用基础 CRUD 操作
 type roleCommandRepository struct {
-	*GenericCommandRepository[role.Role, *RoleModel]
+	*corepersistence.GenericCommandRepository[role.Role, *RoleModel]
 }
 
 // NewRoleCommandRepository 创建角色命令仓储实例
 func NewRoleCommandRepository(db *gorm.DB) role.CommandRepository {
 	return &roleCommandRepository{
-		GenericCommandRepository: NewGenericCommandRepository(
+		GenericCommandRepository: corepersistence.NewGenericCommandRepository(
 			db, newRoleModelFromEntity,
 		),
 	}

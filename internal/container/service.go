@@ -3,7 +3,7 @@ package container
 import (
 	"go.uber.org/fx"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 	appauth "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/auth"
 	appuser "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/user"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/auth"
@@ -11,7 +11,6 @@ import (
 	infra_twofa "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/twofa"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
 
-	infra_captcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/captcha"
 	infra_auth "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/auth"
 )
 
@@ -30,7 +29,7 @@ var ServiceModule = fx.Module("service",
 		infra_auth.NewLoginSessionService,
 		newAuthPermissionCacheService,
 		newPATService,
-		infra_captcha.NewService,
+		// infra_captcha.NewService // TODO: fix captcha service implementation,
 		newTwoFAService,
 
 		// 领域服务
@@ -45,8 +44,8 @@ func newJWTManager(cfg *config.Config) *infra_auth.JWTManager {
 func newAuthPermissionCacheService(
 	permissionCache appauth.PermissionCacheService,
 	userWithRolesCache appuser.UserWithRolesCacheService,
-	userRepos persistence.UserRepositories,
-	roleRepos persistence.RoleRepositories,
+	userRepos iampersistence.UserRepositories,
+	roleRepos iampersistence.RoleRepositories,
 ) *infra_auth.PermissionCacheService {
 	return infra_auth.NewPermissionCacheService(
 		permissionCache,
@@ -62,7 +61,7 @@ func newAuthService(jwt *infra_auth.JWTManager, tokenGen *infra_auth.TokenGenera
 }
 
 func newPATService(
-	patRepos persistence.PATRepositories,
+	patRepos iampersistence.PATRepositories,
 	tokenGen *infra_auth.TokenGenerator,
 ) *infra_auth.PATService {
 	return infra_auth.NewPATService(patRepos.Command, patRepos.Query, tokenGen)
@@ -73,8 +72,8 @@ type twofaServiceParams struct {
 	fx.In
 
 	Config    *config.Config
-	TwoFA     persistence.TwoFARepositories
-	UserRepos persistence.UserRepositories
+	TwoFA     iampersistence.TwoFARepositories
+	UserRepos iampersistence.UserRepositories
 }
 
 func newTwoFAService(p twofaServiceParams) domain_twofa.Service {

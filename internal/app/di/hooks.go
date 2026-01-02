@@ -9,10 +9,10 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/event"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/db"
+	dbpkg "github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/db"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/db/seeds"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/eventhandler"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
 )
 
 // HooksModule 提供生命周期钩子和事件处理器注册。
@@ -25,7 +25,7 @@ type eventHandlersParams struct {
 	fx.In
 
 	EventBus   event.EventBus
-	AuditRepos persistence.AuditRepositories
+	AuditRepos corepersistence.AuditRepositories
 }
 
 // RegisterEventHandlers 设置审计日志的事件订阅。
@@ -74,7 +74,7 @@ func RunMigration(lc fx.Lifecycle, db *gorm.DB) error {
 func RunReset(lc fx.Lifecycle, db *gorm.DB, redis *redis.Client) error {
 	lc.Append(fx.Hook{
 		OnStart: func(ctx context.Context) error {
-			slog.Info("Resetting database...")
+			slog.Info("Resetting db...")
 
 			// 1. 清空 Redis 缓存
 			if err := redis.FlushAll(ctx).Err(); err != nil {
@@ -84,13 +84,13 @@ func RunReset(lc fx.Lifecycle, db *gorm.DB, redis *redis.Client) error {
 			}
 
 			// 2. 重置数据库
-			migrator := database.NewMigrationManager(db, GetAllModels())
+			migrator := dbpkg.NewMigrationManager(db, GetAllModels())
 			if err := migrator.ResetWithIndexes(getIndexMigrations()); err != nil {
 				return err
 			}
 
 			// 3. 执行种子数据
-			seeder := database.NewSeederManager(db, seeds.DefaultSeeders())
+			seeder := dbpkg.NewSeederManager(db, seeds.DefaultSeeders())
 			if err := seeder.Run(ctx); err != nil {
 				return err
 			}
@@ -108,7 +108,7 @@ func RunSeed(lc fx.Lifecycle, db *gorm.DB) error {
 		OnStart: func(ctx context.Context) error {
 			slog.Info("Running database seeders...")
 
-			seeder := database.NewSeederManager(db, seeds.DefaultSeeders())
+			seeder := dbpkg.NewSeederManager(db, seeds.DefaultSeeders())
 			if err := seeder.Run(ctx); err != nil {
 				return err
 			}
@@ -124,13 +124,13 @@ func RunSeed(lc fx.Lifecycle, db *gorm.DB) error {
 func createAllIndexes(db *gorm.DB) error {
 	// Model 索引
 	for _, im := range getIndexMigrations() {
-		if err := database.CreateIndexes(db, im.Model, im.Indexes); err != nil {
+		if err := dbpkg.CreateIndexes(db, im.Model, im.Indexes); err != nil {
 			return err
 		}
 	}
 
 	// 关联表索引
-	if err := database.CreateJoinTableIndexes(db, getJoinTableIndexes()); err != nil {
+	if err := dbpkg.CreateJoinTableIndexes(db, getJoinTableIndexes()); err != nil {
 		return err
 	}
 
@@ -138,18 +138,18 @@ func createAllIndexes(db *gorm.DB) error {
 }
 
 // getIndexMigrations 返回所有 Model 索引配置。
-func getIndexMigrations() []database.IndexMigration {
-	return []database.IndexMigration{
+func getIndexMigrations() []dbpkg.IndexMigration {
+	return []dbpkg.IndexMigration{
 		{
-			Model:   &persistence.SettingModel{},
+			Model:   &corepersistence.SettingModel{},
 			Indexes: []string{"idx_settings_category_sort"},
 		},
 	}
 }
 
 // getJoinTableIndexes 返回所有关联表索引配置。
-func getJoinTableIndexes() []database.JoinTableIndex {
-	return []database.JoinTableIndex{
+func getJoinTableIndexes() []dbpkg.JoinTableIndex {
+	return []dbpkg.JoinTableIndex{
 		{Table: "user_roles", Name: "idx_user_roles_user_id", Columns: "user_id"},
 		{Table: "user_roles", Name: "idx_user_roles_role_id", Columns: "role_id"},
 		{Table: "role_permissions", Name: "idx_role_permissions_role_model_id", Columns: "role_model_id"},

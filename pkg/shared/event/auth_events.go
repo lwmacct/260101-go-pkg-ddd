@@ -22,7 +22,7 @@ type LoginSucceededEvent struct {
 // NewLoginSucceededEvent 创建登录成功事件
 func NewLoginSucceededEvent(userID uint, username, ipAddress, userAgent string) *LoginSucceededEvent {
 	return &LoginSucceededEvent{
-		BaseEvent: event.NewBaseEvent("auth.login_succeeded", "auth", strconv.FormatUint(uint64(userID), 10)),
+		BaseEvent: NewBaseEvent("auth.login_succeeded", "auth", strconv.FormatUint(uint64(userID), 10)),
 		UserID:    userID,
 		Username:  username,
 		IPAddress: ipAddress,
@@ -42,7 +42,7 @@ type LoginFailedEvent struct {
 // NewLoginFailedEvent 创建登录失败事件
 func NewLoginFailedEvent(username, ipAddress, reason string) *LoginFailedEvent {
 	return &LoginFailedEvent{
-		BaseEvent: event.NewBaseEvent("auth.login_failed", "auth", username),
+		BaseEvent: NewBaseEvent("auth.login_failed", "auth", username),
 		Username:  username,
 		IPAddress: ipAddress,
 		Reason:    reason,
@@ -59,7 +59,7 @@ type LogoutEvent struct {
 // NewLogoutEvent 创建登出事件
 func NewLogoutEvent(userID uint) *LogoutEvent {
 	return &LogoutEvent{
-		BaseEvent: event.NewBaseEvent("auth.logout", "auth", strconv.FormatUint(uint64(userID), 10)),
+		BaseEvent: NewBaseEvent("auth.logout", "auth", strconv.FormatUint(uint64(userID), 10)),
 		UserID:    userID,
 	}
 }
@@ -74,7 +74,7 @@ type TokenRefreshedEvent struct {
 // NewTokenRefreshedEvent 创建令牌刷新事件
 func NewTokenRefreshedEvent(userID uint) *TokenRefreshedEvent {
 	return &TokenRefreshedEvent{
-		BaseEvent: event.NewBaseEvent("auth.token_refreshed", "auth", strconv.FormatUint(uint64(userID), 10)),
+		BaseEvent: NewBaseEvent("auth.token_refreshed", "auth", strconv.FormatUint(uint64(userID), 10)),
 		UserID:    userID,
 	}
 }
@@ -89,7 +89,7 @@ type TwoFAEnabledEvent struct {
 // NewTwoFAEnabledEvent 创建 2FA 启用事件
 func NewTwoFAEnabledEvent(userID uint) *TwoFAEnabledEvent {
 	return &TwoFAEnabledEvent{
-		BaseEvent: event.NewBaseEvent("auth.twofa_enabled", "auth", strconv.FormatUint(uint64(userID), 10)),
+		BaseEvent: NewBaseEvent("auth.twofa_enabled", "auth", strconv.FormatUint(uint64(userID), 10)),
 		UserID:    userID,
 	}
 }
@@ -104,7 +104,7 @@ type TwoFADisabledEvent struct {
 // NewTwoFADisabledEvent 创建 2FA 禁用事件
 func NewTwoFADisabledEvent(userID uint) *TwoFADisabledEvent {
 	return &TwoFADisabledEvent{
-		BaseEvent: event.NewBaseEvent("auth.twofa_disabled", "auth", strconv.FormatUint(uint64(userID), 10)),
+		BaseEvent: NewBaseEvent("auth.twofa_disabled", "auth", strconv.FormatUint(uint64(userID), 10)),
 		UserID:    userID,
 	}
 }

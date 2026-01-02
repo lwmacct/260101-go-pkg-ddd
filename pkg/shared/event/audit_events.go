@@ -56,7 +56,7 @@ func NewCommandExecutedEvent(
 	success bool,
 ) *CommandExecutedEvent {
 	return &CommandExecutedEvent{
-		BaseEvent:  event.NewBaseEvent("audit.command_executed", resource, resourceID),
+		BaseEvent: NewBaseEvent("audit.command_executed", resource, resourceID),
 		UserID:     userID,
 		Username:   username,
 		Action:     action,

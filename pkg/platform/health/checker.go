@@ -8,7 +8,7 @@ import (
 
 	domainHealth "github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/health"
 	cacheinfra "github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/cache"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/db"
+	database "github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/db"
 )
 
 // SystemChecker 系统健康检查器实现

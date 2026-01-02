@@ -58,7 +58,7 @@ func (s *SettingSeeder) Name() string {
 
 // loadCategoryIDs 从数据库加载 Category key -> ID 映射
 func (s *SettingSeeder) loadCategoryIDs(db *gorm.DB) (map[string]uint, error) {
-	var categories []persistence.SettingCategoryModel
+	var categories []_persistence.SettingCategoryModel
 	if err := db.Find(&categories).Error; err != nil {
 		return nil, err
 	}
@@ -81,8 +81,8 @@ func (s *SettingSeeder) loadCategoryIDs(db *gorm.DB) (map[string]uint, error) {
 //   - 基本设置组: 10, 20, 30    → min=10  → 排第1
 //   - 本地化组:   100, 110      → min=100 → 排第2
 //   - 外观组:     200           → min=200 → 排第3
-func (s *SettingSeeder) buildDefinitions(categoryIDs map[string]uint) []persistence.SettingModel {
-	return []persistence.SettingModel{
+func (s *SettingSeeder) buildDefinitions(categoryIDs map[string]uint) []_persistence.SettingModel {
+	return []_persistence.SettingModel{
 		// ==================== General 常规设置 ====================
 		// 基本设置 分组 (Order 1-99)
 		{

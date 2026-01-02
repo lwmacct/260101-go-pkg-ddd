@@ -5,7 +5,6 @@ import (
 	"log/slog"
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/event"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/event"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/auth"
 )
 
@@ -29,11 +28,11 @@ func NewCacheInvalidationHandler(
 // Handle 处理事件
 func (h *CacheInvalidationHandler) Handle(ctx context.Context, e event.Event) error {
 	switch evt := e.(type) {
-	case *events.UserRoleAssignedEvent:
+	case *event.UserRoleAssignedEvent:
 		return h.handleUserRoleAssigned(ctx, evt)
-	case *events.RolePermissionsChangedEvent:
+	case *event.RolePermissionsChangedEvent:
 		return h.handleRolePermissionsChanged(ctx, evt)
-	case *events.UserDeletedEvent:
+	case *event.UserDeletedEvent:
 		return h.handleUserDeleted(ctx, evt)
 	default:
 		// 忽略不处理的事件
@@ -43,7 +42,7 @@ func (h *CacheInvalidationHandler) Handle(ctx context.Context, e event.Event) er
 
 // handleUserRoleAssigned 处理用户角色分配事件
 // 失效单个用户的权限缓存
-func (h *CacheInvalidationHandler) handleUserRoleAssigned(ctx context.Context, evt *events.UserRoleAssignedEvent) error {
+func (h *CacheInvalidationHandler) handleUserRoleAssigned(ctx context.Context, evt *event.UserRoleAssignedEvent) error {
 	h.logger.Info("invalidating permission cache for user",
 		"event", evt.EventName(),
 		"user_id", evt.UserID,
@@ -63,7 +62,7 @@ func (h *CacheInvalidationHandler) handleUserRoleAssigned(ctx context.Context, e
 
 // handleRolePermissionsChanged 处理角色权限变更事件
 // 失效拥有该角色的所有用户的权限缓存（批量删除）
-func (h *CacheInvalidationHandler) handleRolePermissionsChanged(ctx context.Context, evt *events.RolePermissionsChangedEvent) error {
+func (h *CacheInvalidationHandler) handleRolePermissionsChanged(ctx context.Context, evt *event.RolePermissionsChangedEvent) error {
 	h.logger.Info("invalidating permission cache for role",
 		"event", evt.EventName(),
 		"role_id", evt.RoleID,
@@ -82,7 +81,7 @@ func (h *CacheInvalidationHandler) handleRolePermissionsChanged(ctx context.Cont
 
 // handleUserDeleted 处理用户删除事件
 // 清理用户相关缓存
-func (h *CacheInvalidationHandler) handleUserDeleted(ctx context.Context, evt *events.UserDeletedEvent) error {
+func (h *CacheInvalidationHandler) handleUserDeleted(ctx context.Context, evt *event.UserDeletedEvent) error {
 	h.logger.Info("cleaning up cache for deleted user",
 		"event", evt.EventName(),
 		"user_id", evt.UserID,

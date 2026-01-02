@@ -2,6 +2,7 @@ package persistence
 
 import (
 	"context"
+	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
 	"errors"
 	"fmt"
 
@@ -12,13 +13,13 @@ import (
 // userCommandRepository 用户命令仓储的 GORM 实现
 // 嵌入 GenericCommandRepository 以复用基础 CRUD 操作
 type userCommandRepository struct {
-	*GenericCommandRepository[user.User, *UserModel]
+	*corepersistence.GenericCommandRepository[user.User, *UserModel]
 }
 
 // NewUserCommandRepository 创建用户命令仓储实例
 func NewUserCommandRepository(db *gorm.DB) user.CommandRepository {
 	return &userCommandRepository{
-		GenericCommandRepository: NewGenericCommandRepository(
+		GenericCommandRepository: corepersistence.NewGenericCommandRepository(
 			db, newUserModelFromEntity,
 		),
 	}

@@ -19,9 +19,9 @@ import (
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/event"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/cache"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/db"
+	dbpkg "github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/db"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/eventbus"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/telemetry"
 	crmpersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
@@ -93,10 +93,10 @@ func newTelemetry(lc fx.Lifecycle, cfg *config.Config) (TelemetryResult, error) 
 
 func newDatabase(lc fx.Lifecycle, cfg *config.Config) (*gorm.DB, error) {
 	ctx := context.Background()
-	dbConfig := database.DefaultConfig(cfg.Data.PgsqlURL)
+	dbConfig := dbpkg.DefaultConfig(cfg.Data.PgsqlURL)
 	dbConfig.EnableTracing = cfg.Telemetry.Enabled
 
-	db, err := database.NewConnection(ctx, dbConfig)
+	db, err := dbpkg.NewConnection(ctx, dbConfig)
 	if err != nil {
 		slog.Error("Failed to connect to database",
 			"error", err,
@@ -118,7 +118,7 @@ func newDatabase(lc fx.Lifecycle, cfg *config.Config) (*gorm.DB, error) {
 
 	lc.Append(fx.Hook{
 		OnStop: func(ctx context.Context) error {
-			return database.Close(db)
+			return dbpkg.Close(db)
 		},
 	})
 
@@ -127,28 +127,28 @@ func newDatabase(lc fx.Lifecycle, cfg *config.Config) (*gorm.DB, error) {
 
 // runAutoMigrate 执行数据库自动迁移和索引创建。
 func runAutoMigrate(db *gorm.DB) error {
-	slog.Info("Auto-migration enabled, migrating database...")
+	slog.Info("Auto-migration enabled, migrating dbpkg...")
 
 	if err := db.AutoMigrate(GetAllModels()...); err != nil {
 		return err
 	}
 
 	// 为 SettingModel 创建索引
-	if err := database.CreateIndexes(db, &persistence.SettingModel{}, []string{
+	if err := dbpkg.CreateIndexes(db, &corepersistence.SettingModel{}, []string{
 		"idx_settings_category_sort",
 	}); err != nil {
 		return err
 	}
 
 	// 为 TaskModel 创建复合索引
-	if err := database.CreateIndexes(db, &persistence.TaskModel{}, []string{
+	if err := dbpkg.CreateIndexes(db, &corepersistence.TaskModel{}, []string{
 		"idx_tasks_org_team",
 	}); err != nil {
 		return err
 	}
 
 	// 为 LeadModel 创建索引
-	if err := database.CreateIndexes(db, &crmpersistence.LeadModel{}, []string{
+	if err := dbpkg.CreateIndexes(db, &crmpersistence.LeadModel{}, []string{
 		"idx_leads_owner_id",
 		"idx_leads_contact_id",
 	}); err != nil {
@@ -156,7 +156,7 @@ func runAutoMigrate(db *gorm.DB) error {
 	}
 
 	// 为 OpportunityModel 创建索引
-	if err := database.CreateIndexes(db, &crmpersistence.OpportunityModel{}, []string{
+	if err := dbpkg.CreateIndexes(db, &crmpersistence.OpportunityModel{}, []string{
 		"idx_opportunities_contact_id",
 		"idx_opportunities_company_id",
 		"idx_opportunities_lead_id",
@@ -166,7 +166,7 @@ func runAutoMigrate(db *gorm.DB) error {
 	}
 
 	// 为 ContactModel 创建索引
-	if err := database.CreateIndexes(db, &crmpersistence.ContactModel{}, []string{
+	if err := dbpkg.CreateIndexes(db, &crmpersistence.ContactModel{}, []string{
 		"idx_contacts_owner_id",
 		"idx_contacts_company_id",
 	}); err != nil {
@@ -174,7 +174,7 @@ func runAutoMigrate(db *gorm.DB) error {
 	}
 
 	// 为 CompanyModel 创建索引
-	if err := database.CreateIndexes(db, &crmpersistence.CompanyModel{}, []string{
+	if err := dbpkg.CreateIndexes(db, &crmpersistence.CompanyModel{}, []string{
 		"idx_companies_owner_id",
 	}); err != nil {
 		return err
@@ -182,7 +182,7 @@ func runAutoMigrate(db *gorm.DB) error {
 
 	// 为多对多关联表创建索引
 	// role_permissions 使用复合主键，PostgreSQL 自动利用前缀索引
-	if err := database.CreateJoinTableIndexes(db, []database.JoinTableIndex{
+	if err := dbpkg.CreateJoinTableIndexes(db, []dbpkg.JoinTableIndex{
 		{Table: "user_roles", Name: "idx_user_roles_user_id", Columns: "user_id"},
 		{Table: "user_roles", Name: "idx_user_roles_role_id", Columns: "role_id"},
 	}); err != nil {

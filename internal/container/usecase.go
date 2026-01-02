@@ -13,7 +13,8 @@ import (
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/event"
 	domain_stats "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/domain/stats"
 	infra_captcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/captcha"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/validation"
 	appCompany "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/application/company"
 	appContact "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/application/contact"
@@ -225,7 +226,7 @@ var UseCaseModule = fx.Module("usecase",
 
 // --- 构造函数 ---
 
-func newAuditUseCases(repos persistence.AuditRepositories) *AuditUseCases {
+func newAuditUseCases(repos corepersistence.AuditRepositories) *AuditUseCases {
 	return &AuditUseCases{
 		CreateLog: audit.NewCreateHandler(repos.Command),
 		Get:       audit.NewGetHandler(repos.Query),
@@ -237,9 +238,9 @@ func newAuditUseCases(repos persistence.AuditRepositories) *AuditUseCases {
 type authUseCasesParams struct {
 	fx.In
 
-	UserRepos      persistence.UserRepositories
+	UserRepos      iampersistence.UserRepositories
 	CaptchaCommand captcha.CommandRepository
-	TwoFARepos     persistence.TwoFARepositories
+	TwoFARepos     iampersistence.TwoFARepositories
 	AuthSvc        domain_auth.Service
 	LoginSession   domain_auth.SessionService
 	TwoFASvc       domain_twofa.Service
@@ -259,7 +260,7 @@ func newAuthUseCases(p authUseCasesParams) *AuthUseCases {
 type userUseCasesParams struct {
 	fx.In
 
-	UserRepos persistence.UserRepositories
+	UserRepos iampersistence.UserRepositories
 	AuthSvc   domain_auth.Service
 	EventBus  event.EventBus
 }
@@ -281,7 +282,7 @@ func newUserUseCases(p userUseCasesParams) *UserUseCases {
 type roleUseCasesParams struct {
 	fx.In
 
-	RoleRepos persistence.RoleRepositories
+	RoleRepos iampersistence.RoleRepositories
 	EventBus  event.EventBus
 }
 
@@ -300,7 +301,7 @@ func newRoleUseCases(p roleUseCasesParams) *RoleUseCases {
 type settingUseCasesParams struct {
 	fx.In
 
-	SettingRepos  persistence.SettingRepositories
+	SettingRepos  corepersistence.SettingRepositories
 	SettingsCache setting.SettingsCacheService
 }
 
@@ -327,8 +328,8 @@ func newSettingUseCases(p settingUseCasesParams) *SettingUseCases {
 type userSettingUseCasesParams struct {
 	fx.In
 
-	SettingRepos     persistence.SettingRepositories
-	UserSettingRepos persistence.UserSettingRepositories
+	SettingRepos     corepersistence.SettingRepositories
+	UserSettingRepos iampersistence.UserSettingRepositories
 	SettingsCache    setting.SettingsCacheService
 }
 
@@ -351,8 +352,8 @@ func newUserSettingUseCases(p userSettingUseCasesParams) *UserSettingUseCases {
 type patUseCasesParams struct {
 	fx.In
 
-	PATRepos  persistence.PATRepositories
-	UserRepos persistence.UserRepositories
+	PATRepos  iampersistence.PATRepositories
+	UserRepos iampersistence.UserRepositories
 	TokenGen  *infra_auth.TokenGenerator
 }
 
@@ -375,7 +376,7 @@ func newStatsUseCases(statsQuery domain_stats.QueryRepository) *StatsUseCases {
 
 func newCaptchaUseCases(
 	captchaCommand captcha.CommandRepository,
-	captchaSvc *infra_captcha.Service,
+	captchaSvc infra_captcha.Service,
 ) *CaptchaUseCases {
 	return &CaptchaUseCases{
 		Generate: app_captcha.NewGenerateHandler(captchaCommand, captchaSvc),
@@ -395,7 +396,7 @@ func newTwoFAUseCases(twofaSvc domain_twofa.Service) *TwoFAUseCases {
 type organizationUseCasesParams struct {
 	fx.In
 
-	OrgRepos persistence.OrganizationRepositories
+	OrgRepos corepersistence.OrganizationRepositories
 }
 
 func newOrganizationUseCases(p organizationUseCasesParams) *OrganizationUseCases {
@@ -445,7 +446,7 @@ func newOrganizationUseCases(p organizationUseCasesParams) *OrganizationUseCases
 	}
 }
 
-func newTaskUseCases(repos persistence.TaskRepositories) *TaskUseCases {
+func newTaskUseCases(repos corepersistence.TaskRepositories) *TaskUseCases {
 	return &TaskUseCases{
 		Create: app_task.NewCreateHandler(repos.Command),
 		Update: app_task.NewUpdateHandler(repos.Command, repos.Query),

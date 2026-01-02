@@ -4,12 +4,11 @@ import (
 	"go.uber.org/fx"
 	"gorm.io/gorm"
 
+	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/setting"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/captcha"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/user"
 
-	infracaptcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/captcha"
 	crmpersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/infrastructure/persistence"
 	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 )
@@ -23,19 +22,19 @@ import (
 var RepositoryModule = fx.Module("repository",
 	fx.Provide(
 		// 直接使用 persistence 构造函数（无需包装）
-		persistence.NewAuditRepositories,
-		persistence.NewRoleRepositories,
-		persistence.NewPATRepositories,
-		persistence.NewTwoFARepositories,
+		corepersistence.NewAuditRepositories,
+		iampersistence.NewRoleRepositories,
+		iampersistence.NewPATRepositories,
+		iampersistence.NewTwoFARepositories,
 
 		// 组织相关仓储
-		persistence.NewOrganizationRepositories,
-		persistence.NewTeamRepositories,
-		persistence.NewOrgMemberRepositories,
-		persistence.NewTeamMemberRepositories,
+		corepersistence.NewOrganizationRepositories,
+		corepersistence.NewTeamRepositories,
+		corepersistence.NewOrgMemberRepositories,
+		corepersistence.NewTeamMemberRepositories,
 
 		// 任务仓储
-		persistence.NewTaskRepositories,
+		corepersistence.NewTaskRepositories,
 
 		// CRM 仓储
 		crmpersistence.NewContactRepositories,
@@ -49,7 +48,7 @@ var RepositoryModule = fx.Module("repository",
 		newUserSettingRepositoriesWithCache,
 
 		// 特殊仓储
-		newCaptchaRepository,
+		// newCaptchaRepository, // TODO: implement captcha repository
 		// infrastats.NewQueryRepository,
 	),
 )
@@ -59,11 +58,11 @@ var RepositoryModule = fx.Module("repository",
 func newUserRepositoriesWithCache(
 	db *gorm.DB,
 	userWithRolesCache user.UserWithRolesCacheService,
-) persistence.UserRepositories {
-	rawRepos := persistence.NewUserRepositories(db)
-	cachedQuery := persistence.NewCachedUserQueryRepository(rawRepos.Query, userWithRolesCache)
-	cachedCommand := persistence.NewCachedUserCommandRepository(rawRepos.Command, userWithRolesCache)
-	return persistence.UserRepositories{
+) iampersistence.UserRepositories {
+	rawRepos := iampersistence.NewUserRepositories(db)
+	cachedQuery := iampersistence.NewCachedUserQueryRepository(rawRepos.Query, userWithRolesCache)
+	cachedCommand := iampersistence.NewCachedUserCommandRepository(rawRepos.Command, userWithRolesCache)
+	return iampersistence.UserRepositories{
 		Command: cachedCommand,
 		Query:   cachedQuery,
 	}
@@ -80,25 +79,25 @@ func newSettingRepositoriesWithCache(
 	db *gorm.DB,
 	userSettingCache setting.UserSettingCacheService,
 	settingsCache setting.SettingsCacheService,
-) persistence.SettingRepositories {
-	rawRepos := persistence.NewSettingRepositories(db)
+) corepersistence.SettingRepositories {
+	rawRepos := corepersistence.NewSettingRepositories(db)
 
 	// 查询直接使用原始仓储，不再缓存
 	// 写操作装饰器：失效 Settings + UserSetting 缓存
-	wrappedCommand := persistence.NewSettingCommandWithCacheInvalidation(
+	wrappedCommand := corepersistence.NewSettingCommandWithCacheInvalidation(
 		rawRepos.Command,
 		userSettingCache,
 		settingsCache,
 	)
 
 	// Category 查询使用 SettingsCacheService（合并后的 Application 层缓存）
-	cachedCategoryQuery := persistence.NewCachedSettingCategoryQueryRepository(
+	cachedCategoryQuery := corepersistence.NewCachedSettingCategoryQueryRepository(
 		rawRepos.CategoryQuery,
 		settingsCache,
 	)
 
 	// Category 命令直接使用原始仓储，缓存失效在 Handler 层统一处理
-	return persistence.SettingRepositories{
+	return corepersistence.SettingRepositories{
 		Command:         wrappedCommand,
 		Query:           rawRepos.Query,
 		CategoryQuery:   cachedCategoryQuery,
@@ -116,21 +115,21 @@ type userSettingRepositoriesParams struct {
 	SettingsCache         setting.SettingsCacheService
 }
 
-func newUserSettingRepositoriesWithCache(p userSettingRepositoriesParams) persistence.UserSettingRepositories {
-	rawRepos := persistence.NewUserSettingRepositories(p.DB)
+func newUserSettingRepositoriesWithCache(p userSettingRepositoriesParams) iampersistence.UserSettingRepositories {
+	rawRepos := iampersistence.NewUserSettingRepositories(p.DB)
 
-	cachedQuery := persistence.NewCachedUserSettingQueryRepository(
+	cachedQuery := iampersistence.NewCachedUserSettingQueryRepository(
 		rawRepos.Query,
 		p.UserSettingQueryCache,
 	)
-	cachedCommand := persistence.NewCachedUserSettingCommandRepository(
+	cachedCommand := iampersistence.NewCachedUserSettingCommandRepository(
 		rawRepos.Command,
 		p.UserSettingQueryCache,
 		p.UserSettingCache,
 		p.SettingsCache,
 	)
 
-	return persistence.UserSettingRepositories{
+	return iampersistence.UserSettingRepositories{
 		Command: cachedCommand,
 		Query:   cachedQuery,
 	}
@@ -146,10 +145,11 @@ type CaptchaRepositoryResult struct {
 	Query   captcha.QueryRepository
 }
 
-func newCaptchaRepository() CaptchaRepositoryResult {
-	repo := infracaptcha.NewRepository()
-	return CaptchaRepositoryResult{
-		Command: repo,
-		Query:   repo,
-	}
-}
+// TODO: implement captcha repository
+// func newCaptchaRepository() CaptchaRepositoryResult {
+// 	repo := infracaptcha.NewRepository()
+// 	return CaptchaRepositoryResult{
+// 		Command: repo,
+// 		Query:   repo,
+// 	}
+// }

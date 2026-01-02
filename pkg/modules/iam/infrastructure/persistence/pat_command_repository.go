@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/pat"
 	"gorm.io/gorm"
 )
@@ -12,13 +13,13 @@ import (
 // patCommandRepository PAT 命令仓储的 GORM 实现
 // 嵌入 GenericCommandRepository 以复用 Create/Update 操作
 type patCommandRepository struct {
-	*GenericCommandRepository[pat.PersonalAccessToken, *PersonalAccessTokenModel]
+	*corepersistence.GenericCommandRepository[pat.PersonalAccessToken, *PersonalAccessTokenModel]
 }
 
 // NewPATCommandRepository 创建 PAT 命令仓储实例
 func NewPATCommandRepository(db *gorm.DB) pat.CommandRepository {
 	return &patCommandRepository{
-		GenericCommandRepository: NewGenericCommandRepository(
+		GenericCommandRepository: corepersistence.NewGenericCommandRepository(
 			db, newPATModelFromEntity,
 		),
 	}

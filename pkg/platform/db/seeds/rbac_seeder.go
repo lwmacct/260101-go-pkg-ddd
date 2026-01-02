@@ -1,21 +1,22 @@
 package seeds
 
-package seeds
-
 import (
 	"context"
 	"encoding/json"
 	"errors"
 	"log/slog"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
-	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
 	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/user"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
+
+// RBACSeeder seeds roles and admin user
+// 使用 URN-Centric RBAC：角色直接关联 Operation/Resource URN 模式
+type RBACSeeder struct{}
+
 // Seed implements Seeder interface
 func (s *RBACSeeder) Seed(ctx context.Context, db *gorm.DB) error {
 	return db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
