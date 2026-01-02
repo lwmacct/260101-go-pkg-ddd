@@ -3,13 +3,13 @@ package di
 import (
 	"go.uber.org/fx"
 
-	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
 	appauth "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/auth"
 	appuser "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/user"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/auth"
 	domain_twofa "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/twofa"
+	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 	infra_twofa "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/twofa"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
 
 	infra_auth "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/auth"
 )

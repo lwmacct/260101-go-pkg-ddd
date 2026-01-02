@@ -4,10 +4,10 @@ import (
 	"go.uber.org/fx"
 	"gorm.io/gorm"
 
-	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/setting"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/captcha"
+	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/user"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/captcha"
 
 	crmpersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/infrastructure/persistence"
 	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"

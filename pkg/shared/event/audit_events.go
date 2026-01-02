@@ -1,8 +1,5 @@
 package event
 
-import (
-)
-
 // ============================================================================
 // 审计事件
 // ============================================================================
@@ -56,7 +53,7 @@ func NewCommandExecutedEvent(
 	success bool,
 ) *CommandExecutedEvent {
 	return &CommandExecutedEvent{
-		BaseEvent: NewBaseEvent("audit.command_executed", resource, resourceID),
+		BaseEvent:  NewBaseEvent("audit.command_executed", resource, resourceID),
 		UserID:     userID,
 		Username:   username,
 		Action:     action,

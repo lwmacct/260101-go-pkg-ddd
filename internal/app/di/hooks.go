@@ -8,11 +8,11 @@ import (
 	"go.uber.org/fx"
 	"gorm.io/gorm"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/event"
-	dbpkg "github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/db"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/db/seeds"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/eventhandler"
 	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+	dbpkg "github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/db"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/db/seeds"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/event"
 )
 
 // HooksModule 提供生命周期钩子和事件处理器注册。

@@ -9,13 +9,8 @@ import (
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/setting"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/stats"
 	app_task "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/task"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/captcha"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/event"
 	domain_stats "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/domain/stats"
-	infra_captcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/captcha"
 	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
-	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/validation"
 	appCompany "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/application/company"
 	appContact "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/application/contact"
 	appLead "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/application/lead"
@@ -29,6 +24,10 @@ import (
 	domain_auth "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/auth"
 	domain_twofa "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/twofa"
 	infra_auth "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/auth"
+	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/validation"
+	infra_captcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/captcha"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/event"
 )
 
 // --- 用例模块结构体 ---
@@ -239,7 +238,7 @@ type authUseCasesParams struct {
 	fx.In
 
 	UserRepos      iampersistence.UserRepositories
-	CaptchaCommand captcha.CommandRepository
+	CaptchaCommand infra_captcha.CommandRepository
 	TwoFARepos     iampersistence.TwoFARepositories
 	AuthSvc        domain_auth.Service
 	LoginSession   domain_auth.SessionService
@@ -375,7 +374,7 @@ func newStatsUseCases(statsQuery domain_stats.QueryRepository) *StatsUseCases {
 }
 
 func newCaptchaUseCases(
-	captchaCommand captcha.CommandRepository,
+	captchaCommand infra_captcha.CommandRepository,
 	captchaSvc infra_captcha.Service,
 ) *CaptchaUseCases {
 	return &CaptchaUseCases{

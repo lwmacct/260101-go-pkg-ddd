@@ -6,9 +6,9 @@ import (
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 
-	domainHealth "github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/health"
 	cacheinfra "github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/cache"
 	database "github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/db"
+	domainHealth "github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/health"
 )
 
 // SystemChecker 系统健康检查器实现

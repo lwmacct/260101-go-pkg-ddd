@@ -2,9 +2,10 @@ package persistence
 
 import (
 	"context"
-	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
 	"errors"
 	"fmt"
+
+	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/role"
 	"gorm.io/gorm"

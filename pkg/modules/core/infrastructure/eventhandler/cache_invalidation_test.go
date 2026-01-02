@@ -9,7 +9,6 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/event"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/event"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/user"
 )
 
@@ -100,7 +99,7 @@ func TestCacheInvalidationHandler_HandleUserRoleAssigned(t *testing.T) {
 		userRepo := newMockUserQueryRepo()
 		handler := newTestHandler(cache, userRepo)
 
-		evt := events.NewUserRoleAssignedEvent(123, []uint{1, 2, 3})
+		evt := event.NewUserRoleAssignedEvent(123, []uint{1, 2, 3})
 
 		err := handler.Handle(ctx, evt)
 
@@ -114,7 +113,7 @@ func TestCacheInvalidationHandler_HandleUserRoleAssigned(t *testing.T) {
 		userRepo := newMockUserQueryRepo()
 		handler := newTestHandler(cache, userRepo)
 
-		evt := events.NewUserRoleAssignedEvent(123, []uint{1})
+		evt := event.NewUserRoleAssignedEvent(123, []uint{1})
 
 		err := handler.Handle(ctx, evt)
 
@@ -131,7 +130,7 @@ func TestCacheInvalidationHandler_HandleUserDeleted(t *testing.T) {
 		userRepo := newMockUserQueryRepo()
 		handler := newTestHandler(cache, userRepo)
 
-		evt := events.NewUserDeletedEvent(456)
+		evt := event.NewUserDeletedEvent(456)
 
 		err := handler.Handle(ctx, evt)
 
@@ -149,7 +148,7 @@ func TestCacheInvalidationHandler_HandleRolePermissionsChanged(t *testing.T) {
 		userRepo.userIDsByRole[1] = []uint{100, 200, 300}
 		handler := newTestHandler(cache, userRepo)
 
-		evt := events.NewRolePermissionsChangedEvent(1, []uint{10, 20})
+		evt := event.NewRolePermissionsChangedEvent(1, []uint{10, 20})
 
 		err := handler.Handle(ctx, evt)
 
@@ -165,7 +164,7 @@ func TestCacheInvalidationHandler_HandleRolePermissionsChanged(t *testing.T) {
 		userRepo := newMockUserQueryRepo()
 		handler := newTestHandler(cache, userRepo)
 
-		evt := events.NewRolePermissionsChangedEvent(999, []uint{10})
+		evt := event.NewRolePermissionsChangedEvent(999, []uint{10})
 
 		err := handler.Handle(ctx, evt)
 
@@ -179,7 +178,7 @@ func TestCacheInvalidationHandler_HandleRolePermissionsChanged(t *testing.T) {
 		userRepo.getUserError = errors.New("database error")
 		handler := newTestHandler(cache, userRepo)
 
-		evt := events.NewRolePermissionsChangedEvent(1, []uint{10})
+		evt := event.NewRolePermissionsChangedEvent(1, []uint{10})
 
 		err := handler.Handle(ctx, evt)
 
@@ -230,10 +229,10 @@ type testCacheHandler struct {
 
 func (h *testCacheHandler) Handle(ctx context.Context, e event.Event) error {
 	switch evt := e.(type) {
-	case *events.UserRoleAssignedEvent:
+	case *event.UserRoleAssignedEvent:
 		_ = h.cache.InvalidateUser(ctx, evt.UserID)
 		return nil
-	case *events.RolePermissionsChangedEvent:
+	case *event.RolePermissionsChangedEvent:
 		userIDs, err := h.userRepo.GetUserIDsByRole(ctx, evt.RoleID)
 		if err != nil {
 			// 查询失败时记录但不阻塞，返回 nil 是预期行为
@@ -243,7 +242,7 @@ func (h *testCacheHandler) Handle(ctx context.Context, e event.Event) error {
 			_ = h.cache.InvalidateUser(ctx, userID)
 		}
 		return nil
-	case *events.UserDeletedEvent:
+	case *event.UserDeletedEvent:
 		_ = h.cache.InvalidateUser(ctx, evt.UserID)
 		return nil
 	default:

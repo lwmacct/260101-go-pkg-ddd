@@ -2,7 +2,6 @@ package event
 
 import (
 	"strconv"
-
 )
 
 // ============================================================================
@@ -70,7 +69,7 @@ type RolePermissionsChangedEvent struct {
 // NewRolePermissionsChangedEvent 创建角色权限变更事件
 func NewRolePermissionsChangedEvent(roleID uint, permissionIDs []uint) *RolePermissionsChangedEvent {
 	return &RolePermissionsChangedEvent{
-		BaseEvent: NewBaseEvent("role.permissions_changed", "role", strconv.FormatUint(uint64(roleID), 10)),
+		BaseEvent:     NewBaseEvent("role.permissions_changed", "role", strconv.FormatUint(uint64(roleID), 10)),
 		RoleID:        roleID,
 		PermissionIDs: permissionIDs,
 	}

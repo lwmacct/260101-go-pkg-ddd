@@ -17,14 +17,14 @@ import (
 	"go.uber.org/fx"
 	"gorm.io/gorm"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/event"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
+	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+	crmpersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/cache"
 	dbpkg "github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/db"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/eventbus"
-	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/telemetry"
-	crmpersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/infrastructure/persistence"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/event"
 )
 
 // InfraModule 提供基础设施组件。
