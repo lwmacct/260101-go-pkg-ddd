@@ -9,8 +9,8 @@ import (
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/application/user"
 
-	infracaptcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/captcha"
-	infrastats "github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/stats"
+	infracaptcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/captcha"
+	infrastats "github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/stats"
 )
 
 // RepositoryModule 提供所有仓储实现。

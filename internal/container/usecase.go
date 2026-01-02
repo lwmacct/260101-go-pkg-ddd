@@ -12,6 +12,7 @@ import (
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/domain/captcha"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/domain/event"
 	domain_stats "github.com/lwmacct/260101-go-pkg-ddd/pkg/core/domain/stats"
+	infra_captcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/captcha"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/validation"
 	appCompany "github.com/lwmacct/260101-go-pkg-ddd/pkg/crm/application/company"
@@ -26,7 +27,6 @@ import (
 	domain_auth "github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/domain/auth"
 	domain_twofa "github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/domain/twofa"
 	infra_auth "github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/infrastructure/auth"
-	infra_captcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/captcha"
 )
 
 // --- 用例模块结构体 ---

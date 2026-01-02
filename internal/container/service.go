@@ -11,8 +11,8 @@ import (
 	domain_twofa "github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/domain/twofa"
 	infra_twofa "github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/infrastructure/twofa"
 
+	infra_captcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/captcha"
 	infra_auth "github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/infrastructure/auth"
-	infra_captcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/captcha"
 )
 
 // ServiceModule 提供所有领域服务和基础设施服务。

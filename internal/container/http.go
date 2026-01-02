@@ -14,11 +14,11 @@ import (
 	ginhttp "github.com/lwmacct/260101-go-pkg-ddd/pkg/core/adapters/http"
 	corehandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/core/adapters/http/handler"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/application/cache"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/health"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/persistence"
 	crmhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/crm/adapters/http/handler"
 	iamhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/adapters/http/handler"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/infrastructure/auth"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/health"
 )
 
 // HandlersResult 使用 fx.Out 批量返回所有 HTTP 处理器。
