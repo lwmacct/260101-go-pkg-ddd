@@ -15,8 +15,8 @@ import (
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/permission"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/routes"
 
-	iammiddleware "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/transport/gin/middleware"
-	platformmiddleware "github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/http/middleware"
+	iamMiddleware "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/transport/gin/middleware"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/middleware"
 )
 
 // RouterDepsParams 聚合创建中间件所需的依赖。
@@ -66,7 +66,7 @@ func NewMiddlewareInjector(p RouterDepsParams) *MiddlewareInjector {
 
 	// 认证中间件（可选 - 支持无认证的应用）
 	if p.JWTManager != nil && p.PATService != nil && p.PermissionCache != nil {
-		injector.authMiddleware = iammiddleware.Auth(
+		injector.authMiddleware = iamMiddleware.Auth(
 			p.JWTManager,
 			p.PATService,
 			p.PermissionCache,
@@ -76,7 +76,7 @@ func NewMiddlewareInjector(p RouterDepsParams) *MiddlewareInjector {
 	// RBAC 中间件工厂
 	injector.rbacFactory = func(operation string) gin.HandlerFunc {
 		// 转换为 permission.Operation 类型
-		return iammiddleware.RequireOperation(permission.Operation(operation))
+		return iamMiddleware.RequireOperation(permission.Operation(operation))
 	}
 
 	// Audit 中间件工厂（可选）
@@ -105,40 +105,40 @@ func NewMiddlewareInjector(p RouterDepsParams) *MiddlewareInjector {
 //  5. 路径包含 :team_id - 需要 TeamContext
 //  6. 审计操作 - 额外添加 Audit 中间件
 func (inj *MiddlewareInjector) InjectMiddlewares(route *routes.Route) []gin.HandlerFunc {
-	var middlewares []gin.HandlerFunc
+	var m []gin.HandlerFunc
 
 	// 1. 基础中间件（所有路由）
-	middlewares = append(middlewares,
-		platformmiddleware.RequestID(),
-		platformmiddleware.SetOperationID(route.Operation),
+	m = append(m,
+		middleware.RequestID(),
+		middleware.SetOperationID(route.Operation),
 	)
 
 	// 2. 认证中间件（非 public 路由）
 	if !strings.HasPrefix(route.Operation, "public:") {
 		if inj.authMiddleware != nil {
-			middlewares = append(middlewares, inj.authMiddleware)
+			m = append(m, inj.authMiddleware)
 		}
 	}
 
 	// 3. Org 上下文（路径包含 :org_id）
 	if strings.Contains(route.Path, ":org_id") && inj.orgContext != nil {
-		middlewares = append(middlewares, inj.orgContext)
+		m = append(m, inj.orgContext)
 	}
 
 	// 4. Team 上下文（路径包含 :team_id）
 	if strings.Contains(route.Path, ":team_id") {
 		if inj.teamContextOpt != nil && route.Method == routes.GET {
 			// GET 操作使用可选的 Team 上下文
-			middlewares = append(middlewares, inj.teamContextOpt)
+			m = append(m, inj.teamContextOpt)
 		} else if inj.teamContext != nil {
-			middlewares = append(middlewares, inj.teamContext)
+			m = append(m, inj.teamContext)
 		}
 	}
 
 	// 5. RBAC 权限检查（非 public 路由）
 	if !strings.HasPrefix(route.Operation, "public:") {
 		if inj.rbacFactory != nil {
-			middlewares = append(middlewares, inj.rbacFactory(route.Operation))
+			m = append(m, inj.rbacFactory(route.Operation))
 		}
 	}
 
@@ -146,11 +146,11 @@ func (inj *MiddlewareInjector) InjectMiddlewares(route *routes.Route) []gin.Hand
 	if route.Method != routes.GET &&
 		!strings.HasPrefix(route.Operation, "public:") &&
 		inj.auditFactory != nil {
-		middlewares = append(middlewares, inj.auditFactory(route.Operation))
+		m = append(m, inj.auditFactory(route.Operation))
 	}
 
 	// 7. Logger 中间件（最后，记录完整请求）
-	middlewares = append(middlewares, platformmiddleware.LoggerSkipPaths("/health"))
+	m = append(m, middleware.LoggerSkipPaths("/health"))
 
-	return middlewares
+	return m
 }

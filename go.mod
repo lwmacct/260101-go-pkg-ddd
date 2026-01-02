@@ -10,7 +10,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/lwmacct/251207-go-pkg-cfgm v0.2.4
 	github.com/lwmacct/251219-go-pkg-logm v0.1.8
-	github.com/lwmacct/260101-go-pkg-gin v0.0.6
+	github.com/lwmacct/260101-go-pkg-gin v0.0.7
 	github.com/pquerna/otp v1.5.0
 	github.com/redis/go-redis/extra/redisotel/v9 v9.17.2
 	github.com/redis/go-redis/v9 v9.17.2
@@ -25,7 +25,6 @@ require (
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.39.0
 	go.opentelemetry.io/otel/exporters/stdout/stdouttrace v1.39.0
 	go.opentelemetry.io/otel/sdk v1.39.0
-	go.opentelemetry.io/otel/trace v1.39.0
 	go.uber.org/fx v1.24.0
 	golang.org/x/crypto v0.46.0
 	gorm.io/datatypes v1.2.7
@@ -100,6 +99,7 @@ require (
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.39.0 // indirect
 	go.opentelemetry.io/otel/metric v1.39.0 // indirect
+	go.opentelemetry.io/otel/trace v1.39.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.9.0 // indirect
 	go.uber.org/dig v1.19.0 // indirect
 	go.uber.org/mock v0.6.0 // indirect

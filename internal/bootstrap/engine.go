@@ -5,7 +5,7 @@ import (
 	"io"
 
 	"github.com/gin-gonic/gin"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/http/middleware"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/middleware"
 )
 
 func init() {

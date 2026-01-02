@@ -12,13 +12,19 @@ import (
 
 	"github.com/lwmacct/260101-go-pkg-ddd/internal/bootstrap"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
+
+	// Application UseCases
 	appapplication "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/cache"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/infrastructure/persistence"
 	ginhttp "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/transport/gin"
 	corehandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/transport/gin/handler"
+
+	// CRM UseCases and Handlers
 	crmapplication "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/application"
 	crmhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/transport/gin/handler"
+
+	// IAM UseCases and Handlers
 	iamapplication "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/auth"
 	iamhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/transport/gin/handler"
