@@ -12,6 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/routes"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/audit"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/permission"
 )
 
 // AuditMiddleware 创建审计日志中间件。
@@ -183,4 +184,102 @@ func formatDetails(method string, requestBody []byte, statusCode int, duration t
 	}
 
 	return string(detailsJSON)
+}
+
+// AuditMiddlewareWithOp 创建审计中间件（显式传入 Operation）。
+// 用于声明式路由系统，避免通过 routes.ByMethodAndPath() 查找 Operation。
+//
+// 参数：
+//   - handler: 审计日志创建处理器
+//   - op: 当前路由的 Operation（从 Route.Op 传入）
+func AuditMiddlewareWithOp(handler *audit.CreateHandler, op permission.Operation) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// 提取用户信息
+		userID, _ := c.Get("user_id")
+		username, _ := c.Get("username")
+
+		// 未认证请求跳过审计
+		if userID == nil || username == nil {
+			c.Next()
+			return
+		}
+
+		uid, ok := userID.(uint)
+		if !ok {
+			c.Next()
+			return
+		}
+
+		uname, ok := username.(string)
+		if !ok {
+			c.Next()
+			return
+		}
+
+		// 读取请求体用于记录详情
+		var requestBody []byte
+		if c.Request.Body != nil {
+			requestBody, _ = io.ReadAll(c.Request.Body)
+			c.Request.Body = io.NopCloser(bytes.NewBuffer(requestBody))
+		}
+
+		// 执行请求
+		startTime := time.Now()
+		c.Next()
+		duration := time.Since(startTime)
+
+		// 根据响应状态码确定审计状态
+		status := "success"
+		if c.Writer.Status() >= 400 {
+			status = "failure"
+		}
+
+		// 从实际路径提取资源 ID（提取路径中最后一个数字段）
+		resourceID := extractResourceIDFromPath(c.Request.URL.Path)
+
+		// 创建审计日志命令
+		cmd := audit.CreateCommand{
+			UserID:      uid,
+			Username:    uname,
+			Action:      op.Identifier(), // 使用 op.Identifier() 作为 Action
+			Resource:    op.Type(),       // 使用 op.Type() 作为 Resource 分类
+			ResourceID:  resourceID,
+			IPAddress:   c.ClientIP(),
+			UserAgent:   c.Request.UserAgent(),
+			Details:     formatDetails(c.Request.Method, requestBody, c.Writer.Status(), duration),
+			Status:      status,
+			RequestID:   GetRequestID(c),
+			OperationID: string(op),
+		}
+
+		// 异步保存审计日志，避免阻塞响应
+		asyncCtx := context.WithoutCancel(c.Request.Context())
+		go func() {
+			if err := handler.Handle(asyncCtx, cmd); err != nil {
+				slog.Error("failed to create audit log", "error", err)
+			}
+		}()
+	}
+}
+
+// extractResourceIDFromPath 从实际路径中提取资源 ID。
+// 简化版本：提取路径中最后一个数字段作为资源 ID。
+// 例如：/api/admin/users/123 → "123"
+func extractResourceIDFromPath(path string) string {
+	seg := splitPathSegments(path)
+	if len(seg) == 0 {
+		return ""
+	}
+
+	// 返回最后一段
+	lastSeg := seg[len(seg)-1]
+
+	// 检查是否为纯数字（典型的资源 ID）
+	for _, r := range lastSeg {
+		if r < '0' || r > '9' {
+			return "" // 不是纯数字，返回空
+		}
+	}
+
+	return lastSeg
 }

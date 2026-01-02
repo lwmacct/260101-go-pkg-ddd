@@ -69,7 +69,6 @@ import (
 
 	// 引入领域层包
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/org"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/permission"
 
 	// 引入基础设施包
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/auth"
@@ -201,73 +200,34 @@ func SetupRouterWithDeps(deps *RouterDependencies) *gin.Engine {
 	return r
 }
 
-// registerRoutes 自动注册所有路由
-// 根据 Operation 元数据自动构建中间件链
+// registerRoutes 自动注册所有路由并构建路由索引
+// 根据路由定义自动构建中间件链
 func registerRoutes(r *gin.Engine, deps *RouterDependencies) {
-	bindings := deps.AllRouteBindings()
+	routeList := deps.AllRoutes()
 
-	for _, b := range bindings {
-		middlewares := buildMiddlewares(deps, b.Op)
-		middlewares = append(middlewares, b.Handler)
+	// 从声明式路由构建 Registry（供查询函数使用）
+	routes.BuildRegistryFromRoutes(routeList)
 
-		switch routes.Method(b.Op) {
+	for _, route := range routeList {
+		// 从声明式配置构建中间件链
+		middlewares := buildMiddlewaresFromConfig(deps, route)
+		middlewares = append(middlewares, route.Handler)
+
+		switch route.Method {
 		case routes.GET:
-			r.GET(routes.Path(b.Op), middlewares...)
+			r.GET(route.Path, middlewares...)
 		case routes.POST:
-			r.POST(routes.Path(b.Op), middlewares...)
+			r.POST(route.Path, middlewares...)
 		case routes.PUT:
-			r.PUT(routes.Path(b.Op), middlewares...)
+			r.PUT(route.Path, middlewares...)
 		case routes.DELETE:
-			r.DELETE(routes.Path(b.Op), middlewares...)
+			r.DELETE(route.Path, middlewares...)
 		case routes.PATCH:
-			r.PATCH(routes.Path(b.Op), middlewares...)
+			r.PATCH(route.Path, middlewares...)
 		default:
-			slog.Warn("unknown HTTP method", "operation", b.Op, "method", routes.Method(b.Op))
+			slog.Warn("unknown HTTP method", "operation", route.Op, "method", route.Method)
 		}
 	}
-}
-
-// buildMiddlewares 根据 Operation 自动构建中间件链
-// 中间件顺序：RequestID → OperationID → Auth → OrgContext → TeamContext/TeamContextOptional → Permission → Audit
-func buildMiddlewares(deps *RouterDependencies, o permission.Operation) []gin.HandlerFunc {
-	var mws []gin.HandlerFunc
-
-	// 1. Request ID（所有请求）
-	mws = append(mws, middleware.RequestID())
-
-	// 2. Operation ID（所有请求）
-	mws = append(mws, middleware.SetOperationID(o.String()))
-
-	// 3. Auth + OrgContext/TeamContext + Permission（非公开操作需要认证和权限检查）
-	if !o.IsPublic() {
-		mws = append(mws, middleware.Auth(deps.JWTManager, deps.PATService, deps.PermissionCacheService))
-
-		// 4. OrgContext（组织级操作，需验证用户是组织成员）
-		if routes.NeedsOrgContext(o) {
-			mws = append(mws, middleware.OrgContext(deps.OrgMemberQuery))
-		}
-
-		// 5. TeamContext/TeamContextOptional（团队级操作）
-		//    - ReadOnly 操作使用 TeamContextOptional（组织成员可访问）
-		//    - 非只读操作使用 TeamContext（需是团队成员）
-		if routes.NeedsTeamContext(o) {
-			if routes.IsReadOnly(o) {
-				mws = append(mws, middleware.TeamContextOptional(deps.TeamQuery, deps.TeamMemberQuery))
-			} else {
-				mws = append(mws, middleware.TeamContext(deps.TeamQuery, deps.TeamMemberQuery))
-			}
-		}
-
-		// 6. RBAC 权限检查：使用 Operation 本身作为权限标识符
-		mws = append(mws, middleware.RequireOperation(o))
-	}
-
-	// 7. Audit（需要审计的操作）
-	if routes.NeedsAudit(o) {
-		mws = append(mws, middleware.AuditMiddleware(deps.CreateLogHandler))
-	}
-
-	return mws
 }
 
 // setupStaticRoutes 配置静态文件服务路由

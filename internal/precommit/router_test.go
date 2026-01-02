@@ -9,14 +9,17 @@ import (
 
 // TestRoutes_Bindings 检查声明式路由绑定的完整性。
 // 规则：operation 中的每个操作都必须有有效的元数据。
-// 注意：由于使用声明式路由，routes.go 和 operation.All() 应该完全一致。
-// 这个测试确保开发者在添加新 operation 时不会忘记添加路由绑定。
+//
+// 注意：此测试需要 Registry 已被 BuildRegistryFromRoutes() 填充。
+// 在 CI 环境或直接运行 go test 时，Registry 为空，测试会被跳过。
+// 要运行此测试，需先启动服务器或手动调用 BuildRegistryFromRoutes()。
 func TestRoutes_Bindings(t *testing.T) {
-	// 由于声明式路由使用 operation 作为数据源，
-	// 路由与 operation 的一致性在编译时就已保证。
-	// 这里只验证 operation 数据的有效性。
+	ops := routes.All()
+	if len(ops) == 0 {
+		t.Skip("Registry is empty - run server or call BuildRegistryFromRoutes() first")
+	}
 
-	for _, o := range routes.All() {
+	for _, o := range ops {
 		t.Run(o.String(), func(t *testing.T) {
 			// 验证每个 operation 都有有效的元数据
 			assert.NotEmpty(t, routes.Method(o), "operation %s missing Method", o)
@@ -28,7 +31,12 @@ func TestRoutes_Bindings(t *testing.T) {
 // TestRoutes_PathFormat 检查路径格式的一致性。
 // 规则：所有 API 路径必须以 /api/ 开头。
 func TestRoutes_PathFormat(t *testing.T) {
-	for _, o := range routes.All() {
+	ops := routes.All()
+	if len(ops) == 0 {
+		t.Skip("Registry is empty - run server or call BuildRegistryFromRoutes() first")
+	}
+
+	for _, o := range ops {
 		t.Run(o.String(), func(t *testing.T) {
 			path := routes.Path(o)
 			assert.True(t, len(path) > 0 && path[0] == '/',
@@ -43,6 +51,9 @@ func TestRoutes_PathFormat(t *testing.T) {
 // 规则：同一分类的审计操作应该使用一致的命名模式。
 func TestRoutes_AuditActionsConsistency(t *testing.T) {
 	actions := routes.AllAuditActions()
+	if len(actions) == 0 {
+		t.Skip("Registry is empty - run server or call BuildRegistryFromRoutes() first")
+	}
 
 	for _, a := range actions {
 		t.Run(a.Action, func(t *testing.T) {

@@ -155,7 +155,7 @@ func parseFuncs(t *testing.T, filePath string) []funcInfo {
 func getApplicationFiles(t *testing.T) []string {
 	t.Helper()
 
-	appDir := "../application"
+	appDir := "../../pkg/application"
 	var files []string
 
 	err := filepath.Walk(appDir, func(path string, info os.FileInfo, err error) error {
@@ -188,7 +188,7 @@ func getApplicationFiles(t *testing.T) []string {
 func parseHandlerAnnotations(t *testing.T) []handlerAnnotation {
 	t.Helper()
 
-	handlerDir := "../adapters/http/handler"
+	handlerDir := "../../pkg/adapters/http/handler"
 	var annotations []handlerAnnotation
 
 	// 正则匹配
@@ -290,7 +290,7 @@ func loadDTOTypes(t *testing.T) map[string]bool {
 	t.Helper()
 
 	dtoTypes := make(map[string]bool)
-	appDir := "../application"
+	appDir := "../../pkg/application"
 
 	entries, err := os.ReadDir(appDir)
 	require.NoError(t, err, "failed to read application directory")
@@ -341,7 +341,7 @@ func loadDTOTypes(t *testing.T) map[string]bool {
 func loadHandlerQueryTypes(t *testing.T) map[string]bool {
 	t.Helper()
 
-	handlerDir := "../adapters/http/handler"
+	handlerDir := "../../pkg/adapters/http/handler"
 	queryTypes := make(map[string]bool)
 
 	err := filepath.Walk(handlerDir, func(path string, info os.FileInfo, err error) error {
@@ -373,7 +373,7 @@ func loadHandlerQueryTypes(t *testing.T) map[string]bool {
 func getDomainFiles(t *testing.T) []string {
 	t.Helper()
 
-	domainDir := "../domain"
+	domainDir := "../../pkg/domain"
 	var files []string
 
 	err := filepath.Walk(domainDir, func(path string, info os.FileInfo, err error) error {

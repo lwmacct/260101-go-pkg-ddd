@@ -7,7 +7,8 @@
 //
 // # 单一数据源
 //
-// 所有路由配置集中在 [Registry]，其他模块通过函数获取：
+// 路由配置定义在 http.AllRoutes()，启动时由 [BuildRegistryFromRoutes] 构建 Registry。
+// 其他模块通过函数获取：
 //   - [Method]: 获取 HTTP 方法
 //   - [Path]: 获取路由路径
 //   - [NeedsAudit]: 判断是否需要审计

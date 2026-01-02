@@ -18,7 +18,10 @@ import (
 
 // TestGenerate_SwaggerAnnotations 生成 Swagger 注解。
 //
-// 使用方法：GENERATE=1 go test -v -run TestGenerate_SwaggerAnnotations ./internal/precommit/
+// 使用方法：go test -v -run TestGenerate_SwaggerAnnotations ./internal/precommit/
+//
+// 注意：此测试需要 Registry 已被 BuildRegistryFromRoutes() 填充。
+// 在 CI 环境或直接运行 go test 时，Registry 为空，测试会被跳过。
 //
 // 生成规则：
 //   - @Summary ← operationMeta.Summary
@@ -30,8 +33,9 @@ import (
 //
 // 保留手动注解：@Param、@Success、@Failure、@Description
 func TestGenerate_SwaggerAnnotations(t *testing.T) {
-	if os.Getenv("GENERATE") == "" {
-		t.Skip("skipping generation test; set GENERATE=1 to run")
+	// 检查 Registry 是否已填充
+	if len(routes.All()) == 0 {
+		t.Skip("Registry is empty - run server or call BuildRegistryFromRoutes() first")
 	}
 
 	// 解析 routes.go 获取操作到处理器函数的映射
