@@ -1,7 +1,6 @@
 package http
 
 import (
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/permission"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/routes"
 )
 
@@ -12,7 +11,7 @@ func (deps *RouterDependencies) publicRoutes() []routes.Route {
 			Method:  routes.POST,
 			Path:    "/api/auth/register",
 			Handler: deps.AuthHandler.Register,
-			Op:      permission.PublicAuthRegister,
+			Op:      "public:auth:register",
 			Middlewares: []routes.MiddlewareConfig{
 				{Name: routes.MiddlewareRequestID},
 				{Name: routes.MiddlewareOperationID},
@@ -26,7 +25,7 @@ func (deps *RouterDependencies) publicRoutes() []routes.Route {
 			Method:  routes.POST,
 			Path:    "/api/auth/login",
 			Handler: deps.AuthHandler.Login,
-			Op:      permission.PublicAuthLogin,
+			Op:      "public:auth:login",
 			Middlewares: []routes.MiddlewareConfig{
 				{Name: routes.MiddlewareRequestID},
 				{Name: routes.MiddlewareOperationID},
@@ -40,7 +39,7 @@ func (deps *RouterDependencies) publicRoutes() []routes.Route {
 			Method:  routes.POST,
 			Path:    "/api/auth/login/2fa",
 			Handler: deps.AuthHandler.Login2FA,
-			Op:      permission.PublicAuthLogin2FA,
+			Op:      "public:auth:login2fa",
 			Middlewares: []routes.MiddlewareConfig{
 				{Name: routes.MiddlewareRequestID},
 				{Name: routes.MiddlewareOperationID},
@@ -54,7 +53,7 @@ func (deps *RouterDependencies) publicRoutes() []routes.Route {
 			Method:  routes.POST,
 			Path:    "/api/auth/refresh",
 			Handler: deps.AuthHandler.RefreshToken,
-			Op:      permission.PublicAuthRefresh,
+			Op:      "public:auth:refresh",
 			Middlewares: []routes.MiddlewareConfig{
 				{Name: routes.MiddlewareRequestID},
 				{Name: routes.MiddlewareOperationID},
@@ -68,7 +67,7 @@ func (deps *RouterDependencies) publicRoutes() []routes.Route {
 			Method:  routes.GET,
 			Path:    "/api/auth/captcha",
 			Handler: deps.CaptchaHandler.GetCaptcha,
-			Op:      permission.PublicAuthCaptcha,
+			Op:      "public:auth:captcha",
 			Middlewares: []routes.MiddlewareConfig{
 				{Name: routes.MiddlewareRequestID},
 				{Name: routes.MiddlewareOperationID},

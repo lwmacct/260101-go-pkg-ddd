@@ -4,8 +4,8 @@ import (
 	"slices"
 	"time"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/permission"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/role"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/permission"
 )
 
 // User 用户实体

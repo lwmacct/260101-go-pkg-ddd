@@ -5,8 +5,8 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/permission"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/role"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/permission"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 

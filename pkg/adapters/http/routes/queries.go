@@ -4,7 +4,7 @@ import (
 	"strings"
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/audit"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/permission"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/permission"
 )
 
 // ============================================================================

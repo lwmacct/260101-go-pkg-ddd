@@ -1,7 +1,6 @@
 package http
 
 import (
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/permission"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/routes"
 )
 
@@ -22,7 +21,7 @@ func (deps *RouterDependencies) authRoutes() []routes.Route {
 			Method:      routes.POST,
 			Path:        "/api/auth/2fa/setup",
 			Handler:     deps.TwoFAHandler.Setup,
-			Op:          permission.Self2FASetup,
+			Op:          "self:2fa:setup",
 			Middlewares: auditAuthMiddlewares,
 			Tags:        "Authentication - 2FA",
 			Summary:     "设置 2FA",
@@ -32,7 +31,7 @@ func (deps *RouterDependencies) authRoutes() []routes.Route {
 			Method:      routes.POST,
 			Path:        "/api/auth/2fa/verify",
 			Handler:     deps.TwoFAHandler.VerifyAndEnable,
-			Op:          permission.Self2FAVerify,
+			Op:          "self:2fa:verify",
 			Middlewares: auditAuthMiddlewares,
 			Tags:        "Authentication - 2FA",
 			Summary:     "启用 2FA",
@@ -42,7 +41,7 @@ func (deps *RouterDependencies) authRoutes() []routes.Route {
 			Method:      routes.POST,
 			Path:        "/api/auth/2fa/disable",
 			Handler:     deps.TwoFAHandler.Disable,
-			Op:          permission.Self2FADisable,
+			Op:          "self:2fa:disable",
 			Middlewares: auditAuthMiddlewares,
 			Tags:        "Authentication - 2FA",
 			Summary:     "禁用 2FA",
@@ -52,7 +51,7 @@ func (deps *RouterDependencies) authRoutes() []routes.Route {
 			Method:      routes.GET,
 			Path:        "/api/auth/2fa/status",
 			Handler:     deps.TwoFAHandler.GetStatus,
-			Op:          permission.Self2FAStatus,
+			Op:          "self:2fa:status",
 			Middlewares: baseAuthMiddlewares,
 			Tags:        "Authentication - 2FA",
 			Summary:     "2FA 状态",
