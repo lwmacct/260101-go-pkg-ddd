@@ -27,5 +27,8 @@ func (deps *RouterDependencies) AllRoutes() []routes.Route {
 	// Product 域 - 产品和任务路由
 	allRoutes = append(allRoutes, deps.productRoutes()...)
 
+	// CRM 域 - 客户关系管理路由（联系人、公司、线索、商机）
+	allRoutes = append(allRoutes, deps.crmRoutes()...)
+
 	return allRoutes
 }

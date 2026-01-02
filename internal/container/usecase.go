@@ -6,6 +6,7 @@ import (
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/audit"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/auth"
 	app_captcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/captcha"
+	appContact "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/contact"
 	appInvoice "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/invoice"
 	appOrder "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/order"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/org"
@@ -183,6 +184,15 @@ type InvoiceUseCases struct {
 	List   *appInvoice.ListHandler
 }
 
+// ContactUseCases 联系人相关用例处理器
+type ContactUseCases struct {
+	Create *appContact.CreateHandler
+	Update *appContact.UpdateHandler
+	Delete *appContact.DeleteHandler
+	Get    *appContact.GetHandler
+	List   *appContact.ListHandler
+}
+
 // --- Fx 模块 ---
 
 // UseCaseModule 提供按领域组织的所有用例处理器。
@@ -203,6 +213,7 @@ var UseCaseModule = fx.Module("usecase",
 		newTaskUseCases,
 		newOrderUseCases,
 		newInvoiceUseCases,
+		newContactUseCases,
 	),
 )
 
@@ -467,5 +478,15 @@ func newInvoiceUseCases(repos persistence.InvoiceRepositories) *InvoiceUseCases 
 		Refund: appInvoice.NewRefundHandler(repos.Command, repos.Query),
 		Get:    appInvoice.NewGetHandler(repos.Query),
 		List:   appInvoice.NewListHandler(repos.Query),
+	}
+}
+
+func newContactUseCases(repos persistence.ContactRepositories) *ContactUseCases {
+	return &ContactUseCases{
+		Create: appContact.NewCreateHandler(repos.Command, repos.Query),
+		Update: appContact.NewUpdateHandler(repos.Command, repos.Query),
+		Delete: appContact.NewDeleteHandler(repos.Command, repos.Query),
+		Get:    appContact.NewGetHandler(repos.Query),
+		List:   appContact.NewListHandler(repos.Query),
 	}
 }

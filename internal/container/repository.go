@@ -45,6 +45,9 @@ var RepositoryModule = fx.Module("repository",
 		// 发票仓储
 		persistence.NewInvoiceRepositories,
 
+		// CRM 仓储
+		persistence.NewContactRepositories,
+
 		// 带缓存装饰的仓储
 		newUserRepositoriesWithCache,
 		newSettingRepositoriesWithCache,
