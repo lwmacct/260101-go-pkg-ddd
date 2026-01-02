@@ -33,13 +33,12 @@ func GetAllModels() []any {
 		&persistence.TeamModel{},
 		&persistence.OrgMemberModel{},
 		&persistence.TeamMemberModel{},
-		// 产品
-		&persistence.ProductModel{},
 		// 任务
 		&persistence.TaskModel{},
-		// 订单
-		&persistence.OrderModel{},
-		// 发票
-		&persistence.InvoiceModel{},
+		// CRM
+		&persistence.ContactModel{},
+		&persistence.CompanyModel{},
+		&persistence.LeadModel{},
+		&persistence.OpportunityModel{},
 	}
 }

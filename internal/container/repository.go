@@ -33,17 +33,8 @@ var RepositoryModule = fx.Module("repository",
 		persistence.NewOrgMemberRepositories,
 		persistence.NewTeamMemberRepositories,
 
-		// 产品仓储
-		persistence.NewProductRepositories,
-
 		// 任务仓储
 		persistence.NewTaskRepositories,
-
-		// 订单仓储（已迁移到 pkg）
-		persistence.NewOrderRepositories,
-
-		// 发票仓储
-		persistence.NewInvoiceRepositories,
 
 		// CRM 仓储
 		persistence.NewContactRepositories,

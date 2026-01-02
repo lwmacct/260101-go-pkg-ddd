@@ -42,10 +42,7 @@ type HandlersResult struct {
 	Team             *handler.TeamHandler
 	TeamMember       *handler.TeamMemberHandler
 	UserOrganization *handler.UserOrgHandler
-	Product          *handler.ProductHandler
 	Task             *handler.TaskHandler
-	Order            *handler.OrderHandler
-	Invoice          *handler.InvoiceHandler
 	Contact          *handler.ContactHandler
 	Company          *handler.CompanyHandler
 	Lead             *handler.LeadHandler
@@ -107,10 +104,7 @@ type handlersParams struct {
 	Captcha       *CaptchaUseCases
 	TwoFA         *TwoFAUseCases
 	Organization  *OrganizationUseCases
-	Product       *ProductUseCases
 	Task          *TaskUseCases
-	Order         *OrderUseCases
-	Invoice       *InvoiceUseCases
 	Contact       *ContactUseCases
 	Company       *CompanyUseCases
 	Lead          *LeadUseCases
@@ -229,35 +223,12 @@ func newAllHandlers(p handlersParams) HandlersResult {
 			p.Organization.UserOrgs,
 			p.Organization.UserTeams,
 		),
-		Product: handler.NewProductHandler(
-			p.Product.Create,
-			p.Product.Update,
-			p.Product.Delete,
-			p.Product.Get,
-			p.Product.List,
-		),
 		Task: handler.NewTaskHandler(
 			p.Task.Create,
 			p.Task.Update,
 			p.Task.Delete,
 			p.Task.Get,
 			p.Task.List,
-		),
-		Order: handler.NewOrderHandler(
-			p.Order.Create,
-			p.Order.Update,
-			p.Order.UpdateStatus,
-			p.Order.Delete,
-			p.Order.Get,
-			p.Order.List,
-		),
-		Invoice: handler.NewInvoiceHandler(
-			p.Invoice.Create,
-			p.Invoice.Pay,
-			p.Invoice.Cancel,
-			p.Invoice.Refund,
-			p.Invoice.Get,
-			p.Invoice.List,
 		),
 		Contact: handler.NewContactHandler(
 			p.Contact.Create,
@@ -337,10 +308,7 @@ type routerParams struct {
 	Team        *handler.TeamHandler
 	TeamMember  *handler.TeamMemberHandler
 	UserOrg     *handler.UserOrgHandler
-	Product     *handler.ProductHandler
 	TaskHandler *handler.TaskHandler
-	Order       *handler.OrderHandler
-	Invoice     *handler.InvoiceHandler
 	Contact     *handler.ContactHandler
 	Company     *handler.CompanyHandler
 	Lead        *handler.LeadHandler
@@ -377,10 +345,7 @@ func newRouter(p routerParams) *gin.Engine {
 		TeamHandler:            p.Team,
 		TeamMemberHandler:      p.TeamMember,
 		UserOrgHandler:         p.UserOrg,
-		ProductHandler:         p.Product,
 		TaskHandler:            p.TaskHandler,
-		OrderHandler:           p.Order,
-		InvoiceHandler:         p.Invoice,
 		ContactHandler:         p.Contact,
 		CompanyHandler:         p.Company,
 		LeadHandler:            p.Lead,

@@ -8,13 +8,10 @@ import (
 	app_captcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/captcha"
 	appCompany "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/company"
 	appContact "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/contact"
-	appInvoice "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/invoice"
 	appLead "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/lead"
 	appOpp "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/opportunity"
-	appOrder "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/order"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/org"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/pat"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/product"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/role"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/setting"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/stats"
@@ -149,15 +146,6 @@ type OrganizationUseCases struct {
 	UserTeams *org.UserTeamsHandler
 }
 
-// ProductUseCases 产品相关用例处理器
-type ProductUseCases struct {
-	Create *product.CreateHandler
-	Update *product.UpdateHandler
-	Delete *product.DeleteHandler
-	Get    *product.GetHandler
-	List   *product.ListHandler
-}
-
 // TaskUseCases 任务相关用例处理器
 type TaskUseCases struct {
 	Create *app_task.CreateHandler
@@ -165,26 +153,6 @@ type TaskUseCases struct {
 	Delete *app_task.DeleteHandler
 	Get    *app_task.GetHandler
 	List   *app_task.ListHandler
-}
-
-// OrderUseCases 订单相关用例处理器
-type OrderUseCases struct {
-	Create       *appOrder.CreateHandler
-	Update       *appOrder.UpdateHandler
-	UpdateStatus *appOrder.UpdateStatusHandler
-	Delete       *appOrder.DeleteHandler
-	Get          *appOrder.GetHandler
-	List         *appOrder.ListHandler
-}
-
-// InvoiceUseCases 发票相关用例处理器
-type InvoiceUseCases struct {
-	Create *appInvoice.CreateHandler
-	Pay    *appInvoice.PayHandler
-	Cancel *appInvoice.CancelHandler
-	Refund *appInvoice.RefundHandler
-	Get    *appInvoice.GetHandler
-	List   *appInvoice.ListHandler
 }
 
 // ContactUseCases 联系人相关用例处理器
@@ -246,10 +214,7 @@ var UseCaseModule = fx.Module("usecase",
 		newCaptchaUseCases,
 		newTwoFAUseCases,
 		newOrganizationUseCases,
-		newProductUseCases,
 		newTaskUseCases,
-		newOrderUseCases,
-		newInvoiceUseCases,
 		newContactUseCases,
 		newCompanyUseCases,
 		newLeadUseCases,
@@ -479,16 +444,6 @@ func newOrganizationUseCases(p organizationUseCasesParams) *OrganizationUseCases
 	}
 }
 
-func newProductUseCases(repos persistence.ProductRepositories) *ProductUseCases {
-	return &ProductUseCases{
-		Create: product.NewCreateHandler(repos.Command, repos.Query),
-		Update: product.NewUpdateHandler(repos.Command, repos.Query),
-		Delete: product.NewDeleteHandler(repos.Command),
-		Get:    product.NewGetHandler(repos.Query),
-		List:   product.NewListHandler(repos.Query),
-	}
-}
-
 func newTaskUseCases(repos persistence.TaskRepositories) *TaskUseCases {
 	return &TaskUseCases{
 		Create: app_task.NewCreateHandler(repos.Command),
@@ -496,28 +451,6 @@ func newTaskUseCases(repos persistence.TaskRepositories) *TaskUseCases {
 		Delete: app_task.NewDeleteHandler(repos.Command, repos.Query),
 		Get:    app_task.NewGetHandler(repos.Query),
 		List:   app_task.NewListHandler(repos.Query),
-	}
-}
-
-func newOrderUseCases(repos persistence.OrderRepositories, productRepos persistence.ProductRepositories) *OrderUseCases {
-	return &OrderUseCases{
-		Create:       appOrder.NewCreateHandler(repos.Command, productRepos.Query),
-		Update:       appOrder.NewUpdateHandler(repos.Command, repos.Query),
-		UpdateStatus: appOrder.NewUpdateStatusHandler(repos.Command, repos.Query),
-		Delete:       appOrder.NewDeleteHandler(repos.Command, repos.Query),
-		Get:          appOrder.NewGetHandler(repos.Query),
-		List:         appOrder.NewListHandler(repos.Query),
-	}
-}
-
-func newInvoiceUseCases(repos persistence.InvoiceRepositories) *InvoiceUseCases {
-	return &InvoiceUseCases{
-		Create: appInvoice.NewCreateHandler(repos.Command, repos.Query),
-		Pay:    appInvoice.NewPayHandler(repos.Command, repos.Query),
-		Cancel: appInvoice.NewCancelHandler(repos.Command, repos.Query),
-		Refund: appInvoice.NewRefundHandler(repos.Command, repos.Query),
-		Get:    appInvoice.NewGetHandler(repos.Query),
-		List:   appInvoice.NewListHandler(repos.Query),
 	}
 }
 

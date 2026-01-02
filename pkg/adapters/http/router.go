@@ -109,10 +109,7 @@ type RouterDependencies struct {
 	TeamHandler        *handler.TeamHandler
 	TeamMemberHandler  *handler.TeamMemberHandler
 	UserOrgHandler     *handler.UserOrgHandler
-	ProductHandler     *handler.ProductHandler
 	TaskHandler        *handler.TaskHandler
-	OrderHandler       *handler.OrderHandler
-	InvoiceHandler     *handler.InvoiceHandler
 	ContactHandler     *handler.ContactHandler
 	CompanyHandler     *handler.CompanyHandler
 	LeadHandler        *handler.LeadHandler

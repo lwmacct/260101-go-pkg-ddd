@@ -6,7 +6,6 @@ import "github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/database"
 // Keep RBAC first because it provisions permissions/roles required by other seeders.
 // SettingCategorySeeder must run before SettingSeeder to ensure categories exist.
 // OrganizationSeeder runs last because it depends on UserSeeder (admin user).
-// ProductSeeder can run independently.
 func DefaultSeeders() []database.Seeder {
 	return []database.Seeder{
 		&RBACSeeder{},
@@ -14,6 +13,5 @@ func DefaultSeeders() []database.Seeder {
 		&SettingCategorySeeder{},
 		&SettingSeeder{},
 		&OrganizationSeeder{},
-		&ProductSeeder{},
 	}
 }
