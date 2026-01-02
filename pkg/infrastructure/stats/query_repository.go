@@ -3,7 +3,7 @@ package stats
 import (
 	"fmt"
 
-	domain "github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/stats"
+	domain "github.com/lwmacct/260101-go-pkg-ddd/pkg/core/domain/stats"
 	"gorm.io/gorm"
 )
 

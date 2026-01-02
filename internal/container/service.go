@@ -3,15 +3,15 @@ package container
 import (
 	"go.uber.org/fx"
 
-	appauth "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/auth"
-	appuser "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/user"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/auth"
-	domain_twofa "github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/twofa"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/persistence"
-	infra_twofa "github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/twofa"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/persistence"
+	appauth "github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/application/auth"
+	appuser "github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/application/user"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/domain/auth"
+	domain_twofa "github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/domain/twofa"
+	infra_twofa "github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/infrastructure/twofa"
 
-	infra_auth "github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/auth"
+	infra_auth "github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/infrastructure/auth"
 	infra_captcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/captcha"
 )
 

@@ -7,7 +7,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/mojocn/base64Captcha"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/captcha"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/domain/captcha"
 )
 
 // 验证码默认配置。

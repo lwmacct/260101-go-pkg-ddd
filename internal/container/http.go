@@ -10,43 +10,45 @@ import (
 	"github.com/redis/go-redis/v9"
 	"go.uber.org/fx"
 
-	ginhttp "github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/adapters/http/handler"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/cache"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/auth"
+	ginhttp "github.com/lwmacct/260101-go-pkg-ddd/pkg/core/adapters/http"
+	corehandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/core/adapters/http/handler"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/application/cache"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/persistence"
+	crmhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/crm/adapters/http/handler"
+	iamhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/adapters/http/handler"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/infrastructure/auth"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/health"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/persistence"
 )
 
 // HandlersResult 使用 fx.Out 批量返回所有 HTTP 处理器。
 type HandlersResult struct {
 	fx.Out
 
-	Health           *handler.HealthHandler
-	Auth             *handler.AuthHandler
-	Captcha          *handler.CaptchaHandler
-	AdminUser        *handler.AdminUserHandler
-	UserProfile      *handler.UserProfileHandler
-	Role             *handler.RoleHandler
-	Setting          *handler.SettingHandler
-	UserSetting      *handler.UserSettingHandler
-	PAT              *handler.PATHandler
-	Audit            *handler.AuditHandler
-	Overview         *handler.OverviewHandler
-	TwoFA            *handler.TwoFAHandler
-	Cache            *handler.CacheHandler
-	Operation        *handler.OperationHandler
-	Organization     *handler.OrgHandler
-	OrgMember        *handler.OrgMemberHandler
-	Team             *handler.TeamHandler
-	TeamMember       *handler.TeamMemberHandler
-	UserOrganization *handler.UserOrgHandler
-	Task             *handler.TaskHandler
-	Contact          *handler.ContactHandler
-	Company          *handler.CompanyHandler
-	Lead             *handler.LeadHandler
-	Opportunity      *handler.OpportunityHandler
+	Health           *corehandler.HealthHandler
+	Auth             *iamhandler.AuthHandler
+	Captcha          *corehandler.CaptchaHandler
+	AdminUser        *corehandler.AdminUserHandler
+	UserProfile      *iamhandler.UserProfileHandler
+	Role             *iamhandler.RoleHandler
+	Setting          *corehandler.SettingHandler
+	UserSetting      *corehandler.UserSettingHandler
+	PAT              *iamhandler.PATHandler
+	Audit            *corehandler.AuditHandler
+	Overview         *corehandler.OverviewHandler
+	TwoFA            *iamhandler.TwoFAHandler
+	Cache            *corehandler.CacheHandler
+	Operation        *corehandler.OperationHandler
+	Organization     *corehandler.OrgHandler
+	OrgMember        *corehandler.OrgMemberHandler
+	Team             *corehandler.TeamHandler
+	TeamMember       *corehandler.TeamMemberHandler
+	UserOrganization *iamhandler.UserOrgHandler
+	Task             *corehandler.TaskHandler
+	Contact          *crmhandler.ContactHandler
+	Company          *crmhandler.CompanyHandler
+	Lead             *crmhandler.LeadHandler
+	Opportunity      *crmhandler.OpportunityHandler
 }
 
 // HTTPModule 提供 HTTP 处理器、路由和服务器。
@@ -113,15 +115,15 @@ type handlersParams struct {
 
 func newAllHandlers(p handlersParams) HandlersResult {
 	return HandlersResult{
-		Health: handler.NewHealthHandler(p.HealthChecker),
-		Auth: handler.NewAuthHandler(
+		Health: corehandler.NewHealthHandler(p.HealthChecker),
+		Auth: iamhandler.NewAuthHandler(
 			p.Auth.Login,
 			p.Auth.Login2FA,
 			p.Auth.Register,
 			p.Auth.RefreshToken,
 		),
-		Captcha: handler.NewCaptchaHandler(p.Captcha.Generate, p.Config.Auth.DevSecret),
-		AdminUser: handler.NewAdminUserHandler(
+		Captcha: corehandler.NewCaptchaHandler(p.Captcha.Generate, p.Config.Auth.DevSecret),
+		AdminUser: corehandler.NewAdminUserHandler(
 			p.User.Create,
 			p.User.Update,
 			p.User.Delete,
@@ -130,13 +132,13 @@ func newAllHandlers(p handlersParams) HandlersResult {
 			p.User.Get,
 			p.User.List,
 		),
-		UserProfile: handler.NewUserProfileHandler(
+		UserProfile: iamhandler.NewUserProfileHandler(
 			p.User.Get,
 			p.User.Update,
 			p.User.ChangePassword,
 			p.User.Delete,
 		),
-		Role: handler.NewRoleHandler(
+		Role: iamhandler.NewRoleHandler(
 			p.Role.Create,
 			p.Role.Update,
 			p.Role.Delete,
@@ -144,7 +146,7 @@ func newAllHandlers(p handlersParams) HandlersResult {
 			p.Role.Get,
 			p.Role.List,
 		),
-		Setting: handler.NewSettingHandler(
+		Setting: corehandler.NewSettingHandler(
 			p.Setting.Create,
 			p.Setting.Update,
 			p.Setting.Delete,
@@ -158,7 +160,7 @@ func newAllHandlers(p handlersParams) HandlersResult {
 			p.Setting.GetCategory,
 			p.Setting.ListCategories,
 		),
-		UserSetting: handler.NewUserSettingHandler(
+		UserSetting: corehandler.NewUserSettingHandler(
 			p.UserSetting.Set,
 			p.UserSetting.BatchSet,
 			p.UserSetting.Reset,
@@ -168,7 +170,7 @@ func newAllHandlers(p handlersParams) HandlersResult {
 			p.UserSetting.ListSettings,
 			p.UserSetting.ListCategories,
 		),
-		PAT: handler.NewPATHandler(
+		PAT: iamhandler.NewPATHandler(
 			p.PAT.Create,
 			p.PAT.Delete,
 			p.PAT.Disable,
@@ -176,75 +178,75 @@ func newAllHandlers(p handlersParams) HandlersResult {
 			p.PAT.Get,
 			p.PAT.List,
 		),
-		Audit: handler.NewAuditHandler(
+		Audit: corehandler.NewAuditHandler(
 			p.Audit.List,
 			p.Audit.Get,
 		),
-		Overview: handler.NewOverviewHandler(p.Stats.GetStats),
-		TwoFA: handler.NewTwoFAHandler(
+		Overview: corehandler.NewOverviewHandler(p.Stats.GetStats),
+		TwoFA: iamhandler.NewTwoFAHandler(
 			p.TwoFA.Setup,
 			p.TwoFA.VerifyEnable,
 			p.TwoFA.Disable,
 			p.TwoFA.GetStatus,
 		),
-		Cache: handler.NewCacheHandler(
+		Cache: corehandler.NewCacheHandler(
 			cache.NewInfoHandler(p.AdminCacheSvc),
 			cache.NewScanKeysHandler(p.AdminCacheSvc),
 			cache.NewGetKeyHandler(p.AdminCacheSvc),
 			cache.NewDeleteHandler(p.AdminCacheSvc),
 		),
-		Operation: handler.NewOperationHandler(),
-		Organization: handler.NewOrgHandler(
+		Operation: corehandler.NewOperationHandler(),
+		Organization: corehandler.NewOrgHandler(
 			p.Organization.Create,
 			p.Organization.Update,
 			p.Organization.Delete,
 			p.Organization.Get,
 			p.Organization.List,
 		),
-		OrgMember: handler.NewOrgMemberHandler(
+		OrgMember: corehandler.NewOrgMemberHandler(
 			p.Organization.MemberAdd,
 			p.Organization.MemberRemove,
 			p.Organization.MemberUpdateRole,
 			p.Organization.MemberList,
 		),
-		Team: handler.NewTeamHandler(
+		Team: corehandler.NewTeamHandler(
 			p.Organization.TeamCreate,
 			p.Organization.TeamUpdate,
 			p.Organization.TeamDelete,
 			p.Organization.TeamGet,
 			p.Organization.TeamList,
 		),
-		TeamMember: handler.NewTeamMemberHandler(
+		TeamMember: corehandler.NewTeamMemberHandler(
 			p.Organization.TeamMemberAdd,
 			p.Organization.TeamMemberRemove,
 			p.Organization.TeamMemberList,
 		),
-		UserOrganization: handler.NewUserOrgHandler(
+		UserOrganization: iamhandler.NewUserOrgHandler(
 			p.Organization.UserOrgs,
 			p.Organization.UserTeams,
 		),
-		Task: handler.NewTaskHandler(
+		Task: corehandler.NewTaskHandler(
 			p.Task.Create,
 			p.Task.Update,
 			p.Task.Delete,
 			p.Task.Get,
 			p.Task.List,
 		),
-		Contact: handler.NewContactHandler(
+		Contact: crmhandler.NewContactHandler(
 			p.Contact.Create,
 			p.Contact.Update,
 			p.Contact.Delete,
 			p.Contact.Get,
 			p.Contact.List,
 		),
-		Company: handler.NewCompanyHandler(
+		Company: crmhandler.NewCompanyHandler(
 			p.Company.Create,
 			p.Company.Update,
 			p.Company.Delete,
 			p.Company.Get,
 			p.Company.List,
 		),
-		Lead: handler.NewLeadHandler(
+		Lead: crmhandler.NewLeadHandler(
 			p.Lead.Create,
 			p.Lead.Update,
 			p.Lead.Delete,
@@ -255,7 +257,7 @@ func newAllHandlers(p handlersParams) HandlersResult {
 			p.Lead.Get,
 			p.Lead.List,
 		),
-		Opportunity: handler.NewOpportunityHandler(
+		Opportunity: crmhandler.NewOpportunityHandler(
 			p.Opportunity.Create,
 			p.Opportunity.Update,
 			p.Opportunity.Delete,
@@ -289,30 +291,30 @@ type routerParams struct {
 	TeamMemberRepos persistence.TeamMemberRepositories
 
 	// Handlers
-	Health      *handler.HealthHandler
-	Auth        *handler.AuthHandler
-	Captcha     *handler.CaptchaHandler
-	AdminUser   *handler.AdminUserHandler
-	UserProfile *handler.UserProfileHandler
-	Role        *handler.RoleHandler
-	Setting     *handler.SettingHandler
-	UserSetting *handler.UserSettingHandler
-	PAT         *handler.PATHandler
-	AuditH      *handler.AuditHandler
-	Overview    *handler.OverviewHandler
-	TwoFA       *handler.TwoFAHandler
-	Cache       *handler.CacheHandler
-	Operation   *handler.OperationHandler
-	Org         *handler.OrgHandler
-	OrgMember   *handler.OrgMemberHandler
-	Team        *handler.TeamHandler
-	TeamMember  *handler.TeamMemberHandler
-	UserOrg     *handler.UserOrgHandler
-	TaskHandler *handler.TaskHandler
-	Contact     *handler.ContactHandler
-	Company     *handler.CompanyHandler
-	Lead        *handler.LeadHandler
-	Opportunity *handler.OpportunityHandler
+	Health      *corehandler.HealthHandler
+	Auth        *iamhandler.AuthHandler
+	Captcha     *corehandler.CaptchaHandler
+	AdminUser   *corehandler.AdminUserHandler
+	UserProfile *iamhandler.UserProfileHandler
+	Role        *iamhandler.RoleHandler
+	Setting     *corehandler.SettingHandler
+	UserSetting *corehandler.UserSettingHandler
+	PAT         *iamhandler.PATHandler
+	AuditH      *corehandler.AuditHandler
+	Overview    *corehandler.OverviewHandler
+	TwoFA       *iamhandler.TwoFAHandler
+	Cache       *corehandler.CacheHandler
+	Operation   *corehandler.OperationHandler
+	Org         *corehandler.OrgHandler
+	OrgMember   *corehandler.OrgMemberHandler
+	Team        *corehandler.TeamHandler
+	TeamMember  *corehandler.TeamMemberHandler
+	UserOrg     *iamhandler.UserOrgHandler
+	TaskHandler *corehandler.TaskHandler
+	Contact     *crmhandler.ContactHandler
+	Company     *crmhandler.CompanyHandler
+	Lead        *crmhandler.LeadHandler
+	Opportunity *crmhandler.OpportunityHandler
 }
 
 func newRouter(p routerParams) *gin.Engine {

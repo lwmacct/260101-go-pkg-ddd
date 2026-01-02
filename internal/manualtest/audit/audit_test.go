@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/lwmacct/260101-go-pkg-ddd/internal/manualtest"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/audit"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/application/audit"
 )
 
 // TestListAuditLogs 测试获取审计日志列表。

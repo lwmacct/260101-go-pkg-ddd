@@ -5,12 +5,12 @@ import (
 	"go.uber.org/fx"
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/cache"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/cache"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/auth"
-	appcache "github.com/lwmacct/260101-go-pkg-ddd/pkg/application/cache"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/setting"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/user"
+	appcache "github.com/lwmacct/260101-go-pkg-ddd/pkg/core/application/cache"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/application/setting"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/application/auth"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/application/user"
 )
 
 // CacheServicesResult 使用 fx.Out 批量返回所有缓存服务。

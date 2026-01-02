@@ -18,12 +18,12 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/event"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/cache"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/database"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/eventbus"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/persistence"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/telemetry"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/domain/event"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/cache"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/database"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/eventbus"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/persistence"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/telemetry"
 )
 
 // InfraModule 提供基础设施组件。

@@ -8,8 +8,8 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/lwmacct/260101-go-pkg-ddd/internal/manualtest"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/auth"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/user"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/application/auth"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/application/user"
 )
 
 // TestGetProfile 测试获取个人资料。

@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/lwmacct/260101-go-pkg-ddd/internal/manualtest"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/org"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/application/org"
 )
 
 // 种子数据: acme org (ID=1), admin 是 owner

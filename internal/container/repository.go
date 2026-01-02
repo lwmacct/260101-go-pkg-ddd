@@ -4,10 +4,10 @@ import (
 	"go.uber.org/fx"
 	"gorm.io/gorm"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/setting"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/application/user"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/domain/captcha"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/persistence"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/application/setting"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/domain/captcha"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/core/infrastructure/persistence"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/iam/application/user"
 
 	infracaptcha "github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/captcha"
 	infrastats "github.com/lwmacct/260101-go-pkg-ddd/pkg/infrastructure/stats"
