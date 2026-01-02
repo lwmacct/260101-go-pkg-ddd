@@ -3,7 +3,6 @@ package event
 import (
 	"strconv"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/event"
 )
 
 // ============================================================================
@@ -12,7 +11,7 @@ import (
 
 // LoginSucceededEvent 登录成功事件
 type LoginSucceededEvent struct {
-	event.BaseEvent
+	BaseEvent
 
 	UserID    uint   `json:"user_id"`
 	Username  string `json:"username"`
@@ -33,7 +32,7 @@ func NewLoginSucceededEvent(userID uint, username, ipAddress, userAgent string) 
 
 // LoginFailedEvent 登录失败事件
 type LoginFailedEvent struct {
-	event.BaseEvent
+	BaseEvent
 
 	Username  string `json:"username"`
 	IPAddress string `json:"ip_address"`
@@ -52,7 +51,7 @@ func NewLoginFailedEvent(username, ipAddress, reason string) *LoginFailedEvent {
 
 // LogoutEvent 登出事件
 type LogoutEvent struct {
-	event.BaseEvent
+	BaseEvent
 
 	UserID uint `json:"user_id"`
 }
@@ -67,7 +66,7 @@ func NewLogoutEvent(userID uint) *LogoutEvent {
 
 // TokenRefreshedEvent 令牌刷新事件
 type TokenRefreshedEvent struct {
-	event.BaseEvent
+	BaseEvent
 
 	UserID uint `json:"user_id"`
 }
@@ -82,7 +81,7 @@ func NewTokenRefreshedEvent(userID uint) *TokenRefreshedEvent {
 
 // TwoFAEnabledEvent 2FA 启用事件
 type TwoFAEnabledEvent struct {
-	event.BaseEvent
+	BaseEvent
 
 	UserID uint `json:"user_id"`
 }
@@ -97,7 +96,7 @@ func NewTwoFAEnabledEvent(userID uint) *TwoFAEnabledEvent {
 
 // TwoFADisabledEvent 2FA 禁用事件
 type TwoFADisabledEvent struct {
-	event.BaseEvent
+	BaseEvent
 
 	UserID uint `json:"user_id"`
 }

@@ -3,7 +3,6 @@ package event
 import (
 	"strconv"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/event"
 )
 
 // ============================================================================
@@ -12,7 +11,7 @@ import (
 
 // RoleCreatedEvent 角色创建事件
 type RoleCreatedEvent struct {
-	event.BaseEvent
+	BaseEvent
 
 	RoleID   uint   `json:"role_id"`
 	RoleName string `json:"role_name"`
@@ -29,7 +28,7 @@ func NewRoleCreatedEvent(roleID uint, roleName string) *RoleCreatedEvent {
 
 // RoleUpdatedEvent 角色更新事件
 type RoleUpdatedEvent struct {
-	event.BaseEvent
+	BaseEvent
 
 	RoleID uint `json:"role_id"`
 }
@@ -44,7 +43,7 @@ func NewRoleUpdatedEvent(roleID uint) *RoleUpdatedEvent {
 
 // RoleDeletedEvent 角色删除事件
 type RoleDeletedEvent struct {
-	event.BaseEvent
+	BaseEvent
 
 	RoleID   uint   `json:"role_id"`
 	RoleName string `json:"role_name"`
@@ -62,7 +61,7 @@ func NewRoleDeletedEvent(roleID uint, roleName string) *RoleDeletedEvent {
 // RolePermissionsChangedEvent 角色权限变更事件
 // 这是重要的缓存失效触发事件
 type RolePermissionsChangedEvent struct {
-	event.BaseEvent
+	BaseEvent
 
 	RoleID        uint   `json:"role_id"`
 	PermissionIDs []uint `json:"permission_ids"`

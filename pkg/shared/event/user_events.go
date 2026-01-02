@@ -3,7 +3,6 @@ package event
 import (
 	"strconv"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/event"
 )
 
 // ============================================================================
@@ -12,7 +11,7 @@ import (
 
 // UserCreatedEvent 用户创建事件
 type UserCreatedEvent struct {
-	event.BaseEvent
+	BaseEvent
 
 	UserID   uint   `json:"user_id"`
 	Username string `json:"username"`
@@ -31,7 +30,7 @@ func NewUserCreatedEvent(userID uint, username, email string) *UserCreatedEvent 
 
 // UserUpdatedEvent 用户更新事件
 type UserUpdatedEvent struct {
-	event.BaseEvent
+	BaseEvent
 
 	UserID uint `json:"user_id"`
 }
@@ -46,7 +45,7 @@ func NewUserUpdatedEvent(userID uint) *UserUpdatedEvent {
 
 // UserDeletedEvent 用户删除事件
 type UserDeletedEvent struct {
-	event.BaseEvent
+	BaseEvent
 
 	UserID uint `json:"user_id"`
 }
@@ -61,7 +60,7 @@ func NewUserDeletedEvent(userID uint) *UserDeletedEvent {
 
 // UserRoleAssignedEvent 用户角色分配事件
 type UserRoleAssignedEvent struct {
-	event.BaseEvent
+	BaseEvent
 
 	UserID  uint   `json:"user_id"`
 	RoleIDs []uint `json:"role_ids"`
@@ -78,7 +77,7 @@ func NewUserRoleAssignedEvent(userID uint, roleIDs []uint) *UserRoleAssignedEven
 
 // UserStatusChangedEvent 用户状态变更事件
 type UserStatusChangedEvent struct {
-	event.BaseEvent
+	BaseEvent
 
 	UserID    uint   `json:"user_id"`
 	OldStatus string `json:"old_status"`
@@ -97,7 +96,7 @@ func NewUserStatusChangedEvent(userID uint, oldStatus, newStatus string) *UserSt
 
 // PasswordChangedEvent 密码变更事件
 type PasswordChangedEvent struct {
-	event.BaseEvent
+	BaseEvent
 
 	UserID uint `json:"user_id"`
 }

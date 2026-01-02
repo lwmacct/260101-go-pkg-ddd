@@ -1,13 +1,31 @@
 package seeds
 
+mport corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+mport iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 import (
+mport corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+mport iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 	"context"
+mport corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+mport iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 	"log/slog"
+mport corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+mport iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 	"time"
+mport corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+mport iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+mport corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+mport iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
+import iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
+mport corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+mport iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 	"gorm.io/gorm"
+mport corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+mport iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 	"gorm.io/gorm/clause"
+mport corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+mport iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 )
 
 // OrganizationSeeder 创建示例组织和团队。
@@ -34,7 +52,7 @@ type teamConfig struct {
 	description string
 }
 
-// Seed implements database.Seeder interface.
+// Seed implements db.Seeder interface.
 func (s *OrganizationSeeder) Seed(ctx context.Context, db *gorm.DB) error {
 	// 组织配置
 	orgs := []orgConfig{
@@ -74,7 +92,7 @@ func (s *OrganizationSeeder) Seed(ctx context.Context, db *gorm.DB) error {
 
 	return db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
 		// 1. 查找 admin 用户
-		var admin persistence.UserModel
+		var admin iampersistence.UserModel
 		if err := tx.Where("username = ?", "admin").First(&admin).Error; err != nil {
 			slog.Warn("admin user not found, skipping member seeding", "err", err)
 			return nil
@@ -82,7 +100,7 @@ func (s *OrganizationSeeder) Seed(ctx context.Context, db *gorm.DB) error {
 
 		// 2. 创建组织和团队
 		for _, orgCfg := range orgs {
-			org := &persistence.OrgModel{
+			org := &corepersistence.OrgModel{
 				Name:        orgCfg.name,
 				DisplayName: orgCfg.displayName,
 				Description: orgCfg.description,
@@ -105,7 +123,7 @@ func (s *OrganizationSeeder) Seed(ctx context.Context, db *gorm.DB) error {
 			slog.Info("seeded organization", "name", org.Name, "id", org.ID)
 
 			// 3. 查找组织专属成员用户
-			var orgMember persistence.UserModel
+			var orgMember iampersistence.UserModel
 			if err := tx.Where("username = ?", orgCfg.memberUser).First(&orgMember).Error; err != nil {
 				slog.Warn("org member user not found", "user", orgCfg.memberUser, "err", err)
 				// 继续处理，不中断
@@ -126,7 +144,7 @@ func (s *OrganizationSeeder) Seed(ctx context.Context, db *gorm.DB) error {
 			}
 
 			for _, m := range members {
-				member := &persistence.OrgMemberModel{
+				member := &corepersistence.OrgMemberModel{
 					OrgID:    org.ID,
 					UserID:   m.userID,
 					Role:     m.role,
@@ -147,7 +165,7 @@ func (s *OrganizationSeeder) Seed(ctx context.Context, db *gorm.DB) error {
 
 			// 5. 为每个组织创建 2 个团队
 			for _, teamCfg := range teams {
-				team := &persistence.TeamModel{
+				team := &corepersistence.TeamModel{
 					OrgID:       org.ID,
 					Name:        teamCfg.name,
 					DisplayName: teamCfg.displayName,
@@ -188,7 +206,7 @@ func (s *OrganizationSeeder) Seed(ctx context.Context, db *gorm.DB) error {
 				}
 
 				for _, tm := range teamMembers {
-					teamMember := &persistence.TeamMemberModel{
+					teamMember := &corepersistence.TeamMemberModel{
 						TeamID:   team.ID,
 						UserID:   tm.userID,
 						Role:     tm.role,
@@ -213,7 +231,7 @@ func (s *OrganizationSeeder) Seed(ctx context.Context, db *gorm.DB) error {
 	})
 }
 
-// Name implements database.Seeder interface.
+// Name implements db.Seeder interface.
 func (s *OrganizationSeeder) Name() string {
 	return "OrganizationSeeder"
 }

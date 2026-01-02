@@ -1,5 +1,7 @@
 package seeds
 
+package seeds
+
 import (
 	"context"
 	"encoding/json"
@@ -7,16 +9,13 @@ import (
 	"log/slog"
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/user"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
-
-// RBACSeeder seeds roles and admin user
-// 使用 URN-Centric RBAC：角色直接关联 Operation/Resource URN 模式
-type RBACSeeder struct{}
-
 // Seed implements Seeder interface
 func (s *RBACSeeder) Seed(ctx context.Context, db *gorm.DB) error {
 	return db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
@@ -79,7 +78,7 @@ func (s *RBACSeeder) seedRoles(ctx context.Context, db *gorm.DB) error {
 			return err
 		}
 
-		role := persistence.RoleModel{
+		role := iampersistence.RoleModel{
 			Name:        r.name,
 			DisplayName: r.displayName,
 			Description: r.description,
@@ -106,13 +105,13 @@ func (s *RBACSeeder) seedAdminUser(ctx context.Context, db *gorm.DB) error {
 	db = db.WithContext(ctx)
 
 	// Get admin role
-	var adminRole persistence.RoleModel
+	var adminRole iampersistence.RoleModel
 	if err := db.Where("name = ?", "admin").First(&adminRole).Error; err != nil {
 		return err
 	}
 
 	// Get user role
-	var userRole persistence.RoleModel
+	var userRole iampersistence.RoleModel
 	if err := db.Where("name = ?", "user").First(&userRole).Error; err != nil {
 		return err
 	}
@@ -130,7 +129,7 @@ func (s *RBACSeeder) seedAdminUser(ctx context.Context, db *gorm.DB) error {
 		realName string
 		avatar   string
 		userType string                 // "human" | "service" | "system"
-		role     *persistence.RoleModel // nil 表示不分配角色（root 用户硬编码权限）
+		role     *iampersistence.RoleModel // nil 表示不分配角色（root 用户硬编码权限）
 	}
 
 	users := []userConfig{
@@ -174,7 +173,7 @@ func (s *RBACSeeder) seedAdminUser(ctx context.Context, db *gorm.DB) error {
 			phonePtr = &phoneStr
 		}
 
-		userModel := persistence.UserModel{
+		userModel := iampersistence.UserModel{
 			Username:  cfg.username,
 			Email:     emailPtr,
 			Password:  string(hashedPassword),

@@ -19,7 +19,7 @@ type SettingCategorySeeder struct{}
 func (s *SettingCategorySeeder) Seed(ctx context.Context, db *gorm.DB) error {
 	db = db.WithContext(ctx)
 
-	categories := []_persistence.SettingCategoryModel{
+	categories := []persistence.SettingCategoryModel{
 		{
 			Key:   "general",
 			Label: "常规设置",

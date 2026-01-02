@@ -1,22 +1,21 @@
 // Package seeds 提供各种领域模型的种子数据
 package seeds
+package seeds
 
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log/slog"
 
-	_persistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
+	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/user"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
-// UserSeeder 用户种子数据
-type UserSeeder struct{}
-
-// Seed 执行用户种子数据填充
-func (s *UserSeeder) Seed(ctx context.Context, db *gorm.DB) error {
-	db = db.WithContext(ctx)
 
 	// 生成密码哈希 (默认密码：password123)
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte("password123"), bcrypt.DefaultCost)
@@ -105,7 +104,7 @@ func (s *UserSeeder) Seed(ctx context.Context, db *gorm.DB) error {
 	}
 
 	// 转换为 UserModel（Email 和 Phone 使用指针）
-	users := make([]_persistence.UserModel, 0, len(userData))
+	users := make([]iampersistence.UserModel, 0, len(userData))
 	for _, u := range userData {
 		var emailPtr *string
 		if u.Email != "" {
@@ -116,7 +115,7 @@ func (s *UserSeeder) Seed(ctx context.Context, db *gorm.DB) error {
 			phonePtr = &u.Phone
 		}
 
-		users = append(users, _persistence.UserModel{
+		users = append(users, iampersistence.UserModel{
 			Username:  u.Username,
 			Email:     emailPtr,
 			Password:  string(hashedPassword),
@@ -134,7 +133,7 @@ func (s *UserSeeder) Seed(ctx context.Context, db *gorm.DB) error {
 	// 逐个创建或更新用户（不再使用 ON CONFLICT，因为 username 已无唯一约束）
 	insertedCount := 0
 	for _, userModel := range users {
-		var existing _persistence.UserModel
+		var existing iampersistence.UserModel
 		switch lookupErr := db.Where("username = ?", userModel.Username).First(&existing).Error; {
 		case errors.Is(lookupErr, gorm.ErrRecordNotFound):
 			// 用户不存在，创建新用户

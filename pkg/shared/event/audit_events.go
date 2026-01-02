@@ -1,7 +1,6 @@
 package event
 
 import (
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/shared/event"
 )
 
 // ============================================================================
@@ -24,7 +23,7 @@ const (
 // CommandExecutedEvent 命令执行完成事件
 // 用于记录业务操作的审计日志
 type CommandExecutedEvent struct {
-	event.BaseEvent
+	BaseEvent
 
 	// 操作者信息
 	UserID   uint   `json:"user_id"`

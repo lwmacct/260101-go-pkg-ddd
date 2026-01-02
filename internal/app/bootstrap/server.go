@@ -3,7 +3,6 @@ package bootstrap
 import (
 	"context"
 	"net/http"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
@@ -19,7 +18,7 @@ type Server struct {
 func NewServer(engine *gin.Engine, cfg *config.Config) *Server {
 	return &Server{
 		engine: engine,
-		addr:   cfg.HTTP.Addr,
+		addr:   cfg.Server.Addr,
 	}
 }
 
