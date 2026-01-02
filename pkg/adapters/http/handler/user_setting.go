@@ -73,7 +73,7 @@ func (h *UserSettingHandler) ListUserSettingCategories(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, categories)
+	response.OK(c, categories)
 }
 
 // GetUserSettings 获取用户配置（层级结构）
@@ -113,7 +113,7 @@ func (h *UserSettingHandler) GetUserSettings(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, schema)
+	response.OK(c, schema)
 }
 
 // GetUserSetting 获取单个用户配置
@@ -145,7 +145,7 @@ func (h *UserSettingHandler) GetUserSetting(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, settingDTO)
+	response.OK(c, settingDTO)
 }
 
 // SetUserSettingRequest 设置用户配置请求
@@ -196,7 +196,7 @@ func (h *UserSettingHandler) SetUserSetting(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgUpdated, settingDTO)
+	response.OK(c, settingDTO)
 }
 
 // ResetUserSetting 重置用户配置
@@ -287,5 +287,5 @@ func (h *UserSettingHandler) BatchSetUserSettings(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, nil)
+	response.OK(c, nil)
 }

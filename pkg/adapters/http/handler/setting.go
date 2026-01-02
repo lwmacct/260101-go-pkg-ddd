@@ -96,7 +96,7 @@ func (h *SettingHandler) GetSettings(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, schema)
+	response.OK(c, schema)
 }
 
 // GetSetting 获取单个配置
@@ -126,7 +126,7 @@ func (h *SettingHandler) GetSetting(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, setting)
+	response.OK(c, setting)
 }
 
 // CreateSettingRequest 创建配置请求
@@ -189,7 +189,7 @@ func (h *SettingHandler) CreateSetting(c *gin.Context) {
 		return
 	}
 
-	response.Created(c, response.MsgCreated, settingDTO)
+	response.Created(c, settingDTO)
 }
 
 // UpdateSettingRequest 更新配置请求
@@ -244,7 +244,7 @@ func (h *SettingHandler) UpdateSetting(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgUpdated, settingDTO)
+	response.OK(c, settingDTO)
 }
 
 // DeleteSetting 删除配置
@@ -331,7 +331,7 @@ func (h *SettingHandler) BatchUpdateSettings(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, nil)
+	response.OK(c, nil)
 }
 
 // =============================================================================
@@ -358,7 +358,7 @@ func (h *SettingHandler) GetCategories(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, categories)
+	response.OK(c, categories)
 }
 
 // GetCategory 获取单个配置分类
@@ -394,7 +394,7 @@ func (h *SettingHandler) GetCategory(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, category)
+	response.OK(c, category)
 }
 
 // CreateCategoryRequest 创建配置分类请求
@@ -447,7 +447,7 @@ func (h *SettingHandler) CreateCategory(c *gin.Context) {
 		return
 	}
 
-	response.Created(c, response.MsgCreated, category)
+	response.Created(c, category)
 }
 
 // UpdateCategoryRequest 更新配置分类请求
@@ -498,7 +498,7 @@ func (h *SettingHandler) UpdateCategory(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgUpdated, category)
+	response.OK(c, category)
 }
 
 // DeleteCategory 删除配置分类

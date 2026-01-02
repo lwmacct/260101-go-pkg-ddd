@@ -70,7 +70,7 @@ func (h *UserProfileHandler) GetProfile(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, u)
+	response.OK(c, u)
 }
 
 // UpdateProfileRequest 更新个人资料请求
@@ -139,7 +139,7 @@ func (h *UserProfileHandler) UpdateProfile(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, updatedUser)
+	response.OK(c, updatedUser)
 }
 
 // ChangePassword changes the current user's password
@@ -183,7 +183,7 @@ func (h *UserProfileHandler) ChangePassword(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, nil)
+	response.OK(c, nil)
 }
 
 // DeleteAccount deletes the current user's account
@@ -218,5 +218,5 @@ func (h *UserProfileHandler) DeleteAccount(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgDeleted, nil)
+	response.OK(c, nil)
 }

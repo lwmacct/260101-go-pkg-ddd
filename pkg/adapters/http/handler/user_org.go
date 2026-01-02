@@ -59,7 +59,7 @@ func (h *UserOrgHandler) ListMyOrganizations(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, result)
+	response.OK(c, result)
 }
 
 // ListUserTeamsQuery 用户团队列表查询参数
@@ -112,5 +112,5 @@ func (h *UserOrgHandler) ListMyTeams(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, result)
+	response.OK(c, result)
 }

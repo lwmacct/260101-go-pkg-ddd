@@ -99,7 +99,7 @@ func (h *PATHandler) CreateToken(c *gin.Context) {
 		return
 	}
 
-	response.Created(c, response.MsgCreated, pat.ToCreateResultDTO(result.Token, result.PlainToken))
+	response.Created(c, pat.ToCreateResultDTO(result.Token, result.PlainToken))
 }
 
 // ListTokens lists all tokens for the current user
@@ -137,7 +137,7 @@ func (h *PATHandler) ListTokens(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, tokens)
+	response.OK(c, tokens)
 }
 
 // DeleteToken deletes a specific token
@@ -183,7 +183,7 @@ func (h *PATHandler) DeleteToken(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgDeleted, nil)
+	response.OK(c, nil)
 }
 
 // GetToken retrieves details of a specific token
@@ -235,7 +235,7 @@ func (h *PATHandler) GetToken(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, token)
+	response.OK(c, token)
 }
 
 // DisableToken 暂停令牌
@@ -278,7 +278,7 @@ func (h *PATHandler) DisableToken(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, nil)
+	response.OK(c, nil)
 }
 
 // EnableToken 启用令牌
@@ -321,7 +321,7 @@ func (h *PATHandler) EnableToken(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, nil)
+	response.OK(c, nil)
 }
 
 // ListScopes returns available scopes for PAT creation
@@ -345,7 +345,7 @@ func (h *PATHandler) ListScopes(c *gin.Context) {
 			Description: s.Description,
 		}
 	}
-	response.OK(c, response.MsgSuccess, scopes)
+	response.OK(c, scopes)
 }
 
 func parseTokenID(raw string) (uint, error) {

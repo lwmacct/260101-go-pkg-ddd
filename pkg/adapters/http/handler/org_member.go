@@ -86,7 +86,7 @@ func (h *OrgMemberHandler) List(c *gin.Context) {
 	}
 
 	meta := response.NewPaginationMeta(int(result.Total), q.GetPage(), q.GetLimit())
-	response.List(c, response.MsgSuccess, result.Items, meta)
+	response.List(c, result.Items, meta)
 }
 
 // Add 添加组织成员
@@ -128,7 +128,7 @@ func (h *OrgMemberHandler) Add(c *gin.Context) {
 		return
 	}
 
-	response.Created(c, response.MsgCreated, result)
+	response.Created(c, result)
 }
 
 // Remove 移除组织成员
@@ -177,7 +177,7 @@ func (h *OrgMemberHandler) Remove(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, nil)
+	response.OK(c, nil)
 }
 
 // UpdateRole 更新成员角色
@@ -234,5 +234,5 @@ func (h *OrgMemberHandler) UpdateRole(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, nil)
+	response.OK(c, nil)
 }

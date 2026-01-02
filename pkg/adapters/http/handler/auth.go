@@ -58,7 +58,7 @@ func (h *AuthHandler) Register(c *gin.Context) {
 		return
 	}
 
-	response.Created(c, response.MsgCreated, result)
+	response.Created(c, result)
 }
 
 // Login 用户登录
@@ -96,15 +96,15 @@ func (h *AuthHandler) Login(c *gin.Context) {
 
 	// 检查是否需要 2FA
 	if result.Requires2FA {
-		response.OK(c, authDomain.MsgTwoFARequired, &auth.TwoFARequiredDTO{
+		response.OK(c, &auth.TwoFARequiredDTO{
 			Requires2FA:  true,
 			SessionToken: result.SessionToken,
-		})
+		}, authDomain.MsgTwoFARequired)
 		return
 	}
 
 	// 正常登录成功
-	response.OK(c, response.MsgSuccess, result.ToLoginResponse())
+	response.OK(c, result.ToLoginResponse())
 }
 
 // Login2FA 二次认证登录
@@ -138,7 +138,7 @@ func (h *AuthHandler) Login2FA(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, result.ToLoginResponse())
+	response.OK(c, result.ToLoginResponse())
 }
 
 // RefreshToken 刷新访问令牌
@@ -179,5 +179,5 @@ func (h *AuthHandler) RefreshToken(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, result.ToRefreshTokenResponse())
+	response.OK(c, result.ToRefreshTokenResponse())
 }

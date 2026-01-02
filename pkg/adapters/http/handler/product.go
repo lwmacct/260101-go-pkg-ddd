@@ -81,7 +81,7 @@ func (h *ProductHandler) Create(c *gin.Context) {
 		return
 	}
 
-	response.Created(c, response.MsgCreated, result)
+	response.Created(c, result)
 }
 
 // List 产品列表
@@ -112,7 +112,7 @@ func (h *ProductHandler) List(c *gin.Context) {
 	}
 
 	meta := response.NewPaginationMeta(int(result.Total), query.GetPage(), query.GetLimit())
-	response.List(c, response.MsgSuccess, result.Items, meta)
+	response.List(c, result.Items, meta)
 }
 
 // Get 产品详情
@@ -149,7 +149,7 @@ func (h *ProductHandler) Get(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, result)
+	response.OK(c, result)
 }
 
 // Update 更新产品
@@ -203,7 +203,7 @@ func (h *ProductHandler) Update(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgUpdated, result)
+	response.OK(c, result)
 }
 
 // Delete 删除产品
@@ -239,5 +239,5 @@ func (h *ProductHandler) Delete(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgDeleted, nil)
+	response.OK(c, nil)
 }

@@ -65,7 +65,7 @@ func (h *TwoFAHandler) Setup(c *gin.Context) {
 		QRCodeURL: result.QRCodeURL,
 		QRCodeImg: result.QRCodeImg,
 	}
-	response.OK(c, response.MsgSuccess, resp)
+	response.OK(c, resp)
 }
 
 // VerifyAndEnable 验证 TOTP 代码并启用 2FA
@@ -108,7 +108,7 @@ func (h *TwoFAHandler) VerifyAndEnable(c *gin.Context) {
 		RecoveryCodes: result.RecoveryCodes,
 		Message:       "Please save these recovery codes in a safe place. You won't be able to see them again.",
 	}
-	response.OK(c, response.MsgSuccess, resp)
+	response.OK(c, resp)
 }
 
 // Disable 禁用 2FA
@@ -138,7 +138,7 @@ func (h *TwoFAHandler) Disable(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, nil)
+	response.OK(c, nil)
 }
 
 // GetStatus 获取 2FA 状态
@@ -173,7 +173,7 @@ func (h *TwoFAHandler) GetStatus(c *gin.Context) {
 		Enabled:            result.Enabled,
 		RecoveryCodesCount: result.RecoveryCodesCount,
 	}
-	response.OK(c, response.MsgSuccess, resp)
+	response.OK(c, resp)
 }
 
 // getUserID 从上下文获取用户ID，并输出统一未认证响应

@@ -92,7 +92,7 @@ func (h *TeamMemberHandler) List(c *gin.Context) {
 	}
 
 	meta := response.NewPaginationMeta(int(result.Total), q.GetPage(), q.GetLimit())
-	response.List(c, response.MsgSuccess, result.Items, meta)
+	response.List(c, result.Items, meta)
 }
 
 // Add 添加团队成员
@@ -160,7 +160,7 @@ func (h *TeamMemberHandler) Add(c *gin.Context) {
 		return
 	}
 
-	response.Created(c, response.MsgCreated, result)
+	response.Created(c, result)
 }
 
 // Remove 移除团队成员
@@ -217,5 +217,5 @@ func (h *TeamMemberHandler) Remove(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, nil)
+	response.OK(c, nil)
 }

@@ -122,7 +122,7 @@ func (h *TaskHandler) Create(c *gin.Context) {
 		return
 	}
 
-	response.Created(c, response.MsgCreated, result)
+	response.Created(c, result)
 }
 
 // List 任务列表
@@ -161,7 +161,7 @@ func (h *TaskHandler) List(c *gin.Context) {
 	}
 
 	meta := response.NewPaginationMeta(int(result.Total), query.GetPage(), query.GetLimit())
-	response.List(c, response.MsgSuccess, result.Items, meta)
+	response.List(c, result.Items, meta)
 }
 
 // Get 任务详情
@@ -208,7 +208,7 @@ func (h *TaskHandler) Get(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, result)
+	response.OK(c, result)
 }
 
 // Update 更新任务
@@ -271,7 +271,7 @@ func (h *TaskHandler) Update(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgUpdated, result)
+	response.OK(c, result)
 }
 
 // Delete 删除任务
@@ -317,5 +317,5 @@ func (h *TaskHandler) Delete(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgDeleted, nil)
+	response.OK(c, nil)
 }

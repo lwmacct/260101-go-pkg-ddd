@@ -96,7 +96,7 @@ func (h *AdminUserHandler) CreateUser(c *gin.Context) {
 		return
 	}
 
-	response.Created(c, response.MsgCreated, createdUser)
+	response.Created(c, createdUser)
 }
 
 // ListUsers lists all users with pagination (admin only)
@@ -127,7 +127,7 @@ func (h *AdminUserHandler) ListUsers(c *gin.Context) {
 	}
 
 	meta := response.NewPaginationMeta(int(result.Total), q.GetPage(), q.GetLimit())
-	response.List(c, response.MsgSuccess, result.Users, meta)
+	response.List(c, result.Users, meta)
 }
 
 // GetUser gets a user by ID (admin only)
@@ -165,7 +165,7 @@ func (h *AdminUserHandler) GetUser(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, userResp)
+	response.OK(c, userResp)
 }
 
 // UpdateUser updates a user (admin only)
@@ -224,7 +224,7 @@ func (h *AdminUserHandler) UpdateUser(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgUpdated, updatedUser)
+	response.OK(c, updatedUser)
 }
 
 // DeleteUser deletes a user (admin only)
@@ -257,7 +257,7 @@ func (h *AdminUserHandler) DeleteUser(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgDeleted, nil)
+	response.OK(c, nil)
 }
 
 // AssignRoles assigns roles to a user (admin only)
@@ -308,7 +308,7 @@ func (h *AdminUserHandler) AssignRoles(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, updatedUser)
+	response.OK(c, updatedUser)
 }
 
 // BatchCreateUsers creates multiple users at once (admin only)
@@ -354,5 +354,5 @@ func (h *AdminUserHandler) BatchCreateUsers(c *gin.Context) {
 	}
 	copy(resp.Errors, result.Errors)
 
-	response.OK(c, response.MsgSuccess, resp)
+	response.OK(c, resp)
 }

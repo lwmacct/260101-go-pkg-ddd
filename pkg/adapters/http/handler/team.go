@@ -110,7 +110,7 @@ func (h *TeamHandler) Create(c *gin.Context) {
 		return
 	}
 
-	response.Created(c, response.MsgCreated, result)
+	response.Created(c, result)
 }
 
 // List 获取团队列表
@@ -148,7 +148,7 @@ func (h *TeamHandler) List(c *gin.Context) {
 	}
 
 	meta := response.NewPaginationMeta(int(result.Total), q.GetPage(), q.GetLimit())
-	response.List(c, response.MsgSuccess, result.Items, meta)
+	response.List(c, result.Items, meta)
 }
 
 // Get 获取团队详情
@@ -193,7 +193,7 @@ func (h *TeamHandler) Get(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, result)
+	response.OK(c, result)
 }
 
 // Update 更新团队
@@ -251,7 +251,7 @@ func (h *TeamHandler) Update(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgUpdated, result)
+	response.OK(c, result)
 }
 
 // Delete 删除团队
@@ -300,5 +300,5 @@ func (h *TeamHandler) Delete(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgDeleted, nil)
+	response.OK(c, nil)
 }

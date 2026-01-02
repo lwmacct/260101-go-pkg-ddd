@@ -51,7 +51,7 @@ func (h *CacheHandler) Info(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, info)
+	response.OK(c, info)
 }
 
 // ScanKeysQuery SCAN 查询参数
@@ -96,7 +96,7 @@ func (h *CacheHandler) ScanKeys(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, result)
+	response.OK(c, result)
 }
 
 // GetKeyQuery 获取单个 Key 的查询参数
@@ -136,7 +136,7 @@ func (h *CacheHandler) GetKey(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, result)
+	response.OK(c, result)
 }
 
 // DeleteKeyQuery 删除单个 Key 的查询参数
@@ -171,7 +171,7 @@ func (h *CacheHandler) DeleteKey(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, result)
+	response.OK(c, result)
 }
 
 // DeleteByPatternQuery 按 pattern 删除的查询参数
@@ -206,5 +206,5 @@ func (h *CacheHandler) DeleteByPattern(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, result)
+	response.OK(c, result)
 }

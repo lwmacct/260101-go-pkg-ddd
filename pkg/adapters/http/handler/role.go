@@ -100,7 +100,7 @@ func (h *RoleHandler) CreateRole(c *gin.Context) {
 		Name:        result.Name,
 		DisplayName: result.DisplayName,
 	}
-	response.Created(c, response.MsgCreated, resp)
+	response.Created(c, resp)
 }
 
 // ListRoles lists all roles
@@ -131,7 +131,7 @@ func (h *RoleHandler) ListRoles(c *gin.Context) {
 	}
 
 	meta := response.NewPaginationMeta(int(result.Total), q.GetPage(), q.GetLimit())
-	response.List(c, response.MsgSuccess, result.Roles, meta)
+	response.List(c, result.Roles, meta)
 }
 
 // GetRole gets a role by ID
@@ -170,7 +170,7 @@ func (h *RoleHandler) GetRole(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, result)
+	response.OK(c, result)
 }
 
 // UpdateRole updates a role
@@ -224,7 +224,7 @@ func (h *RoleHandler) UpdateRole(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgUpdated, result)
+	response.OK(c, result)
 }
 
 // DeleteRole deletes a role
@@ -272,7 +272,7 @@ func (h *RoleHandler) DeleteRole(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgDeleted, nil)
+	response.OK(c, nil)
 }
 
 // SetPermissions sets permissions for a role
@@ -334,7 +334,7 @@ func (h *RoleHandler) SetPermissions(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, nil)
+	response.OK(c, nil)
 }
 
 // ListPermissions 已移除

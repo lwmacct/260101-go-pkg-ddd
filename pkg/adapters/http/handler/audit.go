@@ -103,7 +103,7 @@ func (h *AuditHandler) ListLogs(c *gin.Context) {
 	}
 
 	meta := response.NewPaginationMeta(int(result.Total), q.GetPage(), q.GetLimit())
-	response.List(c, response.MsgSuccess, result.Logs, meta)
+	response.List(c, result.Logs, meta)
 }
 
 // GetLog gets an audit log by ID
@@ -141,7 +141,7 @@ func (h *AuditHandler) GetLog(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, response.MsgSuccess, log)
+	response.OK(c, log)
 }
 
 // GetActions returns audit action definitions
@@ -163,7 +163,7 @@ func (h *AuditHandler) GetActions(c *gin.Context) {
 	operations := audit.AllAuditOperations()
 
 	resp := audit.ToAuditActionsResponseDTO(actions, categories, operations)
-	response.OK(c, response.MsgSuccess, resp)
+	response.OK(c, resp)
 }
 
 // toApplicationAuditActions 将 routes.AuditActionDefinition 转换为 application/audit.AuditActionDefinition

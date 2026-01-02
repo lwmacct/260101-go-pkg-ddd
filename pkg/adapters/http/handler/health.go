@@ -39,7 +39,7 @@ func (h *HealthHandler) Check(c *gin.Context) {
 	report := h.checker.Check(ctx)
 
 	if report.Status == health.StatusHealthy {
-		response.OK(c, "healthy", report)
+		response.OK(c, report, "healthy")
 	} else {
 		response.ServiceUnavailable(c, string(report.Status))
 	}
@@ -54,7 +54,7 @@ func (h *HealthHandler) Check(c *gin.Context) {
 //	@Success		200	{object}	response.DataResponse[any]	"存活"
 //	@Router			/health/live [get]
 func (h *HealthHandler) Live(c *gin.Context) {
-	response.OK(c, "alive", nil)
+	response.OK(c, nil, "alive")
 }
 
 // Ready Kubernetes readiness probe
@@ -75,5 +75,5 @@ func (h *HealthHandler) Ready(c *gin.Context) {
 		response.ServiceUnavailable(c, "not ready")
 		return
 	}
-	response.OK(c, "ready", nil)
+	response.OK(c, nil, "ready")
 }
