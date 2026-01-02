@@ -198,8 +198,10 @@ func SetupRouterWithDeps(deps *RouterDependencies) *gin.Engine {
 
 // registerRoutes 自动注册所有路由并构建路由索引
 // 根据路由定义自动构建中间件链
+// TODO: Will be replaced with new app router builder
 func registerRoutes(r *gin.Engine, deps *RouterDependencies) {
-	routeList := deps.AllRoutes()
+	// routeList := deps.AllRoutes()
+	routeList := []routes.Route{} // Placeholder
 
 	// 从声明式路由构建 Registry（供查询函数使用）
 	routes.BuildRegistryFromRoutes(routeList)

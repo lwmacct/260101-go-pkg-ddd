@@ -10,6 +10,7 @@ import (
 	"github.com/redis/go-redis/v9"
 	"go.uber.org/fx"
 
+	"github.com/lwmacct/260101-go-pkg-ddd/internal/app/bootstrap"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/application/cache"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/core/infrastructure/persistence"
@@ -54,6 +55,7 @@ type HandlersResult struct {
 // HTTPModule 提供 HTTP 处理器、路由和服务器。
 var HTTPModule = fx.Module("http",
 	fx.Provide(
+		bootstrap.NewEngine,
 		health.NewSystemChecker,
 		newAllHandlers,
 		newRouter,
@@ -274,6 +276,7 @@ func newAllHandlers(p handlersParams) HandlersResult {
 type routerParams struct {
 	fx.In
 
+	GinEngine   *gin.Engine
 	Config      *config.Config
 	RedisClient *redis.Client
 
@@ -318,41 +321,41 @@ type routerParams struct {
 }
 
 func newRouter(p routerParams) *gin.Engine {
-	deps := &ginhttp.RouterDependencies{
-		Config:                 p.Config,
-		RedisClient:            p.RedisClient,
-		CreateLogHandler:       p.Audit.CreateLog,
-		JWTManager:             p.JWTManager,
-		PATService:             p.PATService,
-		PermissionCacheService: p.PermissionCache,
-		OrgMemberQuery:         p.MemberRepos.Query,
-		TeamQuery:              p.TeamRepos.Query,
-		TeamMemberQuery:        p.TeamMemberRepos.Query,
-		HealthHandler:          p.Health,
-		AuthHandler:            p.Auth,
-		CaptchaHandler:         p.Captcha,
-		RoleHandler:            p.Role,
-		SettingHandler:         p.Setting,
-		UserSettingHandler:     p.UserSetting,
-		PATHandler:             p.PAT,
-		AuditHandler:           p.AuditH,
-		AdminUserHandler:       p.AdminUser,
-		UserProfileHandler:     p.UserProfile,
-		OverviewHandler:        p.Overview,
-		TwoFAHandler:           p.TwoFA,
-		CacheHandler:           p.Cache,
-		OperationHandler:       p.Operation,
-		OrgHandler:             p.Org,
-		OrgMemberHandler:       p.OrgMember,
-		TeamHandler:            p.Team,
-		TeamMemberHandler:      p.TeamMember,
-		UserOrgHandler:         p.UserOrg,
-		TaskHandler:            p.TaskHandler,
-		ContactHandler:         p.Contact,
-		CompanyHandler:         p.Company,
-		LeadHandler:            p.Lead,
-		OpportunityHandler:     p.Opportunity,
-	}
+	// Use the new modular router approach
+	engine := p.GinEngine
 
-	return ginhttp.SetupRouterWithDeps(deps)
+	// Get all routes from modules using the new routes function
+	routes := AllRoutes(
+		// IAM Handlers
+		p.Auth,
+		p.TwoFA,
+		p.UserProfile,
+		p.UserOrg,
+		p.PAT,
+		// Core Handlers (used in IAM)
+		p.AdminUser,
+		p.Role,
+		p.Setting,
+		p.UserSetting,
+		// Core Handlers
+		p.Org,
+		p.OrgMember,
+		p.Team,
+		p.TeamMember,
+		p.TaskHandler,
+		p.AuditH,
+		p.Health,
+		p.Cache,
+		p.Overview,
+		// CRM Handlers
+		p.Company,
+		p.Contact,
+		p.Lead,
+		p.Opportunity,
+	)
+
+	// Register routes to engine
+	RegisterRoutes(engine, routes)
+
+	return engine
 }
