@@ -46,10 +46,11 @@ pkg/modules/                    # 业务模块（垂直切分）
 │   ├── infrastructure/
 │   └── transport/gin/
 │
-└── task/                       # 任务域（独立模块）
+└── task/                       # 任务域
     ├── domain/
     ├── application/
-    └── infrastructure/
+    ├── infrastructure/
+    └── transport/gin/
 
 pkg/platform/                   # 平台层（跨模块技术能力）
 ├── cache/                      # Redis 客户端
@@ -85,12 +86,12 @@ internal/
 
 ## Bounded Context 划分
 
-| Context | 说明                 | 核心实体                           |
-| ------- | -------------------- | ---------------------------------- |
-| `app`   | 核心治理域           | Setting, Audit, Org, Team, Task    |
-| `iam`   | 身份认证与授权       | User, Role, Permission, PAT, TwoFA |
-| `crm`   | 客户关系管理         | Lead, Opportunity, Contact         |
-| `task`  | 任务管理（独立模块） | Task                               |
+| Context | 说明           | 核心实体                           |
+| ------- | -------------- | ---------------------------------- |
+| `app`   | 核心治理域     | Setting, Audit, Org, Team, Task    |
+| `iam`   | 身份认证与授权 | User, Role, Permission, PAT, TwoFA |
+| `crm`   | 客户关系管理   | Lead, Opportunity, Contact         |
+| `task`  | 任务管理域     | Task                               |
 
 ## 快速开始
 
@@ -132,7 +133,8 @@ Container 文件结构：
 | `hooks.go`      | 生命周期钩子      | 通常无需修改   |
 | `middleware.go` | 中间件注册        | 通常无需修改   |
 | `router.go`     | 路由绑定          | 添加路由绑定   |
-| `server.go`     | HTTP 服务器       | 通常无需修改   |
+
+> **注**：`server.go`（HTTP 服务器）位于 `internal/bootstrap/` 目录
 
 **步骤 2：添加自定义模块**
 
@@ -233,7 +235,7 @@ MANUAL=1 go test -v ./internal/manualtest/...
 - `pkg/modules/app/` - 核心域（组织、设置、任务、审计日志等）
 - `pkg/modules/iam/` - 身份管理域（用户、认证、角色、PAT、2FA）
 - `pkg/modules/crm/` - CRM 域（线索、商机、联系人、公司）
-- `pkg/modules/task/` - 任务域（独立模块示例）
+- `pkg/modules/task/` - 任务域（任务管理）
 
 **依赖注入组装**：
 
