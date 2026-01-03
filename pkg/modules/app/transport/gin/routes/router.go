@@ -12,18 +12,22 @@ import (
 // All 返回 App 域的所有路由
 func All(
 	healthHandler *corehandler.HealthHandler,
-	taskHandler *corehandler.TaskHandler,
+	settingHandler *corehandler.SettingHandler,
+	userSettingHandler *corehandler.UserSettingHandler,
 	cacheHandler *corehandler.CacheHandler,
 	overviewHandler *corehandler.OverviewHandler,
 ) []routes.Route {
 	var allRoutes []routes.Route
 
-	// Public 路由（健康检查）
-	allRoutes = append(allRoutes, Public(healthHandler)...)
+	// Public 路由（健康检查 + 用户配置）
+	allRoutes = append(allRoutes, Public(
+		healthHandler,
+		userSettingHandler,
+	)...)
 
 	// Admin 路由（系统管理）
 	allRoutes = append(allRoutes, Admin(
-		taskHandler,
+		settingHandler,
 		cacheHandler,
 		overviewHandler,
 	)...)

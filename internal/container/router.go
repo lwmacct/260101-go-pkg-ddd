@@ -63,12 +63,14 @@ func AllRoutes(
 		orgMemberHandler,
 		teamHandler,
 		teamMemberHandler,
+		taskHandler, // Task routes are under Org context
 	)...)
 
 	// App 域路由
 	allRoutes = append(allRoutes, approutes.All(
 		healthHandler,
-		taskHandler,
+		settingHandler,
+		userSettingHandler,
 		cacheHandler,
 		overviewHandler,
 	)...)

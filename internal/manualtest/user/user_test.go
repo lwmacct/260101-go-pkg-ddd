@@ -189,11 +189,14 @@ func TestBatchCreateUsers(t *testing.T) {
 
 	// 确保测试结束时清理资源
 	t.Cleanup(func() {
-		// 获取用户列表并删除测试用户
-		users, _, _ := manualtest.GetList[user.UserWithRolesDTO](c, "/api/admin/users", nil)
-		for _, u := range users {
-			if u.Username == username1 || u.Username == username2 {
-				_ = c.Delete(fmt.Sprintf("/api/admin/users/%d", u.ID))
+		// 使用搜索找到并删除测试用户（因为用户可能在列表末尾）
+		for _, username := range []string{username1, username2} {
+			searchParams := map[string]string{"search": username}
+			users, _, _ := manualtest.GetList[user.UserWithRolesDTO](c, "/api/admin/users", searchParams)
+			for _, u := range users {
+				if u.Username == username {
+					_ = c.Delete(fmt.Sprintf("/api/admin/users/%d", u.ID))
+				}
 			}
 		}
 	})
@@ -250,13 +253,20 @@ func TestBatchCreateUsers(t *testing.T) {
 	}
 
 	// 步骤 3: 验证用户已创建
-	t.Log("\n步骤 3: 验证用户已创建")
-	users, _, _ := manualtest.GetList[user.UserWithRolesDTO](c, "/api/admin/users", nil)
+	// 注意：由于数据库有大量用户，新创建的用户 ID 最大，在列表末尾。
+	// 使用搜索来验证用户是否创建成功，而不是依赖分页列表。
+	t.Log("\n步骤 3: 验证用户已创建（通过搜索）")
 
-	// 使用 assert.Contains 验证用户名
-	usernames := manualtest.ExtractStrings(users, func(u user.UserWithRolesDTO) string { return u.Username })
-	assert.Contains(t, usernames, username1, "用户1未创建")
-	assert.Contains(t, usernames, username2, "用户2未创建")
+	// 使用搜索端点查找创建的用户
+	searchParams1 := map[string]string{"search": username1}
+	users1, _, _ := manualtest.GetList[user.UserWithRolesDTO](c, "/api/admin/users", searchParams1)
+	assert.NotEmpty(t, users1, "应该能搜索到用户1")
+	assert.Equal(t, username1, users1[0].Username, "用户1用户名匹配")
+
+	searchParams2 := map[string]string{"search": username2}
+	users2, _, _ := manualtest.GetList[user.UserWithRolesDTO](c, "/api/admin/users", searchParams2)
+	assert.NotEmpty(t, users2, "应该能搜索到用户2")
+	assert.Equal(t, username2, users2[0].Username, "用户2用户名匹配")
 
 	t.Log("\n批量创建用户测试完成!")
 }

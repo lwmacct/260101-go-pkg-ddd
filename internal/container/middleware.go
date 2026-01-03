@@ -88,8 +88,8 @@ func NewMiddlewareInjector(p RouterDepsParams) *MiddlewareInjector {
 
 	// Org/Team 上下文中间件（可选 - 支持无多租户的应用）
 	if p.MemberRepos.Query != nil && p.TeamRepos.Query != nil {
-		injector.orgContext = nil  // TODO: 实现 OrgContextMiddleware
-		injector.teamContext = nil // TODO: 实现 TeamContextMiddleware
+		injector.orgContext = iamMiddleware.OrgContext(p.MemberRepos.Query)
+		injector.teamContext = iamMiddleware.TeamContext(p.TeamRepos.Query, p.TeamMemberRepos.Query)
 	}
 
 	return injector

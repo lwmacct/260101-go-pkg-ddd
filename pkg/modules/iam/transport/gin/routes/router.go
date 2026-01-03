@@ -22,6 +22,7 @@ package routes
 import (
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/routes"
 
+	apphandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/transport/gin/handler"
 	iamhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/transport/gin/handler"
 )
 
@@ -49,6 +50,9 @@ func All(
 	orgMemberHandler *iamhandler.OrgMemberHandler,
 	teamHandler *iamhandler.TeamHandler,
 	teamMemberHandler *iamhandler.TeamMemberHandler,
+
+	// Task handler (App module, but under Org context)
+	taskHandler *apphandler.TaskHandler,
 ) []routes.Route {
 	var allRoutes []routes.Route
 
@@ -75,11 +79,12 @@ func All(
 		orgHandler,
 	)...)
 
-	// Org routes (organization/team management)
+	// Org routes (organization/team management + tasks)
 	allRoutes = append(allRoutes, Org(
 		orgMemberHandler,
 		teamHandler,
 		teamMemberHandler,
+		taskHandler,
 	)...)
 
 	// Org routes (user's org view)
