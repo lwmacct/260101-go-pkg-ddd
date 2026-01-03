@@ -8,7 +8,7 @@ import (
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/application/opportunity"
 	opportunityDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/domain/opportunity"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/ginutil"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/ctxutil"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
@@ -84,8 +84,9 @@ func NewOpportunityHandler(
 //	@Failure		401		{object}	response.ErrorResponse						"未授权"
 //	@Router			/api/crm/opportunities [post]
 func (h *OpportunityHandler) Create(c *gin.Context) {
-	userID, ok := ginutil.GetUserID(c)
+	userID, ok := ctxutil.Get[uint](c, ctxutil.UserID)
 	if !ok {
+		response.Unauthorized(c, "No user ID found")
 		return
 	}
 

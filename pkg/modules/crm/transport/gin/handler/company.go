@@ -8,7 +8,7 @@ import (
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/application/company"
 	companyDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/domain/company"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/ginutil"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/ctxutil"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
@@ -71,8 +71,9 @@ func NewCompanyHandler(
 //	@Failure		409		{object}	response.ErrorResponse					"公司名称已存在"
 //	@Router			/api/crm/companies [post]
 func (h *CompanyHandler) Create(c *gin.Context) {
-	userID, ok := ginutil.GetUserID(c)
+	userID, ok := ctxutil.Get[uint](c, ctxutil.UserID)
 	if !ok {
+		response.Unauthorized(c, "No user ID found")
 		return
 	}
 

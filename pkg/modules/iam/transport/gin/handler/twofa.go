@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/twofa"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/ginutil"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/ctxutil"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
@@ -46,8 +46,9 @@ func NewTwoFAHandler(
 func (h *TwoFAHandler) Setup(c *gin.Context) {
 	ctx := c.Request.Context()
 
-	userID, ok := ginutil.GetUserID(c)
+	userID, ok := ctxutil.Get[uint](c, ctxutil.UserID)
 	if !ok {
+		response.Unauthorized(c, "No user ID found")
 		return
 	}
 
@@ -84,8 +85,9 @@ func (h *TwoFAHandler) Setup(c *gin.Context) {
 func (h *TwoFAHandler) VerifyAndEnable(c *gin.Context) {
 	ctx := c.Request.Context()
 
-	userID, ok := ginutil.GetUserID(c)
+	userID, ok := ctxutil.Get[uint](c, ctxutil.UserID)
 	if !ok {
+		response.Unauthorized(c, "No user ID found")
 		return
 	}
 
@@ -126,8 +128,9 @@ func (h *TwoFAHandler) VerifyAndEnable(c *gin.Context) {
 func (h *TwoFAHandler) Disable(c *gin.Context) {
 	ctx := c.Request.Context()
 
-	userID, ok := ginutil.GetUserID(c)
+	userID, ok := ctxutil.Get[uint](c, ctxutil.UserID)
 	if !ok {
+		response.Unauthorized(c, "No user ID found")
 		return
 	}
 
@@ -156,8 +159,9 @@ func (h *TwoFAHandler) Disable(c *gin.Context) {
 func (h *TwoFAHandler) GetStatus(c *gin.Context) {
 	ctx := c.Request.Context()
 
-	userID, ok := ginutil.GetUserID(c)
+	userID, ok := ctxutil.Get[uint](c, ctxutil.UserID)
 	if !ok {
+		response.Unauthorized(c, "No user ID found")
 		return
 	}
 

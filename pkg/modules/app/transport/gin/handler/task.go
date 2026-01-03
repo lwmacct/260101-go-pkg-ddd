@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/task"
 	taskDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/domain/task"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/ctxutil"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
@@ -53,24 +54,24 @@ func NewTaskHandler(
 
 // extractOrgTeamContext 从上下文中提取 org_id 和 team_id
 func extractOrgTeamContext(c *gin.Context) (uint, uint, error) {
-	orgID, exists := c.Get("org_id")
-	if !exists {
+	orgID, ok := ctxutil.Get[uint](c, ctxutil.OrgID)
+	if !ok {
 		return 0, 0, errors.New("org_id not found in context")
 	}
-	teamID, exists := c.Get("team_id")
-	if !exists {
+	teamID, ok := ctxutil.Get[uint](c, ctxutil.TeamID)
+	if !ok {
 		return 0, 0, errors.New("team_id not found in context")
 	}
-	return orgID.(uint), teamID.(uint), nil
+	return orgID, teamID, nil
 }
 
 // extractUserID 从上下文中提取当前用户 ID
 func extractUserID(c *gin.Context) (uint, error) {
-	userID, exists := c.Get("user_id")
-	if !exists {
+	userID, ok := ctxutil.Get[uint](c, ctxutil.UserID)
+	if !ok {
 		return 0, errors.New("user_id not found in context")
 	}
-	return userID.(uint), nil
+	return userID, nil
 }
 
 // Create 创建任务

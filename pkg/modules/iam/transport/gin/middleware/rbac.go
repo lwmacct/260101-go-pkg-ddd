@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/role"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/ctxutil"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/permission"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
@@ -17,16 +18,9 @@ import (
 //   - org: 域 → 检查 org.{org_id}:*:* 和 org.{org_id}.team.{team_id}:*:*
 func RequireOperation(op permission.Operation) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		permissions, exists := c.Get("permissions")
-		if !exists {
-			response.Unauthorized(c, "No permissions found")
-			c.Abort()
-			return
-		}
-
-		permList, ok := permissions.([]role.Permission)
+		permList, ok := ctxutil.Get[[]role.Permission](c, ctxutil.Permissions)
 		if !ok {
-			response.InternalError(c, "Invalid permissions format")
+			response.Unauthorized(c, "No permissions found")
 			c.Abort()
 			return
 		}
@@ -75,16 +69,9 @@ func RequireOperation(op permission.Operation) gin.HandlerFunc {
 // 支持细粒度资源控制，如 sys:user:123、sys:role:*。
 func RequireOperationWithResource(op permission.Operation, resource permission.Resource) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		permissions, exists := c.Get("permissions")
-		if !exists {
-			response.Unauthorized(c, "No permissions found")
-			c.Abort()
-			return
-		}
-
-		permList, ok := permissions.([]role.Permission)
+		permList, ok := ctxutil.Get[[]role.Permission](c, ctxutil.Permissions)
 		if !ok {
-			response.InternalError(c, "Invalid permissions format")
+			response.Unauthorized(c, "No permissions found")
 			c.Abort()
 			return
 		}
@@ -113,16 +100,9 @@ func RequireOperationWithResource(op permission.Operation, resource permission.R
 // RequireRole creates a middleware that checks if the user has a specific role
 func RequireRole(roleName string) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		roles, exists := c.Get("roles")
-		if !exists {
-			response.Unauthorized(c, "No roles found")
-			c.Abort()
-			return
-		}
-
-		rolesList, ok := roles.([]string)
+		rolesList, ok := ctxutil.Get[[]string](c, ctxutil.Roles)
 		if !ok {
-			response.InternalError(c, "Invalid roles format")
+			response.Unauthorized(c, "No roles found")
 			c.Abort()
 			return
 		}
@@ -140,16 +120,9 @@ func RequireRole(roleName string) gin.HandlerFunc {
 // RequireAnyRole creates a middleware that checks if the user has any of the specified roles
 func RequireAnyRole(roles ...string) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		userRoles, exists := c.Get("roles")
-		if !exists {
-			response.Unauthorized(c, "No roles found")
-			c.Abort()
-			return
-		}
-
-		rolesList, ok := userRoles.([]string)
+		rolesList, ok := ctxutil.Get[[]string](c, ctxutil.Roles)
 		if !ok {
-			response.InternalError(c, "Invalid roles format")
+			response.Unauthorized(c, "No roles found")
 			c.Abort()
 			return
 		}
@@ -172,16 +145,9 @@ func RequireAnyRole(roles ...string) gin.HandlerFunc {
 // The resource ID should be in the URL parameter specified by paramName (default: "id")
 func RequireOwnership(paramName ...string) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		userID, exists := c.Get("user_id")
-		if !exists {
-			response.Unauthorized(c, "No user ID found")
-			c.Abort()
-			return
-		}
-
-		uid, ok := userID.(uint)
+		uid, ok := ctxutil.Get[uint](c, ctxutil.UserID)
 		if !ok {
-			response.InternalError(c, "Invalid user ID format")
+			response.Unauthorized(c, "No user ID found")
 			c.Abort()
 			return
 		}
@@ -220,16 +186,9 @@ func RequireAdminOrOwnership(paramName ...string) gin.HandlerFunc {
 		}
 
 		// If not admin, check ownership
-		userID, exists := c.Get("user_id")
-		if !exists {
-			response.Unauthorized(c, "No user ID found")
-			c.Abort()
-			return
-		}
-
-		uid, ok := userID.(uint)
+		uid, ok := ctxutil.Get[uint](c, ctxutil.UserID)
 		if !ok {
-			response.InternalError(c, "Invalid user ID format")
+			response.Unauthorized(c, "No user ID found")
 			c.Abort()
 			return
 		}
@@ -259,15 +218,11 @@ func RequireAdminOrOwnership(paramName ...string) gin.HandlerFunc {
 
 // isAdmin 检查当前用户是否具有 admin 角色
 func isAdmin(c *gin.Context) bool {
-	roles, exists := c.Get("roles")
-	if !exists {
-		return false
-	}
-	rolesList, ok := roles.([]string)
+	roles, ok := ctxutil.Get[[]string](c, ctxutil.Roles)
 	if !ok {
 		return false
 	}
-	return slices.Contains(rolesList, "admin")
+	return slices.Contains(roles, "admin")
 }
 
 // buildContextVars 从 Gin Context 构建变量映射。
@@ -276,24 +231,18 @@ func buildContextVars(c *gin.Context) map[string]string {
 	vars := make(map[string]string)
 
 	// @me - 当前用户 ID
-	if userID, exists := c.Get("user_id"); exists {
-		if uid, ok := userID.(uint); ok {
-			vars["@me"] = strconv.FormatUint(uint64(uid), 10)
-		}
+	if userID, ok := ctxutil.Get[uint](c, ctxutil.UserID); ok {
+		vars["@me"] = strconv.FormatUint(uint64(userID), 10)
 	}
 
 	// @org - 当前组织 ID（由 OrgContext 中间件注入）
-	if orgID, exists := c.Get("org_id"); exists {
-		if oid, ok := orgID.(uint); ok {
-			vars["@org"] = strconv.FormatUint(uint64(oid), 10)
-		}
+	if orgID, ok := ctxutil.Get[uint](c, ctxutil.OrgID); ok {
+		vars["@org"] = strconv.FormatUint(uint64(orgID), 10)
 	}
 
 	// @team - 当前团队 ID（由 TeamContext 中间件注入）
-	if teamID, exists := c.Get("team_id"); exists {
-		if tid, ok := teamID.(uint); ok {
-			vars["@team"] = strconv.FormatUint(uint64(tid), 10)
-		}
+	if teamID, ok := ctxutil.Get[uint](c, ctxutil.TeamID); ok {
+		vars["@team"] = strconv.FormatUint(uint64(teamID), 10)
 	}
 
 	return vars

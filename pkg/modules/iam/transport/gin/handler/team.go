@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/org"
 	orgDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/org"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/ctxutil"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
@@ -83,8 +84,8 @@ func (h *TeamHandler) Create(c *gin.Context) {
 	}
 
 	// 获取当前用户 ID，创建者自动成为团队负责人
-	userID, exists := c.Get("user_id")
-	if !exists {
+	userID, ok := ctxutil.Get[uint](c, ctxutil.UserID)
+	if !ok {
 		response.Unauthorized(c, response.MsgAuthenticationRequired)
 		return
 	}
@@ -95,7 +96,7 @@ func (h *TeamHandler) Create(c *gin.Context) {
 		DisplayName: req.DisplayName,
 		Description: req.Description,
 		Avatar:      req.Avatar,
-		LeadUserID:  userID.(uint),
+		LeadUserID:  userID,
 	})
 	if err != nil {
 		if errors.Is(err, orgDomain.ErrTeamAlreadyExists) {

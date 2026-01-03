@@ -20,6 +20,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/pat"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/auth"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/ctxutil"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
@@ -79,12 +80,12 @@ func authenticateWithJWT(ctx context.Context, c *gin.Context, jwtManager *auth.J
 	}
 
 	// 将用户信息存入上下文
-	c.Set("user_id", claims.UserID)
-	c.Set("username", claims.Username)
-	c.Set("email", claims.Email)
-	c.Set("roles", roles)
-	c.Set("permissions", permissions)
-	c.Set("auth_type", "jwt")
+	c.Set(ctxutil.UserID, claims.UserID)
+	c.Set(ctxutil.Username, claims.Username)
+	c.Set(ctxutil.Email, claims.Email)
+	c.Set(ctxutil.Roles, roles)
+	c.Set(ctxutil.Permissions, permissions)
+	c.Set(ctxutil.AuthType, "jwt")
 
 	return nil
 }
@@ -112,12 +113,12 @@ func authenticateWithPAT(ctx context.Context, c *gin.Context, patService *auth.P
 	effectivePermissions := pat.FilterByScopes(patToken.Scopes, userPermissions)
 
 	// 将用户信息存入上下文
-	c.Set("user_id", patToken.UserID)
-	c.Set("username", "") // PAT 不存储 username，可从用户表查询
-	c.Set("email", "")
-	c.Set("roles", roles)
-	c.Set("permissions", effectivePermissions) // 过滤后的权限
-	c.Set("auth_type", "pat")
+	c.Set(ctxutil.UserID, patToken.UserID)
+	c.Set(ctxutil.Username, "") // PAT 不存储 username，可从用户表查询
+	c.Set(ctxutil.Email, "")
+	c.Set(ctxutil.Roles, roles)
+	c.Set(ctxutil.Permissions, effectivePermissions) // 过滤后的权限
+	c.Set(ctxutil.AuthType, "pat")
 	c.Set("pat_id", patToken.ID)         // 用于审计
 	c.Set("pat_scopes", patToken.Scopes) // 用于审计
 

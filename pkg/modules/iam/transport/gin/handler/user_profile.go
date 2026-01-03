@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/user"
 	userDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/user"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/ctxutil"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
@@ -45,15 +46,9 @@ func NewUserProfileHandler(
 //	@Failure		404	{object}	response.ErrorResponse							"用户不存在"
 //	@Router			/api/user/profile [get]
 func (h *UserProfileHandler) GetProfile(c *gin.Context) {
-	userID, exists := c.Get("user_id")
-	if !exists {
-		response.Unauthorized(c, "")
-		return
-	}
-
-	uid, ok := userID.(uint)
+	uid, ok := ctxutil.Get[uint](c, ctxutil.UserID)
 	if !ok {
-		response.InternalError(c, "invalid user ID")
+		response.Unauthorized(c, "")
 		return
 	}
 
@@ -98,15 +93,9 @@ type UpdateProfileRequest struct {
 //	@Failure		500		{object}	response.ErrorResponse							"服务器内部错误"
 //	@Router			/api/user/profile [put]
 func (h *UserProfileHandler) UpdateProfile(c *gin.Context) {
-	userID, exists := c.Get("user_id")
-	if !exists {
-		response.Unauthorized(c, "")
-		return
-	}
-
-	uid, ok := userID.(uint)
+	uid, ok := ctxutil.Get[uint](c, ctxutil.UserID)
 	if !ok {
-		response.InternalError(c, "invalid user ID")
+		response.Unauthorized(c, "")
 		return
 	}
 
@@ -156,15 +145,9 @@ func (h *UserProfileHandler) UpdateProfile(c *gin.Context) {
 //	@Failure		401		{object}	response.ErrorResponse		"未授权"
 //	@Router			/api/user/password [put]
 func (h *UserProfileHandler) ChangePassword(c *gin.Context) {
-	userID, exists := c.Get("user_id")
-	if !exists {
-		response.Unauthorized(c, "")
-		return
-	}
-
-	uid, ok := userID.(uint)
+	uid, ok := ctxutil.Get[uint](c, ctxutil.UserID)
 	if !ok {
-		response.InternalError(c, "invalid user ID")
+		response.Unauthorized(c, "")
 		return
 	}
 
@@ -199,15 +182,9 @@ func (h *UserProfileHandler) ChangePassword(c *gin.Context) {
 //	@Failure		500	{object}	response.ErrorResponse		"服务器内部错误"
 //	@Router			/api/user/account [delete]
 func (h *UserProfileHandler) DeleteAccount(c *gin.Context) {
-	userID, exists := c.Get("user_id")
-	if !exists {
-		response.Unauthorized(c, "")
-		return
-	}
-
-	uid, ok := userID.(uint)
+	uid, ok := ctxutil.Get[uint](c, ctxutil.UserID)
 	if !ok {
-		response.InternalError(c, "invalid user ID")
+		response.Unauthorized(c, "")
 		return
 	}
 

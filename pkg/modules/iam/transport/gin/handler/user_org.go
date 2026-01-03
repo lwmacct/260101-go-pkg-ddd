@@ -7,6 +7,7 @@ import (
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/org"
 	authDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/auth"
 	orgDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/org"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/ctxutil"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
@@ -40,14 +41,9 @@ func NewUserOrgHandler(
 //	@Failure		500	{object}	response.ErrorResponse								"服务器内部错误"
 //	@Router			/api/user/orgs [get]
 func (h *UserOrgHandler) ListMyOrganizations(c *gin.Context) {
-	userIDVal, exists := c.Get("user_id")
-	if !exists {
-		response.Unauthorized(c, authDomain.ErrUserNotAuthenticated.Error())
-		return
-	}
-	userID, ok := userIDVal.(uint)
+	userID, ok := ctxutil.Get[uint](c, ctxutil.UserID)
 	if !ok {
-		response.InternalError(c, "invalid user ID type")
+		response.Unauthorized(c, authDomain.ErrUserNotAuthenticated.Error())
 		return
 	}
 
@@ -81,14 +77,9 @@ type ListUserTeamsQuery struct {
 //	@Failure		500		{object}	response.ErrorResponse								"服务器内部错误"
 //	@Router			/api/user/teams [get]
 func (h *UserOrgHandler) ListMyTeams(c *gin.Context) {
-	userIDVal, exists := c.Get("user_id")
-	if !exists {
-		response.Unauthorized(c, authDomain.ErrUserNotAuthenticated.Error())
-		return
-	}
-	userID, ok := userIDVal.(uint)
+	userID, ok := ctxutil.Get[uint](c, ctxutil.UserID)
 	if !ok {
-		response.InternalError(c, "invalid user ID type")
+		response.Unauthorized(c, authDomain.ErrUserNotAuthenticated.Error())
 		return
 	}
 

@@ -9,6 +9,7 @@ import (
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/pat"
 	authDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/auth"
 	patDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/domain/pat"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/ctxutil"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
@@ -66,15 +67,9 @@ func (h *PATHandler) CreateToken(c *gin.Context) {
 	}
 
 	// Get user ID from context (set by Auth middleware)
-	userID, exists := c.Get("user_id")
-	if !exists {
-		response.Unauthorized(c, authDomain.ErrUserIDNotFound.Error())
-		return
-	}
-
-	uid, ok := userID.(uint)
+	uid, ok := ctxutil.Get[uint](c, ctxutil.UserID)
 	if !ok {
-		response.Unauthorized(c, authDomain.ErrInvalidUserIDType.Error())
+		response.Unauthorized(c, authDomain.ErrUserIDNotFound.Error())
 		return
 	}
 
@@ -115,15 +110,9 @@ func (h *PATHandler) CreateToken(c *gin.Context) {
 //	@Failure		500	{object}	response.ErrorResponse					"服务器内部错误"
 //	@Router			/api/user/tokens [get]
 func (h *PATHandler) ListTokens(c *gin.Context) {
-	userID, exists := c.Get("user_id")
-	if !exists {
-		response.Unauthorized(c, authDomain.ErrUserIDNotFound.Error())
-		return
-	}
-
-	uid, ok := userID.(uint)
+	uid, ok := ctxutil.Get[uint](c, ctxutil.UserID)
 	if !ok {
-		response.Unauthorized(c, authDomain.ErrInvalidUserIDType.Error())
+		response.Unauthorized(c, authDomain.ErrUserIDNotFound.Error())
 		return
 	}
 
@@ -155,15 +144,9 @@ func (h *PATHandler) ListTokens(c *gin.Context) {
 //	@Failure		404	{object}	response.ErrorResponse		"令牌不存在"
 //	@Router			/api/user/tokens/{id} [delete]
 func (h *PATHandler) DeleteToken(c *gin.Context) {
-	userID, exists := c.Get("user_id")
-	if !exists {
-		response.Unauthorized(c, authDomain.ErrUserIDNotFound.Error())
-		return
-	}
-
-	uid, ok := userID.(uint)
+	uid, ok := ctxutil.Get[uint](c, ctxutil.UserID)
 	if !ok {
-		response.Unauthorized(c, authDomain.ErrInvalidUserIDType.Error())
+		response.Unauthorized(c, authDomain.ErrUserIDNotFound.Error())
 		return
 	}
 
@@ -201,15 +184,9 @@ func (h *PATHandler) DeleteToken(c *gin.Context) {
 //	@Failure		404	{object}	response.ErrorResponse				"令牌不存在"
 //	@Router			/api/user/tokens/{id} [get]
 func (h *PATHandler) GetToken(c *gin.Context) {
-	userID, exists := c.Get("user_id")
-	if !exists {
-		response.Unauthorized(c, authDomain.ErrUserIDNotFound.Error())
-		return
-	}
-
-	uid, ok := userID.(uint)
+	uid, ok := ctxutil.Get[uint](c, ctxutil.UserID)
 	if !ok {
-		response.Unauthorized(c, authDomain.ErrInvalidUserIDType.Error())
+		response.Unauthorized(c, authDomain.ErrUserIDNotFound.Error())
 		return
 	}
 
@@ -252,15 +229,9 @@ func (h *PATHandler) GetToken(c *gin.Context) {
 //	@Failure		401	{object}	response.ErrorResponse		"未授权"
 //	@Router			/api/user/tokens/{id}/disable [patch]
 func (h *PATHandler) DisableToken(c *gin.Context) {
-	userID, exists := c.Get("user_id")
-	if !exists {
-		response.Unauthorized(c, authDomain.ErrUserIDNotFound.Error())
-		return
-	}
-
-	uid, ok := userID.(uint)
+	uid, ok := ctxutil.Get[uint](c, ctxutil.UserID)
 	if !ok {
-		response.Unauthorized(c, authDomain.ErrInvalidUserIDType.Error())
+		response.Unauthorized(c, authDomain.ErrUserIDNotFound.Error())
 		return
 	}
 
@@ -295,15 +266,9 @@ func (h *PATHandler) DisableToken(c *gin.Context) {
 //	@Failure		401	{object}	response.ErrorResponse		"未授权"
 //	@Router			/api/user/tokens/{id}/enable [patch]
 func (h *PATHandler) EnableToken(c *gin.Context) {
-	userID, exists := c.Get("user_id")
-	if !exists {
-		response.Unauthorized(c, authDomain.ErrUserIDNotFound.Error())
-		return
-	}
-
-	uid, ok := userID.(uint)
+	uid, ok := ctxutil.Get[uint](c, ctxutil.UserID)
 	if !ok {
-		response.Unauthorized(c, authDomain.ErrInvalidUserIDType.Error())
+		response.Unauthorized(c, authDomain.ErrUserIDNotFound.Error())
 		return
 	}
 

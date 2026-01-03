@@ -146,6 +146,10 @@ github.com/lwmacct/260101-go-pkg-gin v0.0.7 h1:ULLZxPcj5OIjkHS9yaTHaB86Jq0Qk9F/f
 github.com/lwmacct/260101-go-pkg-gin v0.0.7/go.mod h1:0LqoJrSEiUYm4iTGBAaOGxr7k9zdbBeKY4acmdTD8xc=
 github.com/lwmacct/260101-go-pkg-gin v0.0.10 h1:vqrVH5o/smcMwl+roTo9kY2vljTpxxKgIBvhBucXUT8=
 github.com/lwmacct/260101-go-pkg-gin v0.0.10/go.mod h1:0LqoJrSEiUYm4iTGBAaOGxr7k9zdbBeKY4acmdTD8xc=
+github.com/lwmacct/260101-go-pkg-gin v0.0.11 h1:+U//RpaM+77NqUOrA+cV5/LmezYWb1a4GNP63QxoZkc=
+github.com/lwmacct/260101-go-pkg-gin v0.0.11/go.mod h1:0LqoJrSEiUYm4iTGBAaOGxr7k9zdbBeKY4acmdTD8xc=
+github.com/lwmacct/260101-go-pkg-gin v0.0.12 h1:qegQoatjwH68bf8GMZheoULJwPAR7PsAM8567WeRShs=
+github.com/lwmacct/260101-go-pkg-gin v0.0.12/go.mod h1:0LqoJrSEiUYm4iTGBAaOGxr7k9zdbBeKY4acmdTD8xc=
 github.com/mailru/easyjson v0.0.0-20190614124828-94de47d64c63/go.mod h1:C1wdFJiN94OJF2b5HbByQZoLdCWB1Yqtg26g4irojpc=
 github.com/mailru/easyjson v0.0.0-20190626092158-b2ccc519800e/go.mod h1:C1wdFJiN94OJF2b5HbByQZoLdCWB1Yqtg26g4irojpc=
 github.com/mailru/easyjson v0.7.6 h1:8yTIVnZgCoiM1TgqoeTl+LfU5Jg6/xL3QhGQnimLYnA=

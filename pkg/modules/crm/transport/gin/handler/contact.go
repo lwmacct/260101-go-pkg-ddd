@@ -8,7 +8,7 @@ import (
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/application/contact"
 	contactDomain "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/domain/contact"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/ginutil"
+	"github.com/lwmacct/260101-go-pkg-gin/pkg/ctxutil"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/response"
 )
 
@@ -71,8 +71,9 @@ func NewContactHandler(
 //	@Failure		409		{object}	response.ErrorResponse					"邮箱已存在"
 //	@Router			/api/crm/contacts [post]
 func (h *ContactHandler) Create(c *gin.Context) {
-	userID, ok := ginutil.GetUserID(c)
+	userID, ok := ctxutil.Get[uint](c, ctxutil.UserID)
 	if !ok {
+		response.Unauthorized(c, "No user ID found")
 		return
 	}
 
