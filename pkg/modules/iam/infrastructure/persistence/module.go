@@ -16,9 +16,16 @@ import (
 var RepositoryModule = fx.Module("iam.repository",
 	fx.Provide(
 		// 直接使用 persistence 构造函数（无需包装）
+		NewAuditRepositories,
+		NewOrganizationRepositories,
 		NewRoleRepositories,
 		NewPATRepositories,
 		NewTwoFARepositories,
+
+		// 组织和团队仓储（用于中间件）
+		NewOrgMemberRepositories,
+		NewTeamRepositories,
+		NewTeamMemberRepositories,
 
 		// 带缓存装饰的仓储
 		newUserRepositoriesWithCache,

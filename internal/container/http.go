@@ -14,59 +14,26 @@ import (
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/health"
 
-	// Application UseCases and Handlers
-	appApp "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application"
-	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/cache"
-	corehandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/transport/gin/handler"
-
-	// CRM UseCases and Handlers
-	crmapplication "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/application"
-	crmhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/transport/gin/handler"
-
-	// IAM UseCases and Handlers
+	// Application UseCases (only for middleware dependencies)
 	iamapplication "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/auth"
 	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
+
+	// Handlers (injected via fx.In from their modules)
+	corehandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/transport/gin/handler"
+	crmhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/transport/gin/handler"
 	iamhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/transport/gin/handler"
 
 	ginHttp "github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/http/gin"
 )
 
-// HandlersResult 使用 fx.Out 批量返回所有 HTTP 处理器。
-type HandlersResult struct {
-	fx.Out
-
-	Health           *corehandler.HealthHandler
-	Auth             *iamhandler.AuthHandler
-	Captcha          *iamhandler.CaptchaHandler
-	AdminUser        *iamhandler.AdminUserHandler
-	UserProfile      *iamhandler.UserProfileHandler
-	Role             *iamhandler.RoleHandler
-	Setting          *corehandler.SettingHandler
-	UserSetting      *corehandler.UserSettingHandler
-	PAT              *iamhandler.PATHandler
-	Audit            *iamhandler.AuditHandler
-	Overview         *corehandler.OverviewHandler
-	TwoFA            *iamhandler.TwoFAHandler
-	Cache            *corehandler.CacheHandler
-	Operation        *corehandler.OperationHandler
-	Organization     *iamhandler.OrgHandler
-	OrgMember        *iamhandler.OrgMemberHandler
-	Team             *iamhandler.TeamHandler
-	TeamMember       *iamhandler.TeamMemberHandler
-	UserOrganization *iamhandler.UserOrgHandler
-	Task             *corehandler.TaskHandler
-	Contact          *crmhandler.ContactHandler
-	Company          *crmhandler.CompanyHandler
-	Lead             *crmhandler.LeadHandler
-	Opportunity      *crmhandler.OpportunityHandler
-}
-
-// HTTPModule 提供 HTTP 处理器、路由和服务器。
+// HTTPModule 提供 HTTP 路由和服务器。
+//
+// 注意：所有 HTTP 处理器由各自的业务模块 (app/iam/crm) 提供，
+// 本模块只负责路由注册和服务器生命周期管理。
 var HTTPModule = fx.Module("http",
 	fx.Provide(
 		health.NewSystemChecker,
-		newAllHandlers,
 		newRouter,
 		newHTTPServer,
 	),
@@ -97,188 +64,6 @@ func startHTTPServer(lc fx.Lifecycle, server *ginHttp.Server, cfg *config.Config
 			return server.Shutdown(ctx)
 		},
 	})
-}
-
-// handlersParams 聚合创建 Handler 所需的依赖。
-type handlersParams struct {
-	fx.In
-
-	Config        *config.Config
-	AdminCacheSvc cache.AdminCacheService
-	HealthChecker *health.SystemChecker
-	Auth          *iamapplication.AuthUseCases
-	User          *iamapplication.UserUseCases
-	Role          *iamapplication.RoleUseCases
-	Setting       *appApp.SettingUseCases
-	UserSetting   *appApp.UserSettingUseCases
-	PAT           *iamapplication.PATUseCases
-	Audit         *appApp.AuditUseCases
-	Stats         *appApp.StatsUseCases
-	Captcha       *appApp.CaptchaUseCases
-	TwoFA         *iamapplication.TwoFAUseCases
-	Organization  *appApp.OrganizationUseCases
-	Task          *appApp.TaskUseCases
-	Contact       *crmapplication.ContactUseCases
-	Company       *crmapplication.CompanyUseCases
-	Lead          *crmapplication.LeadUseCases
-	Opportunity   *crmapplication.OpportunityUseCases
-}
-
-func newAllHandlers(p handlersParams) HandlersResult {
-	return HandlersResult{
-		Health: corehandler.NewHealthHandler(p.HealthChecker),
-		Auth: iamhandler.NewAuthHandler(
-			p.Auth.Login,
-			p.Auth.Login2FA,
-			p.Auth.Register,
-			p.Auth.RefreshToken,
-		),
-		Captcha: iamhandler.NewCaptchaHandler(p.Captcha.Generate, p.Config.Auth.DevSecret),
-		AdminUser: iamhandler.NewAdminUserHandler(
-			p.User.Create,
-			p.User.Update,
-			p.User.Delete,
-			p.User.AssignRoles,
-			p.User.BatchCreate,
-			p.User.Get,
-			p.User.List,
-		),
-		UserProfile: iamhandler.NewUserProfileHandler(
-			p.User.Get,
-			p.User.Update,
-			p.User.ChangePassword,
-			p.User.Delete,
-		),
-		Role: iamhandler.NewRoleHandler(
-			p.Role.Create,
-			p.Role.Update,
-			p.Role.Delete,
-			p.Role.SetPermissions,
-			p.Role.Get,
-			p.Role.List,
-		),
-		Setting: corehandler.NewSettingHandler(
-			p.Setting.Create,
-			p.Setting.Update,
-			p.Setting.Delete,
-			p.Setting.BatchUpdate,
-			p.Setting.Get,
-			p.Setting.List,
-			p.Setting.ListSettings,
-			p.Setting.CreateCategory,
-			p.Setting.UpdateCategory,
-			p.Setting.DeleteCategory,
-			p.Setting.GetCategory,
-			p.Setting.ListCategories,
-		),
-		UserSetting: corehandler.NewUserSettingHandler(
-			p.UserSetting.Set,
-			p.UserSetting.BatchSet,
-			p.UserSetting.Reset,
-			p.UserSetting.ResetAll,
-			p.UserSetting.Get,
-			p.UserSetting.List,
-			p.UserSetting.ListSettings,
-			p.UserSetting.ListCategories,
-		),
-		PAT: iamhandler.NewPATHandler(
-			p.PAT.Create,
-			p.PAT.Delete,
-			p.PAT.Disable,
-			p.PAT.Enable,
-			p.PAT.Get,
-			p.PAT.List,
-		),
-		Audit: iamhandler.NewAuditHandler(
-			p.Audit.List,
-			p.Audit.Get,
-		),
-		Overview: corehandler.NewOverviewHandler(p.Stats.GetStats),
-		TwoFA: iamhandler.NewTwoFAHandler(
-			p.TwoFA.Setup,
-			p.TwoFA.VerifyEnable,
-			p.TwoFA.Disable,
-			p.TwoFA.GetStatus,
-		),
-		Cache: corehandler.NewCacheHandler(
-			cache.NewInfoHandler(p.AdminCacheSvc),
-			cache.NewScanKeysHandler(p.AdminCacheSvc),
-			cache.NewGetKeyHandler(p.AdminCacheSvc),
-			cache.NewDeleteHandler(p.AdminCacheSvc),
-		),
-		Operation: corehandler.NewOperationHandler(),
-		Organization: iamhandler.NewOrgHandler(
-			p.Organization.Create,
-			p.Organization.Update,
-			p.Organization.Delete,
-			p.Organization.Get,
-			p.Organization.List,
-		),
-		OrgMember: iamhandler.NewOrgMemberHandler(
-			p.Organization.MemberAdd,
-			p.Organization.MemberRemove,
-			p.Organization.MemberUpdateRole,
-			p.Organization.MemberList,
-		),
-		Team: iamhandler.NewTeamHandler(
-			p.Organization.TeamCreate,
-			p.Organization.TeamUpdate,
-			p.Organization.TeamDelete,
-			p.Organization.TeamGet,
-			p.Organization.TeamList,
-		),
-		TeamMember: iamhandler.NewTeamMemberHandler(
-			p.Organization.TeamMemberAdd,
-			p.Organization.TeamMemberRemove,
-			p.Organization.TeamMemberList,
-		),
-		UserOrganization: iamhandler.NewUserOrgHandler(
-			p.Organization.UserOrgs,
-			p.Organization.UserTeams,
-		),
-		Task: corehandler.NewTaskHandler(
-			p.Task.Create,
-			p.Task.Update,
-			p.Task.Delete,
-			p.Task.Get,
-			p.Task.List,
-		),
-		Contact: crmhandler.NewContactHandler(
-			p.Contact.Create,
-			p.Contact.Update,
-			p.Contact.Delete,
-			p.Contact.Get,
-			p.Contact.List,
-		),
-		Company: crmhandler.NewCompanyHandler(
-			p.Company.Create,
-			p.Company.Update,
-			p.Company.Delete,
-			p.Company.Get,
-			p.Company.List,
-		),
-		Lead: crmhandler.NewLeadHandler(
-			p.Lead.Create,
-			p.Lead.Update,
-			p.Lead.Delete,
-			p.Lead.Contact,
-			p.Lead.Qualify,
-			p.Lead.Convert,
-			p.Lead.Lose,
-			p.Lead.Get,
-			p.Lead.List,
-		),
-		Opportunity: crmhandler.NewOpportunityHandler(
-			p.Opportunity.Create,
-			p.Opportunity.Update,
-			p.Opportunity.Delete,
-			p.Opportunity.Advance,
-			p.Opportunity.CloseWon,
-			p.Opportunity.CloseLost,
-			p.Opportunity.Get,
-			p.Opportunity.List,
-		),
-	}
 }
 
 // routerParams 聚合创建路由所需的依赖。
