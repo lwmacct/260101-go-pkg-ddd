@@ -23,6 +23,7 @@ import (
 	corehandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/transport/gin/handler"
 	crmhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/transport/gin/handler"
 	iamhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/transport/gin/handler"
+	taskhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/task/transport/gin/handler"
 
 	ginHttp "github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/http/gin"
 )
@@ -106,7 +107,7 @@ type routerParams struct {
 	Team        *iamhandler.TeamHandler
 	TeamMember  *iamhandler.TeamMemberHandler
 	UserOrg     *iamhandler.UserOrgHandler
-	TaskHandler *corehandler.TaskHandler
+	TaskHandler *taskhandler.TaskHandler
 	Contact     *crmhandler.ContactHandler
 	Company     *crmhandler.CompanyHandler
 	Lead        *crmhandler.LeadHandler

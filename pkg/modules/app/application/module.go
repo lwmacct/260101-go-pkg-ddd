@@ -5,7 +5,6 @@ import (
 
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/setting"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/stats"
-	app_task "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/application/task"
 	domain_stats "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/domain/stats"
 	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/application/audit"
@@ -95,15 +94,6 @@ type OrganizationUseCases struct {
 	UserTeams *org.UserTeamsHandler
 }
 
-// TaskUseCases 任务相关用例处理器
-type TaskUseCases struct {
-	Create *app_task.CreateHandler
-	Update *app_task.UpdateHandler
-	Delete *app_task.DeleteHandler
-	Get    *app_task.GetHandler
-	List   *app_task.ListHandler
-}
-
 // --- Fx 模块 ---
 
 // UseCaseModule 提供按领域组织的 App 模块用例处理器。
@@ -115,7 +105,6 @@ var UseCaseModule = fx.Module("app.usecase",
 		newStatsUseCases,
 		newCaptchaUseCases,
 		newOrganizationUseCases,
-		newTaskUseCases,
 	),
 )
 
@@ -248,15 +237,5 @@ func newOrganizationUseCases(p organizationUseCasesParams) *OrganizationUseCases
 		// User View
 		UserOrgs:  org.NewUserOrgsHandler(p.OrgRepos.MemberQuery, p.OrgRepos.Query),
 		UserTeams: org.NewUserTeamsHandler(p.OrgRepos.TeamMemberQuery, p.OrgRepos.TeamQuery, p.OrgRepos.Query),
-	}
-}
-
-func newTaskUseCases(repos corepersistence.TaskRepositories) *TaskUseCases {
-	return &TaskUseCases{
-		Create: app_task.NewCreateHandler(repos.Command),
-		Update: app_task.NewUpdateHandler(repos.Command, repos.Query),
-		Delete: app_task.NewDeleteHandler(repos.Command, repos.Query),
-		Get:    app_task.NewGetHandler(repos.Query),
-		List:   app_task.NewListHandler(repos.Query),
 	}
 }

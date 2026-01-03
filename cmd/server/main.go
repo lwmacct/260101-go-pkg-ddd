@@ -39,6 +39,7 @@ import (
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam"
+	"github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/task"
 )
 
 // Swagger 总体配置 - 使用者自定义
@@ -229,6 +230,7 @@ func buildFxOptions(cfg *config.Config) []fx.Option {
 		// 业务模块 (Bounded Contexts)
 		app.Module(),
 		iam.Module(),
+		task.Module(),
 		crm.Module(),
 		// HTTP 层 (跨模块handler + 路由)
 		container.HTTPModule,

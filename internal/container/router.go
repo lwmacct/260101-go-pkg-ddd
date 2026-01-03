@@ -9,6 +9,7 @@ import (
 	crmhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/transport/gin/handler"
 	iamhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/transport/gin/handler"
 	iamroutes "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/transport/gin/routes"
+	taskhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/task/transport/gin/handler"
 )
 
 // AllRoutes 聚合所有模块的路由定义。
@@ -36,7 +37,7 @@ func AllRoutes(
 	// App Handlers
 	settingHandler *apphandler.SettingHandler,
 	userSettingHandler *apphandler.UserSettingHandler,
-	taskHandler *apphandler.TaskHandler,
+	taskHandler *taskhandler.TaskHandler,
 	healthHandler *apphandler.HealthHandler,
 	cacheHandler *apphandler.CacheHandler,
 	overviewHandler *apphandler.OverviewHandler,

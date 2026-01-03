@@ -4,6 +4,7 @@ import (
 	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/infrastructure/persistence"
 	crmpersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/infrastructure/persistence"
 	iampersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/infrastructure/persistence"
+	taskpersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/task/infrastructure/persistence"
 )
 
 // ContainerOptions 容器初始化选项。
@@ -36,7 +37,7 @@ func GetAllModels() []any {
 		&iampersistence.OrgMemberModel{},
 		&iampersistence.TeamMemberModel{},
 		// 任务
-		&corepersistence.TaskModel{},
+		&taskpersistence.TaskModel{},
 		// CRM
 		&crmpersistence.ContactModel{},
 		&crmpersistence.CompanyModel{},

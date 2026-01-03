@@ -1,10 +1,11 @@
 # Go DDD Package Library
 
-基于领域驱动设计（DDD）和 CQRS 模式的可复用 Go 模块库。
+基于领域驱动设计（DDD）和 CQRS 模式的可复用 Go 模块库，采用 **垂直切分的 Bounded Context 架构**。
 
 ## 特性
 
-- **四层架构**：Domain → Application → Infrastructure → Adapter
+- **垂直切分架构**：按业务域组织模块（app/iam/crm），边界清晰
+- **四层架构**：Domain → Application → Infrastructure → Transport
 - **CQRS 分离**：Command/Query Repository 独立
 - **依赖注入**：基于 Uber Fx
 - **认证授权**：JWT + PAT 双重认证，URN 风格 RBAC
@@ -20,50 +21,76 @@
 | 数据库   | PostgreSQL     |
 | 缓存     | Redis          |
 | 依赖注入 | Uber Fx        |
-| 配置管理 | Koanf          |
+| 配置管理 | cfgm           |
 | API 文档 | Swagger (swag) |
 
 ## 架构概览
 
 ```
-ddd/                          # 可复用的 DDD 原子能力（垂直切分）
-├── core/                     # 核心域（Org、Setting、Task、Audit...）
-│   ├── domain/               # 领域层
-│   ├── application/          # 应用层（UseCase Handlers）
-│   ├── infrastructure/       # 基础设施层（Repository 实现）
-│   └── adapters/http/        # 适配器层（HTTP Handler）
-├── iam/                      # 身份管理域（User、Auth、Role、PAT、2FA）
+pkg/modules/                    # 业务模块（垂直切分）
+├── app/                        # 核心治理域
+│   ├── domain/                 #   领域层
+│   ├── application/            #   应用层（UseCase Handlers）
+│   ├── infrastructure/         #   基础设施层（Repository 实现）
+│   └── transport/gin/          #   适配器层（HTTP Handler）
+│
+├── iam/                        # 身份管理域
 │   ├── domain/
 │   ├── application/
-│   ├── infrastructure/       # IAM 专用基础设施（auth, twofa）
-│   └── adapters/http/
-├── crm/                      # CRM 域（Lead、Opportunity、Contact、Company）
+│   ├── infrastructure/         # IAM 专用基础设施（auth, twofa）
+│   └── transport/gin/
+│
+├── crm/                        # CRM 域
 │   ├── domain/
 │   ├── application/
-│   └── adapters/http/
-└── config/                   # 配置管理（跨域）
+│   ├── infrastructure/
+│   └── transport/gin/
+│
+└── task/                       # 任务域（独立模块）
+    ├── domain/
+    ├── application/
+    └── infrastructure/
 
-internal/                     # 依赖注入容器
-├── container/                # ★ Fx 依赖注入组装点
-├── manualtest/               # 集成测试
-└── precommit/                # 预提交钩子
+pkg/platform/                   # 平台层（跨模块技术能力）
+├── cache/                      # Redis 客户端
+├── db/                         # 数据库管理
+├── eventbus/                   # 事件总线
+├── health/                     # 健康检查
+├── http/                       # HTTP 工具
+├── queue/                      # Redis 队列
+├── telemetry/                 # OpenTelemetry
+└── validation/                 # JSON Logic 验证
 
-your-project/                 # 你的项目
-├── internal/
-│   ├── container/            # 复制自本库，按需裁剪
-│   ├── domain/invoice/       # 你的业务领域
-│   └── application/...
-└── cmd/server/main.go
+pkg/shared/                     # 共享组件
+├── cache/                      # 共享缓存
+├── captcha/                    # 验证码
+├── event/                      # 事件类型
+└── health/                     # 健康检查
+
+internal/
+├── container/                  # ★ Fx 依赖注入组装点
+├── bootstrap/                  # 应用启动引导
+├── manualtest/                 # 集成测试
+└── precommit/                  # 预提交钩子
 ```
 
-**依赖方向**: `Adapters → Application → Domain ← Infrastructure`
+**依赖方向**: `Transport → Application → Domain ← Infrastructure`
 
 **垂直切分优势**：
 
-- 按业务域组织（core/iam/crm），边界清晰
+- 按业务域组织，边界清晰
 - 每个域包含完整的四层架构
-- 共享技术基础设施在 core/infrastructure/
+- 共享技术基础设施在 `pkg/platform/`
 - 便于独立演进和微服务化
+
+## Bounded Context 划分
+
+| Context | 说明                 | 核心实体                           |
+| ------- | -------------------- | ---------------------------------- |
+| `app`   | 核心治理域           | Setting, Audit, Org, Team, Task    |
+| `iam`   | 身份认证与授权       | User, Role, Permission, PAT, TwoFA |
+| `crm`   | 客户关系管理         | Lead, Opportunity, Contact         |
+| `task`  | 任务管理（独立模块） | Task                               |
 
 ## 快速开始
 
@@ -95,18 +122,21 @@ cp -r 260101-go-pkg-ddd/internal/container your-project/internal/
 
 Container 文件结构：
 
-| 文件            | 职责              | 修改方式         |
-| --------------- | ----------------- | ---------------- |
-| `types.go`      | Model 列表、配置  | 添加你的 Model   |
-| `infra.go`      | DB/Redis/EventBus | 通常无需修改     |
-| `repository.go` | 仓储注册          | 添加你的仓储     |
-| `usecase.go`    | UseCase 聚合      | 添加你的 UseCase |
-| `http.go`       | Handler + 路由    | 添加你的路由     |
-| `hooks.go`      | 生命周期钩子      | 通常无需修改     |
+| 文件            | 职责              | 修改方式       |
+| --------------- | ----------------- | -------------- |
+| `types.go`      | Model 列表、配置  | 添加你的 Model |
+| `infra.go`      | DB/Redis/EventBus | 通常无需修改   |
+| `cache.go`      | 缓存服务注册      | 添加缓存服务   |
+| `service.go`    | JWT/TwoFA 服务    | 通常无需修改   |
+| `http.go`       | Handler + 路由    | 添加你的路由   |
+| `hooks.go`      | 生命周期钩子      | 通常无需修改   |
+| `middleware.go` | 中间件注册        | 通常无需修改   |
+| `router.go`     | 路由绑定          | 添加路由绑定   |
+| `server.go`     | HTTP 服务器       | 通常无需修改   |
 
 **步骤 2：添加自定义模块**
 
-以 `Invoice` 模块为例，建议在项目中创建独立的域（如 `ddd/invoice/` 或 `internal/domain/invoice/`）：
+以 `Invoice` 模块为例，在项目中创建独立的域：
 
 ```go
 // 1. 创建领域层 internal/domain/invoice/entity.go
@@ -130,7 +160,7 @@ type CreateHandler struct {
     cmdRepo invoice.CommandRepository
 }
 
-// 4. 创建适配器层 internal/adapters/http/handler/invoice.go
+// 4. 创建适配器层 internal/transport/gin/handler/invoice.go
 type InvoiceHandler struct {
     createHandler *appInvoice.CreateHandler
 }
@@ -139,60 +169,33 @@ type InvoiceHandler struct {
 **步骤 3：注册到 Container**
 
 ```go
-// repository.go
-var RepositoryModule = fx.Module("repository",
-    fx.Provide(
-        persistence.NewUserRepositories,      // 上游仓储
-        internalPersistence.NewInvoiceRepositories, // 你的仓储
-    ),
-)
-
-// usecase.go
-var UseCaseModule = fx.Module("usecase",
-    fx.Provide(
-        newAuthUseCases,     // 上游 UseCase
-        newInvoiceUseCases,  // 你的 UseCase
-    ),
+// http.go - 添加 Handler
+fx.Provide(
+    // ...
+    newInvoiceHandler,  // 你的 Handler
 )
 ```
 
 ### 裁剪策略
 
-不需要某些域时，直接从 Container 中移除对应的模块：
+不需要某些域时，直接从 `cmd/server/main.go` 移除对应的模块：
 
 ```go
-// infra.go - 移除不需要的基础设施
-var InfraModule = fx.Module("infra",
-    fx.Provide(
-        database.New,        // 数据库（必需）
-        // eventbus.New,     // 不需要事件总线
-    ),
-)
+fxOptions := []fx.Option{
+    // Platform 层
+    container.InfraModule,
+    container.CacheModule,
+    container.ServiceModule,
 
-// repository.go - 按域选择需要的仓储
-var RepositoryModule = fx.Module("repository",
-    fx.Provide(
-        // Core 域
-        persistence.NewOrgRepositories,
-        persistence.NewSettingRepositories,
+    // 业务模块 - 按需选择
+    app.Module(),     // 核心治理域
+    iam.Module(),     // 身份管理域
+    // crm.Module(),  // 不需要 CRM，注释掉
 
-        // IAM 域
-        persistence.NewUserRepositories,
-        // persistence.NewRoleRepositories,    // 不需要角色管理
-
-        // CRM 域（如不需要整个域，可全部注释）
-        // persistence.NewLeadRepositories,
-        // persistence.NewOpportunityRepositories,
-    ),
-)
-
-// usecase.go - 只注册需要的用例
-var UseCaseModule = fx.Module("usecase",
-    fx.Provide(
-        newAuthUseCases,
-        // newRoleUseCases,  // 不需要角色管理
-    ),
-)
+    // HTTP 层
+    container.HTTPModule,
+    container.HooksModule,
+}
 ```
 
 ## 开发命令
@@ -227,9 +230,10 @@ MANUAL=1 go test -v ./internal/manualtest/...
 
 **业务域划分**：
 
-- `ddd/core/` - 核心域（组织、设置、任务、审计日志等）
-- `ddd/iam/` - 身份管理域（用户、认证、角色、PAT、2FA）
-- `ddd/crm/` - CRM 域（线索、商机、联系人、公司）
+- `pkg/modules/app/` - 核心域（组织、设置、任务、审计日志等）
+- `pkg/modules/iam/` - 身份管理域（用户、认证、角色、PAT、2FA）
+- `pkg/modules/crm/` - CRM 域（线索、商机、联系人、公司）
+- `pkg/modules/task/` - 任务域（独立模块示例）
 
 **依赖注入组装**：
 
@@ -238,6 +242,37 @@ MANUAL=1 go test -v ./internal/manualtest/...
 **集成测试**：
 
 - `internal/manualtest/` - HTTP API 集成测试，覆盖所有域
+
+## Fx 模块结构
+
+每个 Bounded Context 提供自包含的 Fx 模块：
+
+```go
+// pkg/modules/app/module.go
+func Module() fx.Option {
+    return fx.Module("app",
+        infrastructure.PersistenceModule,  // 仓储注册
+        application.UseCaseModule,         // 用例注册
+        transport.HandlerModule,           // Handler 注册
+    )
+}
+```
+
+主程序组装：
+
+```go
+fx.New(
+    fx.Supply(cfg),
+    container.InfraModule,    // Platform: DB, Redis
+    container.CacheModule,     // Cache services
+    container.ServiceModule,   // JWT, TwoFA
+    app.Module(),              // BC: App
+    iam.Module(),              // BC: IAM
+    crm.Module(),              // BC: CRM
+    container.HTTPModule,      // HTTP: Routes
+    container.HooksModule,     // Lifecycle
+).Run()
+```
 
 ## License
 

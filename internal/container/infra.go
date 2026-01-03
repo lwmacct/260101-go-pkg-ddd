@@ -20,6 +20,7 @@ import (
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/config"
 	corepersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/infrastructure/persistence"
 	crmpersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/crm/infrastructure/persistence"
+	taskpersistence "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/task/infrastructure/persistence"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/cache"
 	dbpkg "github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/db"
 	"github.com/lwmacct/260101-go-pkg-ddd/pkg/platform/eventbus"
@@ -141,7 +142,7 @@ func runAutoMigrate(db *gorm.DB) error {
 	}
 
 	// 为 TaskModel 创建复合索引
-	if err := dbpkg.CreateIndexes(db, &corepersistence.TaskModel{}, []string{
+	if err := dbpkg.CreateIndexes(db, &taskpersistence.TaskModel{}, []string{
 		"idx_tasks_org_team",
 	}); err != nil {
 		return err

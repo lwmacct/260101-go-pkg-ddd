@@ -1,8 +1,8 @@
 package routes
 
 import (
-	apphandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/app/transport/gin/handler"
 	iamhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/iam/transport/gin/handler"
+	taskhandler "github.com/lwmacct/260101-go-pkg-ddd/pkg/modules/task/transport/gin/handler"
 	"github.com/lwmacct/260101-go-pkg-gin/pkg/routes"
 )
 
@@ -12,7 +12,7 @@ func Org(
 	orgMemberHandler *iamhandler.OrgMemberHandler,
 	teamHandler *iamhandler.TeamHandler,
 	teamMemberHandler *iamhandler.TeamMemberHandler,
-	taskHandler *apphandler.TaskHandler,
+	taskHandler *taskhandler.TaskHandler,
 ) []routes.Route {
 	return []routes.Route{
 		// ==================== Org 域 - 成员管理 ====================

@@ -17,9 +17,6 @@ import (
 //   - Setting: 缓存查询 + 命令，支持多级失效
 var RepositoryModule = fx.Module("app.repository",
 	fx.Provide(
-		// 直接使用 persistence 构造函数（无需包装）
-		NewTaskRepositories,
-
 		// 带缓存装饰的仓储
 		newSettingRepositoriesWithCache,
 

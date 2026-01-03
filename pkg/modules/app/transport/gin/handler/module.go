@@ -19,7 +19,6 @@ type HandlersResult struct {
 	Overview    *OverviewHandler
 	Cache       *CacheHandler
 	Operation   *OperationHandler
-	TaskHandler *TaskHandler
 }
 
 // HandlerModule 提供 App 模块的所有 HTTP 处理器。
@@ -41,7 +40,6 @@ type handlersParams struct {
 	Setting     *appapplication.SettingUseCases
 	UserSetting *appapplication.UserSettingUseCases
 	Stats       *appapplication.StatsUseCases
-	Task        *appapplication.TaskUseCases
 }
 
 func newAllHandlers(p handlersParams) HandlersResult {
@@ -79,12 +77,5 @@ func newAllHandlers(p handlersParams) HandlersResult {
 			cache.NewDeleteHandler(p.AdminCacheSvc),
 		),
 		Operation: NewOperationHandler(),
-		TaskHandler: NewTaskHandler(
-			p.Task.Create,
-			p.Task.Update,
-			p.Task.Delete,
-			p.Task.Get,
-			p.Task.List,
-		),
 	}
 }
